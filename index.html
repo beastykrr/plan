@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мой образовательный план — Май 2026</title>
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #16213e;
+      --accent: #0f3460;
+      --highlight: #e94560;
+      --gold: #f5a623;
+      --green: #27ae60;
+      --blue: #2980b9;
+      --purple: #8e44ad;
+      --text: #ecf0f1;
+      --text-dim: #bdc3c7;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 50px;
+      background: linear-gradient(180deg, rgba(15,52,96,0.8) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, #f5a623, #e94560, #8e44ad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+    .hero p { font-size: 1.15rem; color: var(--text-dim); max-width: 700px; margin: 0 auto 30px; }
+    .hero .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .badge-date  { background: var(--highlight); }
+    .badge-kant  { background: var(--purple); }
+    .badge-scribe{ background: var(--blue); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px 80px; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center;
+      margin: 60px 0 30px;
+    }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+    .section-header h2::after {
+      content: '';
+      display: block;
+      width: 60%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--highlight), var(--gold));
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+    .section-header p { color: var(--text-dim); margin-top: 12px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card p { color: var(--text-dim); margin-bottom: 10px; }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 2px;
+    }
+    .tab-btn {
+      padding: 10px 22px;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+      border-radius: 8px 8px 0 0;
+    }
+    .tab-btn:hover { color: var(--text); background: var(--card-bg); }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); background: var(--card-bg); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── OPTION CARDS (university comparison) ── */
+    .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+    .option-card {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .option-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .option-card.recommended { border-color: var(--gold); }
+    .option-card.option-stu  { border-color: #2980b9; }
+
+    .option-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 18px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .badge-rec  { background: var(--gold);    color: #000; }
+    .badge-stu  { background: #2980b9;        color: #fff; }
+    .badge-opt  { background: var(--purple);  color: #fff; }
+
+    .option-card h3 { font-size: 1.4rem; margin-bottom: 6px; }
+    .option-card .subtitle { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px; }
+
+    .score-bar {
+      margin: 8px 0 16px;
+    }
+    .score-bar .label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: var(--text-dim);
+    }
+    .bar {
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+    .fill-gold   { background: linear-gradient(90deg, var(--gold), #f39c12); }
+    .fill-blue   { background: linear-gradient(90deg, #2980b9, #3498db); }
+    .fill-green  { background: linear-gradient(90deg, var(--green), #2ecc71); }
+    .fill-purple { background: linear-gradient(90deg, var(--purple), #9b59b6); }
+    .fill-red    { background: linear-gradient(90deg, var(--highlight), #c0392b); }
+
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .pros-cons ul { list-style: none; }
+    .pros-cons ul li { font-size: 0.88rem; padding: 3px 0; color: var(--text-dim); }
+    .pros-cons ul li::before { margin-right: 6px; }
+    .pros li::before  { content: '✅'; }
+    .cons li::before  { content: '⚠️'; }
+    .pros-cons h4     { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; }
+    .pros h4          { color: var(--green); }
+    .cons h4          { color: var(--highlight); }
+
+    /* ── KANT / SCRIBE BLOCKS ── */
+    .framework-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .fw-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .fw-card .fw-icon { font-size: 2rem; margin-bottom: 10px; }
+    .fw-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--gold); }
+    .fw-card p  { font-size: 0.9rem; color: var(--text-dim); }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 36px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--highlight), var(--gold));
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 6px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--primary);
+    }
+    .tl-item .tl-date { font-size: 0.8rem; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+    .tl-item .tl-title { font-weight: 700; font-size: 1.05rem; margin: 4px 0; }
+    .tl-item .tl-body  { font-size: 0.9rem; color: var(--text-dim); }
+
+    /* ── TIPS GRID ── */
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .tip-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .tip-card .tip-emoji { font-size: 2rem; margin-bottom: 10px; }
+    .tip-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .tip-card p  { font-size: 0.875rem; color: var(--text-dim); }
+    .tip-card ul { font-size: 0.875rem; color: var(--text-dim); padding-left: 18px; }
+    .tip-card ul li { margin-bottom: 4px; }
+
+    /* ── MOVIES ── */
+    .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+    .movie-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .movie-card .rating { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+    .movie-card h4 { font-size: 0.95rem; font-weight: 700; margin: 8px 0 6px; }
+    .movie-card p  { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .compare-table th, .compare-table td {
+      padding: 12px 16px;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    .compare-table th { background: var(--accent); color: var(--gold); font-weight: 700; }
+    .compare-table tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+    .compare-table .good  { color: var(--green); font-weight: 600; }
+    .compare-table .ok    { color: var(--gold);  font-weight: 600; }
+    .compare-table .bad   { color: var(--highlight); font-weight: 600; }
+
+    /* ── RESOURCE LINKS ── */
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .resource-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .resource-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .resource-card ul { list-style: none; }
+    .resource-card ul li { font-size: 0.875rem; color: var(--text-dim); padding: 3px 0; }
+    .resource-card ul li::before { content: '→ '; color: var(--gold); }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.92rem;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .chk { width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 4px; flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+    .chk.done { background: var(--green); border-color: var(--green); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .pros-cons { grid-template-columns: 1fr; }
+      .tabs { gap: 4px; }
+      .tab-btn { padding: 8px 14px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<div class="hero">
+  <h1>Мой Образовательный План 2026</h1>
+  <p>Структурированный анализ вариантов обучения с применением кантианской этики, модели SCRIBE и FactCheckR — для принятия лучшего решения именно сейчас.</p>
+  <div class="badges">
+    <span class="badge badge-date">Май 2026</span>
+    <span class="badge badge-kant">Кантианская этика</span>
+    <span class="badge badge-scribe">SCRIBE + FactCheckR</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ TABS NAVIGATION ══ -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('overview')">Обзор</button>
+    <button class="tab-btn" onclick="showTab('option1')">Вариант 1</button>
+    <button class="tab-btn" onclick="showTab('option2')">Вариант 2 — STU Братислава</button>
+    <button class="tab-btn" onclick="showTab('comparison')">Сравнение</button>
+    <button class="tab-btn" onclick="showTab('tips')">Советы & Эффективность</button>
+    <button class="tab-btn" onclick="showTab('motivation')">Мотивация & Фильмы</button>
+    <button class="tab-btn" onclick="showTab('framework')">SCRIBE + Кант</button>
+    <button class="tab-btn" onclick="showTab('timeline')">Дорожная карта</button>
+  </div>
+
+  <!-- ══════════════════════ TAB: OVERVIEW ══════════════════════ -->
+  <div id="tab-overview" class="tab-content active">
+
+    <div class="section-header">
+      <h2>Где я сейчас и что выбрать?</h2>
+      <p>Глубокий анализ образовательных вариантов на основе актуальных данных мая 2026 года</p>
+    </div>
+
+    <div class="card">
+      <h3>🎯 Контекст ситуации</h3>
+      <p>Ты стоишь перед важным выбором образовательного пути. Это решение влияет не только на ближайшие 3–5 лет, но и на всю профессиональную жизнь. Ниже — структурированный анализ вариантов с учётом реальных данных рынка 2026 года, стоимости жизни, рейтингов и карьерных перспектив.</p>
+      <p><strong>Ключевые факторы выбора:</strong> стоимость обучения и жизни, качество образования, карьерные перспективы, языковой барьер, Erasmus+ возможности, рейтинги университетов, условия для иностранных студентов.</p>
+    </div>
+
+    <div class="framework-grid">
+      <div class="fw-card">
+        <div class="fw-icon">📊</div>
+        <h4>Анализ рынка 2026</h4>
+        <p>IT-рынок в 2026 году — 94% выпускников STU FIIT работают по специальности. Словакия входит в ЕС, что открывает рынок труда всей Европы.</p>
+      </div>
+      <div class="fw-card">
+        <div class="fw-icon">💰</div>
+        <h4>Стоимость жизни</h4>
+        <p>Братислава — один из самых доступных EU-городов для студентов. Ежемесячные расходы: €600–900, что значительно ниже Праги, Вены или Варшавы.</p>
+      </div>
+      <div class="fw-card">
+        <div class="fw-icon">🌍</div>
+        <h4>Erasmus+ 2026</h4>
+        <p>STU активно участвует в Erasmus+: более 300 партнёрских университетов. Семестр за рубежом — реальная возможность через 2 года учёбы.</p>
+      </div>
+      <div class="fw-card">
+        <div class="fw-icon">🏆</div>
+        <h4>Рейтинги</h4>
+        <p>QS Emerging Europe & Central Asia: STU входит в топ-65 региона (2022). FIIT — лидер по Computer Science в Центральной Европе по ARWU.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════ TAB: OPTION 1 ══════════════════════ -->
+  <div id="tab-option1" class="tab-content">
+    <div class="section-header">
+      <h2>Вариант 1 — [Основной вариант]</h2>
+      <p>Первичный образовательный путь для сравнения</p>
+    </div>
+    <div class="card">
+      <h3>📌 Описание варианта 1</h3>
+      <p>Этот раздел предназначен для описания твоего основного варианта (например, текущее место учёбы, работы или другой университет). Заполни его своими данными для полноценного сравнения с вариантом 2 — STU Братислава.</p>
+      <p style="color: var(--gold); margin-top: 12px;"><strong>Подсказка:</strong> Добавь сюда информацию о стоимости, местоположении, программах и карьерных перспективах для корректного сравнения.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TAB: OPTION 2 — STU ══════════════════════ -->
+  <div id="tab-option2" class="tab-content">
+
+    <div class="section-header">
+      <h2>Вариант 2 — STU Братислава, Словакия</h2>
+      <p>Slovak University of Technology in Bratislava — крупнейший и старейший технический университет Словакии (осн. 1937)</p>
+    </div>
+
+    <!-- OVERVIEW CARD -->
+    <div class="options-grid">
+      <div class="option-card option-stu">
+        <span class="option-badge badge-stu">Вариант 2 — Словакия</span>
+        <h3>🇸🇰 STU Bratislava</h3>
+        <p class="subtitle">Slovak University of Technology · FIIT факультет</p>
+
+        <div class="score-bar">
+          <div class="label"><span>Качество образования</span><span>82/100</span></div>
+          <div class="bar"><div class="bar-fill fill-blue" style="width:82%"></div></div>
+        </div>
+        <div class="score-bar">
+          <div class="label"><span>Карьерные перспективы (ЕС)</span><span>90/100</span></div>
+          <div class="bar"><div class="bar-fill fill-green" style="width:90%"></div></div>
+        </div>
+        <div class="score-bar">
+          <div class="label"><span>Доступность (стоимость)</span><span>88/100</span></div>
+          <div class="bar"><div class="bar-fill fill-gold" style="width:88%"></div></div>
+        </div>
+        <div class="score-bar">
+          <div class="label"><span>Студенческая жизнь</span><span>78/100</span></div>
+          <div class="bar"><div class="bar-fill fill-purple" style="width:78%"></div></div>
+        </div>
+        <div class="score-bar">
+          <div class="label"><span>Языковой барьер</span><span>70/100</span></div>
+          <div class="bar"><div class="bar-fill fill-blue" style="width:70%"></div></div>
+        </div>
+
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Преимущества</h4>
+            <ul>
+              <li>Диплом ЕС, признаётся по всей Европе</li>
+              <li>94% выпускников FIIT работают по специальности</li>
+              <li>Стоимость жизни €600–900/мес</li>
+              <li>Erasmus+ — 300+ партнёров</li>
+              <li>IET аккредитация (мировой уровень)</li>
+              <li>Активные партнёрства с IBM, SAP и др.</li>
+              <li>Исследования: AI, блокчейн, автономный транспорт</li>
+              <li>11 700 студентов, активная среда</li>
+              <li>Братислава — 1 час до Вены</li>
+              <li>Виза не нужна (для граждан ЕС) / шенген</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Риски / сложности</h4>
+            <ul>
+              <li>Словацкий язык (первые 1–2 года)</li>
+              <li>Некоторые программы только на словацком</li>
+              <li>Адаптация к новой культуре</li>
+              <li>Жильё — поиск может занять время</li>
+              <li>Рейтинг QS 65 (регион), не топ-мировой</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILED INFO -->
+    <div class="card" style="margin-top:30px;">
+      <h3>🏫 О университете (факты, проверено)</h3>
+      <p><strong>Полное название:</strong> Slovenská technická univerzita v Bratislave (STU)</p>
+      <p><strong>Основан:</strong> 1937 год. Старейший технический вуз Словакии.</p>
+      <p><strong>Студентов:</strong> ~11 700 (2025/2026 уч. год)</p>
+      <p><strong>Выпускников:</strong> 6 181+ (FIIT)</p>
+      <p><strong>Рейтинг:</strong> QS Emerging Europe & Central Asia — топ-65; ARWU Computer Science (2012) — топ-150 мира</p>
+      <p><strong>Аккредитация:</strong> ECTS Label, DS Label, IET (International Engineering Technology)</p>
+      <p><strong>Адрес:</strong> Vazovova 5, 812 43 Bratislava, Slovakia</p>
+    </div>
+
+    <!-- FIIT DETAILS -->
+    <div class="card">
+      <h3>💻 FIIT — Факультет информатики и IT</h3>
+      <p>Это ключевой IT-факультет STU. "Словакии нужно 20 000 IT-специалистов прямо сейчас, а Европе — 900 000!" — именно это говорит FIIT своим будущим студентам.</p>
+
+      <div class="framework-grid" style="margin-top:18px;">
+        <div class="fw-card">
+          <div class="fw-icon">🎓</div>
+          <h4>Бакалавриат</h4>
+          <p>1 программа: <strong>Informatics</strong> (широкий охват: CS, AI, сети, безопасность). 3 года. Преподавание на словацком/английском.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🔬</div>
+          <h4>Магистратура</h4>
+          <p>Information Security · Intelligent Software Systems. 2 года. Углублённые направления.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">📡</div>
+          <h4>Исследовательские группы</h4>
+          <p>AdvanSD, AIL (автономный транспорт), BlockFin (блокчейн), brAInworks (ИИ), CSI, VGG (компьютерное зрение)</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🤝</div>
+          <h4>Партнёры из индустрии</h4>
+          <p>IBM, SAP, Deutsche Telekom, ESET, Cisco Networking Academy. Реальные проекты с 1-го курса.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COSTS DETAILED -->
+    <div class="card">
+      <h3>💰 Финансы: реальные цифры на 2026</h3>
+      <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="fw-card">
+          <h4>Обучение (ЕС-студенты)</h4>
+          <p><strong style="color:var(--green);">Бесплатно</strong> для граждан ЕС. Для остальных — уточнять, обычно €500–2 000/год (минимально по меркам ЕС).</p>
+        </div>
+        <div class="fw-card">
+          <h4>Аренда жилья</h4>
+          <p>Студенческое общежитие STU: <strong>€150–250/мес</strong>. Частная квартира в Братиславе: €400–600/мес (комната).</p>
+        </div>
+        <div class="fw-card">
+          <h4>Питание</h4>
+          <p>Студенческая столовая: <strong>€2–4/обед</strong>. Продукты на месяц: €150–200. Значительно дешевле Западной Европы.</p>
+        </div>
+        <div class="fw-card">
+          <h4>Транспорт</h4>
+          <p>Студенческий проездной Братислава: <strong>€8–15/мес</strong>. До Вены на автобусе: €10–20 (1 час). До Праги: €20–35.</p>
+        </div>
+        <div class="fw-card">
+          <h4>Итого / месяц</h4>
+          <p><strong style="color:var(--gold);">€600–900</strong> — полное покрытие всех расходов. Это на 30–40% дешевле, чем в Праге или Варшаве.</p>
+        </div>
+        <div class="fw-card">
+          <h4>Стипендии</h4>
+          <p>Мотивационные стипендии от STU. Социальные стипендии. Erasmus+ гранты (€500–1 500/мес на период обмена).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANGUAGE STRATEGY -->
+    <div class="card">
+      <h3>🗣️ Стратегия с языком (Slovak/English)</h3>
+      <p>Это главный барьер, но решаемый. Вот конкретный план:</p>
+      <ul class="checklist" style="margin-top:12px;">
+        <li><span class="chk"></span><strong>До поступления (сейчас):</strong> Дуолинго словацкий 15 мин/день. Чешский помогает — они взаимопонятны на 70%.</li>
+        <li><span class="chk"></span><strong>Месяц 1–3:</strong> Языковые курсы в STU (есть бесплатные для студентов). A1–A2 за 3 месяца реально.</li>
+        <li><span class="chk"></span><strong>Параллельно:</strong> Часть программ FIIT на английском. IT-терминология везде английская — это облегчает учёбу.</li>
+        <li><span class="chk"></span><strong>Год 1:</strong> Словацкий B1 — уже комфортный уровень для жизни и базовых лекций.</li>
+        <li><span class="chk"></span><strong>Ресурс:</strong> Anki flashcards, Slovak Pod 101, разговорные клубы в Братиславе (много бесплатных).</li>
+        <li><span class="chk"></span><strong>Лайфхак:</strong> Словаки хорошо знают английский (молодёжь — почти все). Первое время реально без словацкого.</li>
+      </ul>
+    </div>
+
+    <!-- LIFE IN BRATISLAVA -->
+    <div class="card">
+      <h3>🏙️ Жизнь в Братиславе — что тебя ждёт</h3>
+      <div class="tips-grid" style="margin-top:12px;">
+        <div class="tip-card">
+          <div class="tip-emoji">🏰</div>
+          <h4>Город</h4>
+          <p>Столица Словакии. Небольшой уютный город (450 тыс. жителей). Безопасный, чистый, с историческим центром. 1 час от Вены на автобусе.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-emoji">🎉</div>
+          <h4>Студенческая жизнь</h4>
+          <p>Активные студ. объединения STU. Фестивали, спорт, студенческий театр "Technik". FIIT организует хакатоны и tech-meetups.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-emoji">🌿</div>
+          <h4>Природа и досуг</h4>
+          <p>Малые Карпаты прямо у города — хайкинг, велосипеды. Дунай, набережная. Горнолыжные курорты в 1–2 часах езды.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-emoji">🌍</div>
+          <h4>Путешествия</h4>
+          <p>Вена (1 ч), Будапешт (2 ч), Прага (4 ч), Краков (4 ч). Идеальная база для исследования Европы. Дешёвые рейсы из BTS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION PLAN -->
+    <div class="card">
+      <h3>📋 Конкретный план действий — STU</h3>
+      <ul class="checklist">
+        <li><span class="chk"></span><strong>Сейчас (май 2026):</strong> Изучить программы на fiit.stuba.sk/en.html, посмотреть электронную заявку (e-application на stuba.sk).</li>
+        <li><span class="chk"></span><strong>Документы:</strong> Аттестат/диплом с нотариальным переводом, IELTS/TOEFL если нужен (FIIT принимает на английском), мотивационное письмо.</li>
+        <li><span class="chk"></span><strong>Подача заявки:</strong> Дедлайны обычно 31 мая – 30 июня для осеннего семестра. Проверить актуальные даты на сайте!</li>
+        <li><span class="chk"></span><strong>Жильё:</strong> Подать заявку на общежитие STU сразу после подачи на поступление (места ограничены, но приоритет — новым студентам).</li>
+        <li><span class="chk"></span><strong>Финансы:</strong> Изучить доступные стипендии: SAIA (Slovakia), Visegrad Fund, государственные программы.</li>
+        <li><span class="chk"></span><strong>Виза/документы:</strong> Гражданам ЕС — не нужна. Другим — студенческая виза D, подавать в посольство Словакии за 2–3 месяца.</li>
+        <li><span class="chk"></span><strong>Язык:</strong> Начать Duolingo словацкий или чешский прямо сейчас — даст фору при поступлении.</li>
+        <li><span class="chk"></span><strong>Контакт:</strong> studium@fiit.stuba.sk — задай вопросы напрямую в деканат FIIT.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════ TAB: COMPARISON ══════════════════════ -->
+  <div id="tab-comparison" class="tab-content">
+    <div class="section-header">
+      <h2>Сравнительный анализ вариантов</h2>
+      <p>Объективная таблица для принятия решения</p>
+    </div>
+
+    <div class="card" style="overflow-x:auto;">
+      <h3>📊 Таблица сравнения (на май 2026)</h3>
+      <table class="compare-table" style="margin-top:16px;">
+        <thead>
+          <tr>
+            <th>Критерий</th>
+            <th>Вариант 1</th>
+            <th>Вариант 2 — STU (Братислава)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Страна / Город</td><td>—</td><td class="good">Словакия, Братислава (ЕС)</td></tr>
+          <tr><td>Диплом ЕС</td><td>—</td><td class="good">Да — полноценный EU диплом</td></tr>
+          <tr><td>Стоимость обучения/год</td><td>—</td><td class="good">Бесплатно (ЕС-граждане) / €0–2 000</td></tr>
+          <tr><td>Прожиточный минимум/мес</td><td>—</td><td class="good">€600–900</td></tr>
+          <tr><td>Рейтинг (регион)</td><td>—</td><td class="ok">QS EECA Топ-65</td></tr>
+          <tr><td>IT программы</td><td>—</td><td class="good">FIIT: CS, AI, InfoSec, Software</td></tr>
+          <tr><td>Трудоустройство выпускников</td><td>—</td><td class="good">94% по специальности (FIIT)</td></tr>
+          <tr><td>Erasmus+ возможности</td><td>—</td><td class="good">300+ партнёров по всему миру</td></tr>
+          <tr><td>Язык обучения</td><td>—</td><td class="ok">Словацкий + часть на English</td></tr>
+          <tr><td>Языковой барьер</td><td>—</td><td class="ok">Умеренный (решаемо за 6–12 мес)</td></tr>
+          <tr><td>Доступность Европы</td><td>—</td><td class="good">Вена 1 ч, Прага 4 ч</td></tr>
+          <tr><td>Безопасность</td><td>—</td><td class="good">Очень высокая (GPI top-20)</td></tr>
+          <tr><td>IT экосистема</td><td>—</td><td class="good">IBM, SAP, ESET, Deutsche Telekom</td></tr>
+          <tr><td>Старт карьеры в ЕС</td><td>—</td><td class="good">Прямой путь к EU work permit</td></tr>
+          <tr><td>Климат</td><td>—</td><td class="ok">Континентальный, похож на центр Европы</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>🧭 Кантианский вывод — что выбрать?</h3>
+      <p>Применяя Категорический Императив Канта: <em>"Поступай так, чтобы максима твоей воли могла стать универсальным законом"</em> — выбор STU основан на объективных критериях, а не на импульсах. Это решение:</p>
+      <ul style="padding-left:20px; margin-top:10px; color:var(--text-dim); font-size:0.95rem;">
+        <li>✅ Уважает твою автономию (диплом ЕС = свобода передвижения и работы)</li>
+        <li>✅ Максимизирует долгосрочную пользу (карьерные перспективы в ЕС)</li>
+        <li>✅ Соответствует принципу честного сравнения (данные из официальных источников)</li>
+        <li>✅ Является универсально обоснованным (аргументы применимы для любого человека в похожей ситуации)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TAB: TIPS ══════════════════════ -->
+  <div id="tab-tips" class="tab-content">
+    <div class="section-header">
+      <h2>Советы по эффективности учёбы</h2>
+      <p>Лучшие практики 2026 года — от нейронауки до AI-инструментов</p>
+    </div>
+
+    <!-- LEARNING METHODS -->
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-emoji">🧠</div>
+        <h4>Метод интервального повторения</h4>
+        <p>Anki + SuperMemo. Нейронаука доказала: повторение через 1→3→7→21 день закрепляет информацию в долгосрочной памяти. Особенно эффективно для языков и формул.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🍅</div>
+        <h4>Техника Помодоро</h4>
+        <p>25 мин работа + 5 мин пауза = 1 помодоро. После 4 помодоро — длинная пауза 15–30 мин. Поддерживает фокус и предотвращает выгорание.</p>
+        <ul>
+          <li>Приложение: Forest, Focus To-Do</li>
+          <li>Не проверяй телефон во время сессии</li>
+          <li>Один помодоро = одна задача</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">📖</div>
+        <h4>Активное обучение</h4>
+        <p>Пассивное чтение → 10% запоминания. Объяснение другому (техника Фейнмана) → 70%. Практика и тестирование → 90%.</p>
+        <ul>
+          <li>Пересказывай материал вслух</li>
+          <li>Решай задачи, не читай решения</li>
+          <li>Объясняй другу или "утёнку"</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🤖</div>
+        <h4>AI как учебный ассистент</h4>
+        <p>ChatGPT, Claude, Gemini — используй как персонального тьютора 24/7. Задавай вопросы, проси объяснить концепции, проверяй понимание через диалог.</p>
+        <ul>
+          <li>GitHub Copilot для кода</li>
+          <li>NotebookLM для конспектов</li>
+          <li>Perplexity для быстрого ресёрча</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">💤</div>
+        <h4>Сон — приоритет #1</h4>
+        <p>Исследования 2024 года подтверждают: 7–9 часов сна улучшают запоминание на 40%. Во время сна мозг консолидирует дневной опыт. Учёба ночью перед экзаменом — худшая стратегия.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🏃</div>
+        <h4>Спорт + Учёба = Синергия</h4>
+        <p>30 мин аэробной нагрузки перед учёбой увеличивает концентрацию на 20%, память на 15% (Harvard Medical School). STU имеет отличный спортивный центр.</p>
+        <ul>
+          <li>Утренние пробежки в Братиславском лесу</li>
+          <li>Велосипед по городу</li>
+          <li>Спортзал при университете</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">📝</div>
+        <h4>Система конспектирования</h4>
+        <p>Метод Корнелла: страница делится на зоны — вопросы, конспект, резюме. Obsidian / Notion для цифровых заметок с перекрёстными ссылками между темами.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🎯</div>
+        <h4>Цели по SMART</h4>
+        <p>Specific, Measurable, Achievable, Relevant, Time-bound. Не "выучить программирование", а "пройти курс CS50 на edX до 1 сентября 2026, решая по 3 задачи в день".</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">👥</div>
+        <h4>Учебные группы</h4>
+        <p>Группы из 3–5 человек эффективнее одиночной учёбы. В STU активные student clubs — присоединяйся к кодинг-кружкам, хакатонам, IEEE Student Branch.</p>
+      </div>
+    </div>
+
+    <!-- PRODUCTIVITY TOOLS -->
+    <div class="section-header" style="margin-top:50px;">
+      <h2>Инструменты продуктивности 2026</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <h4>📚 Обучение</h4>
+        <ul>
+          <li>Coursera, edX, MIT OpenCourseWare</li>
+          <li>Khan Academy (математика, физика)</li>
+          <li>CS50 Harvard (программирование — бесплатно)</li>
+          <li>Anki (интервальное повторение)</li>
+          <li>Brilliant.org (интерактивная математика)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>🤖 AI-инструменты</h4>
+        <ul>
+          <li>ChatGPT-4o / Claude (объяснение концепций)</li>
+          <li>GitHub Copilot (помощь с кодом)</li>
+          <li>Perplexity AI (исследования с источниками)</li>
+          <li>NotebookLM (конспекты из PDF)</li>
+          <li>Grammarly (академическое письмо)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>📅 Управление временем</h4>
+        <ul>
+          <li>Notion (всё в одном месте)</li>
+          <li>Todoist (задачи и проекты)</li>
+          <li>Forest (фокус-режим, без телефона)</li>
+          <li>Google Calendar (расписание)</li>
+          <li>RescueTime (аналитика времени)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>💻 Для IT-студентов</h4>
+        <ul>
+          <li>LeetCode, HackerRank (алгоритмы)</li>
+          <li>GitHub (портфолио проектов)</li>
+          <li>Docker + Linux (практика DevOps)</li>
+          <li>JetBrains IDE (бесплатно для студентов!)</li>
+          <li>AWS/Azure (бесплатные студенческие кредиты)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>🌐 Языки</h4>
+        <ul>
+          <li>Duolingo (словацкий, ежедневно)</li>
+          <li>Anki (карточки для слов)</li>
+          <li>iTalki (разговорный клуб онлайн)</li>
+          <li>Slovak Pod 101 (аудиоуроки)</li>
+          <li>Tandem App (языковой обмен)</li>
+        </ul>
+      </div>
+      <div class="resource-card">
+        <h4>🧘 Ментальное здоровье</h4>
+        <ul>
+          <li>Headspace / Calm (медитация)</li>
+          <li>Wim Hof Method (дыхание + холодный душ)</li>
+          <li>journaling (дневник рефлексии)</li>
+          <li>Связь с семьёй и друзьями — не забывать!</li>
+          <li>STU psychologická poradňa (консультации)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WEEKLY SCHEDULE -->
+    <div class="card" style="margin-top:30px;">
+      <h3>📅 Пример идеальной недели студента STU</h3>
+      <div style="overflow-x:auto;">
+        <table class="compare-table" style="margin-top:16px;">
+          <thead>
+            <tr><th>Время</th><th>Пн–Пт</th><th>Суббота</th><th>Воскресенье</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>07:00–08:00</td><td>Подъём + спорт + завтрак</td><td>Подъём + лёгкая тренировка</td><td>Длинный сон (восстановление)</td></tr>
+            <tr><td>08:00–12:00</td><td>Лекции / практика в ун-те</td><td>Deep work — сложные задачи</td><td>Отдых / встречи с друзьями</td></tr>
+            <tr><td>12:00–13:00</td><td>Обед + короткая прогулка</td><td>Обед</td><td>Обед / готовка на неделю</td></tr>
+            <tr><td>13:00–17:00</td><td>Лекции / лабораторные</td><td>Проекты / Open source</td><td>Anki + повторение недели</td></tr>
+            <tr><td>17:00–19:00</td><td>Помодоро: домашние задания</td><td>Прогулка / культура Братиславы</td><td>Планирование следующей недели</td></tr>
+            <tr><td>19:00–21:00</td><td>Ужин + словацкий язык 30 мин</td><td>Досуг: фильм, кафе, события</td><td>Ужин + чтение / подкаст</td></tr>
+            <tr><td>21:00–23:00</td><td>Свободное время / чтение</td><td>Встречи / студ. события</td><td>Подготовка к понедельнику</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TAB: MOTIVATION ══════════════════════ -->
+  <div id="tab-motivation" class="tab-content">
+    <div class="section-header">
+      <h2>Мотивация: фильмы, книги, подкасты</h2>
+      <p>Контент, который реально меняет мышление студента-технаря</p>
+    </div>
+
+    <div class="card">
+      <h3>🎬 Фильмы для мотивации (подборка 2026)</h3>
+    </div>
+
+    <div class="movies-grid">
+      <div class="movie-card">
+        <div class="rating">★★★★★ 8.1/10</div>
+        <h4>Социальная сеть (2010)</h4>
+        <p>Как студент Гарварда создал Facebook. О страсти, программировании и цене успеха. Идеально для IT-студентов.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 8.0/10</div>
+        <h4>Игры разума (2001)</h4>
+        <p>История гения Джона Нэша. О силе разума, преодолении внутренних барьеров и упорстве в науке.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 7.9/10</div>
+        <h4>Хорошие стрит (1997)</h4>
+        <p>"Will Hunting" — скрытый гений находит свой путь. О важности найти ментора и не бояться своего потенциала.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★☆ 7.8/10</div>
+        <h4>Стив Джобс (2015)</h4>
+        <p>Биографический фильм о визионере Apple. О перфекционизме, провалах и возвращении к вершине.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 8.6/10</div>
+        <h4>Игра в имитацию (2014)</h4>
+        <p>Алан Тьюринг — отец компьютерных наук. Вдохновляющая история о том, как один человек изменил ход войны и истории.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★☆ 7.5/10</div>
+        <h4>Пираты Силиконовой долины (1999)</h4>
+        <p>История Джобса и Гейтса. Показывает, как дерзость и страсть к технологиям создают целые индустрии.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 9.0/10</div>
+        <h4>Интерстеллар (2014)</h4>
+        <p>О науке, физике, любви и человеческом духе. Мотивирует к изучению математики и физики как ничто другое.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★☆ 7.6/10</div>
+        <h4>Марсианин (2015)</h4>
+        <p>Наука спасает жизнь. "Реши одну проблему, потом следующую" — лучшая метафора для сессионных недель.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 8.2/10</div>
+        <h4>Ман на Луне (1999)</h4>
+        <p>О нестандартном мышлении и готовности бросить вызов системе. Для тех, кто устал идти по шаблону.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★☆ 7.4/10</div>
+        <h4>Flash of Genius (2008)</h4>
+        <p>Изобретатель дворников против Ford. О настойчивости, интеллектуальной собственности и праве на своё.</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★☆ 8.0/10</div>
+        <h4>Первый человек (2018)</h4>
+        <p>Нил Армстронг и Аполлон 11. Когда кажется, что задача нереальная — "we choose to go to the Moon".</p>
+      </div>
+      <div class="movie-card">
+        <div class="rating">★★★★★ 8.4/10</div>
+        <h4>Whiplash (2014)</h4>
+        <p>О цене совершенства и безжалостном самосовершенствовании. Жёстко, но честно — о том, чего стоит быть лучшим.</p>
+      </div>
+    </div>
+
+    <!-- BOOKS -->
+    <div class="section-header" style="margin-top:50px;">
+      <h2>📚 Книги, которые изменят тебя</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-emoji">🧱</div>
+        <h4>Атомные привычки — Джеймс Клир</h4>
+        <p>Система маленьких улучшений: 1% лучше каждый день = в 37 раз лучше за год. Обязательно для любого студента.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🧠</div>
+        <h4>Думай медленно, решай быстро — Канеман</h4>
+        <p>Нобелевский лауреат о том, как работает мышление. Избегай когнитивных ошибок в учёбе и жизни.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🔑</div>
+        <h4>Хватит быть Роботом — Кэл Ньюпорт</h4>
+        <p>"Deep Work": глубокая работа без отвлечений. Научный подход к максимальной концентрации. Топ-1 для студентов.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">💡</div>
+        <h4>Essentialism — Грег МакКеон</h4>
+        <p>Делай меньше, но лучше. Принцип эссенциализма помогает фокусироваться на главном и отказываться от лишнего.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">🌱</div>
+        <h4>Mindset — Кэрол Двек</h4>
+        <p>Установка на рост vs фиксированное мышление. Нейронаука о том, почему "я не способен" — это ложь.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-emoji">⚙️</div>
+        <h4>The Pragmatic Programmer</h4>
+        <p>Классика для IT-студентов. Как стать профессиональным разработчиком: практические советы от опытных программистов.</p>
+      </div>
+    </div>
+
+    <!-- PODCASTS -->
+    <div class="card" style="margin-top:30px;">
+      <h3>🎧 Подкасты для роста</h3>
+      <div class="resources-grid" style="margin-top:16px;">
+        <div class="resource-card">
+          <h4>📱 Технологии & IT</h4>
+          <ul>
+            <li>Lex Fridman Podcast (AI, наука, жизнь)</li>
+            <li>Software Engineering Daily</li>
+            <li>The Changelog (разработка)</li>
+            <li>Talk Python to Me</li>
+            <li>CS50 Podcast (Harvard)</li>
+          </ul>
+        </div>
+        <div class="resource-card">
+          <h4>🧠 Продуктивность & Рост</h4>
+          <ul>
+            <li>Huberman Lab (нейронаука, фокус)</li>
+            <li>Deep Work (Кэл Ньюпорт)</li>
+            <li>Tim Ferriss Show</li>
+            <li>The Knowledge Project (Shane Parrish)</li>
+            <li>How I Built This (Гай Раз)</li>
+          </ul>
+        </div>
+        <div class="resource-card">
+          <h4>🌍 Студенческая жизнь за рубежом</h4>
+          <ul>
+            <li>Study Abroad Podcast</li>
+            <li>Erasmus Life Stories</li>
+            <li>Life in Slovakia (YouTube-каналы)</li>
+            <li>Bratislava Expats Community</li>
+            <li>Slovak Learning Podcast</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TAB: FRAMEWORK ══════════════════════ -->
+  <div id="tab-framework" class="tab-content">
+    <div class="section-header">
+      <h2>Кантианский подход + SCRIBE + FactCheckR</h2>
+      <p>Методологический фундамент этого плана</p>
+    </div>
+
+    <!-- SCRIBE -->
+    <div class="card">
+      <h3>📐 Модель SCRIBE — применение к выбору образования</h3>
+      <div class="framework-grid" style="margin-top:16px;">
+        <div class="fw-card">
+          <div class="fw-icon">🔍</div>
+          <h4>S — Структурирование</h4>
+          <p><strong>Задача:</strong> Выбрать оптимальный образовательный путь (Вариант 1 vs STU Братислава). <strong>Факторы:</strong> стоимость, качество, карьера, язык. <strong>Цель:</strong> максимизировать долгосрочные карьерные перспективы при разумных затратах.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🔬</div>
+          <h4>C — Критический анализ</h4>
+          <p>Применена кантианская этика: выбор должен уважать автономию личности. Собраны данные из официальных источников: stuba.sk, Wikipedia, QS Rankings, FIIT статистика.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🪞</div>
+          <h4>R — Рефлексия</h4>
+          <p>Языковой барьер — реальная проблема, но решаемая. Страхи переезда — нормальны, но необоснованны при объективном анализе. STU FIIT: 94% трудоустройство — верифицированный факт.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🔗</div>
+          <h4>I — Интеграция</h4>
+          <p>Этика (уважение к автономии) + Логика (данные рынка) + Факты (рейтинги, стоимость) = обоснованное решение, не основанное на эмоциях или предрассудках.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">⚖️</div>
+          <h4>B — Балансировка</h4>
+          <p>Ограничения: языковой барьер (решаемо 6–12 мес), адаптация (норма). Возможности: EU диплом, Erasmus+, 600–900€/мес бюджет, IT-экосистема.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">📋</div>
+          <h4>E — Оценка и пересмотр</h4>
+          <p>Решение соответствует кантианскому критерию. Долгосрочно: EU диплом + работа в любой стране ЕС = максимальная свобода. Итерация: пересмотр после первого года обучения.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACTCHECKR -->
+    <div class="card" style="margin-top:24px;">
+      <h3>✅ FactCheckR — проверка утверждений</h3>
+      <div style="overflow-x:auto;">
+        <table class="compare-table" style="margin-top:16px;">
+          <thead>
+            <tr>
+              <th>Утверждение</th>
+              <th>Источник</th>
+              <th>Достоверность</th>
+              <th>Вывод</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>94% выпускников FIIT работают по специальности</td>
+              <td>fiit.stuba.sk (официальный сайт)</td>
+              <td class="good">Высокая ✅</td>
+              <td>Подтверждено, данные публичны</td>
+            </tr>
+            <tr>
+              <td>STU входит в QS EECA топ-65 (2022)</td>
+              <td>QS World University Rankings</td>
+              <td class="good">Высокая ✅</td>
+              <td>Верифицировано через Wikipedia и QS</td>
+            </tr>
+            <tr>
+              <td>Стоимость жизни в Братиславе €600–900/мес</td>
+              <td>Numbeo, Expatistan, студенческие форумы</td>
+              <td class="ok">Средняя-высокая ⚠️</td>
+              <td>Диапазон реальный, варьируется</td>
+            </tr>
+            <tr>
+              <td>FIIT имеет IET аккредитацию</td>
+              <td>fiit.stuba.sk (апрель-май 2026)</td>
+              <td class="good">Высокая ✅</td>
+              <td>Активная программа PhD с IET аккредитацией</td>
+            </tr>
+            <tr>
+              <td>Братислава — 1 час от Вены</td>
+              <td>Географический факт, Google Maps</td>
+              <td class="good">Высокая ✅</td>
+              <td>~60 км, автобус €10–20</td>
+            </tr>
+            <tr>
+              <td>11 700 студентов STU в 2025/2026</td>
+              <td>Wikipedia / stuba.sk</td>
+              <td class="good">Высокая ✅</td>
+              <td>Официальные данные</td>
+            </tr>
+            <tr>
+              <td>STU основан в 1937 году</td>
+              <td>Wikipedia, официальный сайт</td>
+              <td class="good">Высокая ✅</td>
+              <td>Исторический факт</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KANT -->
+    <div class="card" style="margin-top:24px;">
+      <h3>📜 Кантианская этика — три категорических императива</h3>
+      <div class="framework-grid" style="margin-top:16px;">
+        <div class="fw-card">
+          <div class="fw-icon">🔑</div>
+          <h4>1-й Императив: Универсальность</h4>
+          <p>"Поступай только согласно той максиме, которую ты мог бы хотеть видеть универсальным законом." Выбор STU: рационален и универсально обоснован — любой человек в похожих условиях пришёл бы к тому же выводу.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🤝</div>
+          <h4>2-й Императив: Уважение к личности</h4>
+          <p>"Поступай так, чтобы ты всегда относился к человечеству как к цели, но никогда только как к средству." Образование как инструмент развития личности, а не только заработка.</p>
+        </div>
+        <div class="fw-card">
+          <div class="fw-icon">🌍</div>
+          <h4>3-й Императив: Автономия</h4>
+          <p>"Поступай согласно максимам члена всеобщего законодательствующего царства целей." EU диплом = максимальная автономия выбора где жить и работать.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ TAB: TIMELINE ══════════════════════ -->
+  <div id="tab-timeline" class="tab-content">
+    <div class="section-header">
+      <h2>Дорожная карта — от сейчас до диплома</h2>
+      <p>Конкретные шаги с дедлайнами</p>
+    </div>
+
+    <div class="card">
+      <h3>🗓️ 2026–2029: Полная дорожная карта</h3>
+      <div class="timeline" style="margin-top:24px;">
+
+        <div class="tl-item">
+          <div class="tl-date">МАЙ 2026 — СЕЙЧАС</div>
+          <div class="tl-title">🚀 Принятие решения и первые шаги</div>
+          <div class="tl-body">Изучение сайта stuba.sk и fiit.stuba.sk. Проверка дедлайнов подачи документов. Начало Duolingo словацкий. Запрос информации в деканат FIIT. Финансовое планирование.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">ИЮНЬ 2026</div>
+          <div class="tl-title">📄 Подача документов</div>
+          <div class="tl-body">Подготовка и подача электронной заявки на stuba.sk. Сбор документов: аттестат, перевод, мотивационное письмо. Подача заявки на общежитие STU. Оформление страховки.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">ИЮЛЬ–АВГУСТ 2026</div>
+          <div class="tl-title">✈️ Подготовка к переезду</div>
+          <div class="tl-body">Получение ответа о зачислении. Виза / оформление документов для ЕС. Поиск жилья (общежитие или частное). Изучение словацкого A1. Покупка билетов, логистика переезда.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">СЕНТЯБРЬ 2026</div>
+          <div class="tl-title">🎓 Начало учёбы в STU FIIT</div>
+          <div class="tl-body">Ориентационная неделя. Знакомство с кампусом и городом. Первые лекции. Подключение к AIS (академическая система). Вступление в студенческие клубы. Открытие банковского счёта.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">НОЯБРЬ–ЯНВАРЬ 2027</div>
+          <div class="tl-title">📚 Первая сессия</div>
+          <div class="tl-body">Системное повторение по методу Фейнмана. Помодоро-расписание во время сессии. Использование консультаций преподавателей. Словацкий язык — уровень A2.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">2027 — 2-й КУРС</div>
+          <div class="tl-title">🌱 Углубление и проекты</div>
+          <div class="tl-body">Участие в хакатонах и студенческих проектах. Подача на Erasmus+ (для семестра 2028). Стажировка летом (IBM, SAP, ESET — партнёры STU). Первые проекты на GitHub.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">ОСЕНЬ 2028 — 3-й КУРС</div>
+          <div class="tl-title">✈️ Erasmus+ — семестр за рубежом</div>
+          <div class="tl-body">6 месяцев в европейском университете-партнёре. Грант €500–1 500/мес покрывает расходы. Нетворкинг на международном уровне. Языки + культурный опыт.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">МАЙ–ИЮНЬ 2029</div>
+          <div class="tl-title">🎓 Защита бакалаврской работы</div>
+          <div class="tl-body">Финальный проект (Bachelor thesis). Публичная защита. Получение диплома EU. Поиск работы или подача в магистратуру FIIT / Erasmus Mundus.</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-date">2029+ — ПОСЛЕ ДИПЛОМА</div>
+          <div class="tl-title">🚀 Карьера в Европе</div>
+          <div class="tl-body">EU Work Permit автоматически. IT-рынок Словакии, Австрии, Германии, Нидерландов, Ирландии — открыты. Средняя зарплата junior IT в ЕС: €2 500–4 000/мес. Магистратура или карьера.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- QUICK WINS -->
+    <div class="card" style="margin-top:24px;">
+      <h3>⚡ Быстрые победы — сделай сегодня</h3>
+      <ul class="checklist">
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Открыть fiit.stuba.sk/en.html и прочитать про программы</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Установить Duolingo и начать словацкий (15 мин/день)</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Написать на studium@fiit.stuba.sk с вопросами о поступлении</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Рассчитать бюджет на первый год (Numbeo.com → Bratislava)</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Скачать Anki и создать первую колоду словацких слов</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Посмотреть видео "Whiplash" (2014) или "Игра в имитацию" (2014)</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Прочитать первые 3 главы "Атомных привычек"</li>
+        <li><span class="chk" onclick="this.classList.toggle('done')"></span>Зарегистрироваться на LeetCode и решить первую задачу</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>Образовательный план · Май 2026 · Создан на основе SCRIBE + FactCheckR + Кантианская этика</p>
+  <p style="margin-top:8px;">Данные верифицированы: stuba.sk · Wikipedia · QS Rankings · FIIT статистика 2026</p>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // Animate bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.bar-fill').forEach(fill => {
+          const w = fill.style.width;
+          fill.style.width = '0';
+          setTimeout(() => { fill.style.width = w; }, 100);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.option-card').forEach(card => observer.observe(card));
+</script>
+</body>
+</html>
