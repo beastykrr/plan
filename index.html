@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta name="description" content="Roadmap PL/SK-2028: персональний дашборд підготовки до безкоштовного навчання в Польщі або Словаччині">
+  <title>Roadmap PL/SK-2028</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    :root{
+      --bg-base:#0e1116;--bg-card:#171b22;--bg-elevated:#1f242d;--bg-overlay:rgba(10,13,18,.82);
+      --border-subtle:#2a313c;--border-strong:#3a4351;
+      --text-primary:#e6e8eb;--text-secondary:#8a93a3;--text-muted:#5a6373;
+      --accent:#5ac8fa;--accent-strong:#38b6ff;
+      --good:#3ddc97;--warn:#ffb454;--bad:#ff6b6b;--lock:#6c7280;
+      --polski:#ee5a52;--slovak:#5ac8fa;--math:#8b5cf6;--ukr:#ffd166;--history:#c084fc;--english:#94a3b8;--python:#fbbf24;--body:#22d3ee;
+      --r4:4px;--r8:8px;--r12:12px;--r20:20px;
+      --t-fast:150ms cubic-bezier(.2,0,0,1);--t-modal:300ms cubic-bezier(.2,0,0,1);
+      --sb-w:240px;
+    }
+    body{
+      background:var(--bg-base);color:var(--text-primary);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      font-size:14px;line-height:1.55;font-weight:400;min-height:100vh;
+      font-variant-numeric:tabular-nums;
+    }
+    h1,h2,h3,h4{margin:0;font-weight:600;line-height:1.4}
+    h1{font-size:28px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}
+    p{margin:0 0 8px}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a[target="_blank"]::after{content:" \2197";color:var(--text-muted);font-size:11px;vertical-align:super}
+    button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+    input,select,textarea{font:inherit;color:inherit}
+    summary{cursor:pointer;list-style:none;outline:none}
+    summary::-webkit-details-marker{display:none}
+    details>summary::after{content:"\25BC";float:right;color:var(--text-muted);transition:transform var(--t-fast);font-size:10px;margin-top:4px}
+    details[open]>summary::after{transform:rotate(180deg)}
+    *:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+    .tnum{font-variant-numeric:tabular-nums}
+    .muted{color:var(--text-secondary)}
+    .dim{color:var(--text-muted)}
+    .flex{display:flex;gap:12px;align-items:center}
+    .col{display:flex;flex-direction:column;gap:12px}
+    .sp{flex:1}
+    .hidden{display:none!important}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;background:var(--bg-elevated);color:var(--text-secondary);border:1px solid var(--border-subtle)}
+    .pill.warn{color:var(--warn);border-color:#553c1a;background:#332215}
+    .pill.bad{color:var(--bad);border-color:#5a2a2a;background:#2e1818}
+    .pill.good{color:var(--good);border-color:#1f4d3a;background:#13241e}
+    .pill.accent{color:var(--accent);border-color:#1d4258;background:#0f2330}
+    .badge{display:inline-block;padding:2px 8px;border-radius:var(--r4);font-size:11px;font-weight:500;background:var(--bg-elevated);color:var(--text-secondary);border:1px solid var(--border-subtle)}
+    .badge.good{color:var(--good);border-color:#1f4d3a;background:#13241e}
+    .badge.warn{color:var(--warn);border-color:#553c1a;background:#332215}
+    .badge.bad{color:var(--bad);border-color:#5a2a2a;background:#2e1818}
+    .badge.accent{color:var(--accent);border-color:#1d4258;background:#0f2330}
+    .badge.locked{color:var(--lock);border-color:#3a3f47;background:#22252b}
+    [data-unverified="true"]{color:var(--text-muted)}
+    [data-unverified="true"]::after{content:" ?";color:var(--text-muted);font-size:10px;cursor:help;vertical-align:super}
+
+    /* Layout */
+    .app{display:grid;grid-template-columns:var(--sb-w) 1fr;min-height:100vh}
+    .sidebar{position:sticky;top:0;align-self:start;height:100vh;background:var(--bg-card);border-right:1px solid var(--border-subtle);padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+    .sidebar .brand{display:flex;align-items:center;gap:10px;padding:8px 12px 12px;margin-bottom:8px;border-bottom:1px solid var(--border-subtle)}
+    .sidebar .brand-name{font-weight:600;font-size:15px}
+    .sidebar .brand-sub{font-size:11px;color:var(--text-muted)}
+    .navlink{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r8);color:var(--text-secondary);position:relative;transition:background var(--t-fast),color var(--t-fast);font-size:14px;cursor:pointer;text-decoration:none}
+    .navlink:hover{background:var(--bg-elevated);color:var(--text-primary);text-decoration:none}
+    .navlink[aria-current="page"]{background:var(--bg-elevated);color:var(--text-primary)}
+    .navlink[aria-current="page"]::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--accent);border-radius:2px}
+    .navlink svg{width:18px;height:18px;flex-shrink:0}
+    .nav-sep{height:1px;background:var(--border-subtle);margin:8px 4px}
+    .nav-group{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);padding:8px 12px 4px}
+
+    main{padding:24px 32px 96px;max-width:1280px;margin:0 auto;width:100%}
+    .page{display:none;animation:fade .15s ease-out}
+    .page.active{display:block}
+    @keyframes fade{from{opacity:.4}to{opacity:1}}
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:0ms!important;transition-duration:0ms!important}
+    }
+
+    /* Status bar */
+    .statusbar{position:sticky;top:0;z-index:50;background:rgba(14,17,22,.92);backdrop-filter:saturate(140%) blur(6px);-webkit-backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--border-subtle);padding:10px 16px;display:flex;align-items:center;gap:12px;height:56px}
+    .sb-streak{display:flex;align-items:center;gap:8px}
+    .sb-streak svg{width:18px;height:18px;color:var(--warn)}
+    .sb-streak .n{font-weight:600;font-size:16px}
+    .sb-streak.pulse .n{animation:pulse .3s ease-out}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+    .sb-center{flex:1;display:flex;align-items:center;justify-content:center;gap:16px;font-size:13px;color:var(--text-secondary)}
+    .sb-energy{display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 8px;border-radius:var(--r8)}
+    .sb-energy:hover{background:var(--bg-elevated)}
+    .sb-energy .dot{width:18px;height:18px;border-radius:50%;background:var(--lock)}
+    .sb-energy .v{font-weight:600;font-size:14px}
+    .sb-period{padding:3px 10px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border-subtle);font-size:12px;color:var(--text-secondary)}
+    .sb-track{padding:3px 10px;border-radius:999px;font-size:12px;border:1px solid;font-weight:500}
+    .sb-track.pl{color:var(--polski);border-color:#5a2a2a;background:#2e1818}
+    .sb-track.sk{color:var(--slovak);border-color:#1d4258;background:#0f2330}
+    .sb-track.both{color:var(--accent);border-color:#1d4258;background:#0f2330}
+
+    /* Cards */
+    .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r12);padding:16px}
+    .card.elevated{background:var(--bg-elevated)}
+    .card-title{font-weight:600;font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .section-h{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin:24px 0 12px}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r8);border:1px solid var(--border-strong);background:var(--bg-elevated);color:var(--text-primary);font-size:13px;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast)}
+    .btn:hover{background:#252b35;border-color:#475262}
+    .btn.primary{background:var(--accent);color:#06141f;border-color:var(--accent);font-weight:500}
+    .btn.primary:hover{background:var(--accent-strong);border-color:var(--accent-strong)}
+    .btn.danger{background:transparent;border-color:#5a2a2a;color:var(--bad)}
+    .btn.danger:hover{background:#2e1818}
+    .btn.ghost{background:transparent;border-color:var(--border-subtle)}
+    .btn.flash{animation:flash .12s ease-out}
+    @keyframes flash{0%{background:var(--accent-strong);color:#06141f}100%{}}
+    .btn-row{display:flex;flex-wrap:wrap;gap:8px}
+
+    /* Grid */
+    .grid{display:grid;gap:16px}
+    .cols-2{grid-template-columns:repeat(2,1fr)}
+    .cols-3{grid-template-columns:repeat(3,1fr)}
+    .cols-4{grid-template-columns:repeat(4,1fr)}
+    @media (max-width:1023px){.cols-4{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:639px){.cols-4,.cols-3,.cols-2{grid-template-columns:1fr}}
+
+    /* Stat cards */
+    .stat{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r12);padding:14px 16px}
+    .stat-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px}
+    .stat-value{font-size:28px;font-weight:600;margin-top:2px}
+    .stat-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .bar{height:6px;background:var(--bg-elevated);border-radius:999px;overflow:hidden}
+    .bar i{display:block;height:100%;background:var(--accent);transition:width .4s ease-out}
+    .bar i.warn{background:var(--warn)}.bar i.good{background:var(--good)}.bar i.bad{background:var(--bad)}
+
+    /* Mode switcher */
+    .mode-switch{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+    .mode-btn{flex:1;min-width:90px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px;border-radius:var(--r8);border:1px solid var(--border-subtle);background:var(--bg-card);cursor:pointer;transition:all var(--t-fast)}
+    .mode-btn:hover{border-color:var(--border-strong)}
+    .mode-btn[aria-pressed="true"]{background:var(--bg-elevated);border-color:var(--accent)}
+    .mode-btn .label{font-weight:600;font-size:12px;color:var(--text-secondary);letter-spacing:.5px}
+    .mode-btn[aria-pressed="true"] .label{color:var(--text-primary)}
+    .mode-btn .min{font-size:18px;font-weight:600}
+
+    /* Energy slider */
+    .energy-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r12);padding:16px}
+    .energy-slider-row{display:flex;align-items:center;gap:16px}
+    .energy-val{font-size:36px;font-weight:600;width:54px;text-align:center}
+    input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--bad) 0%,var(--warn) 50%,var(--good) 100%);outline:none}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--bg-base);box-shadow:0 0 0 1px var(--border-strong)}
+    input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;border:2px solid var(--bg-base)}
+    .spark{width:120px;height:36px;flex-shrink:0}
+
+    /* Task list */
+    .task-list{display:flex;flex-direction:column;gap:10px}
+    .task{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r12);padding:14px 14px 14px 18px;position:relative;cursor:pointer;transition:all var(--t-fast)}
+    .task::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--r12) 0 0 var(--r12);background:var(--accent)}
+    .task[data-subject="polski"]::before{background:var(--polski)}
+    .task[data-subject="slovak"]::before{background:var(--slovak)}
+    .task[data-subject="math"]::before{background:var(--math)}
+    .task[data-subject="ukr"]::before{background:var(--ukr)}
+    .task[data-subject="history"]::before{background:var(--history)}
+    .task[data-subject="english"]::before{background:var(--english)}
+    .task[data-subject="python"]::before{background:var(--python)}
+    .task[data-subject="body"]::before{background:var(--body)}
+    .task.done{opacity:.55}
+    .task.done .task-title{text-decoration:line-through}
+    .task-row{display:flex;align-items:center;gap:12px}
+    .task-icon{width:24px;height:24px;color:var(--text-secondary);flex-shrink:0}
+    .task-title{flex:1;font-weight:500;font-size:15px}
+    .task-dur{font-size:12px;color:var(--text-muted)}
+    .chk{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-base)}
+    .chk.checked{background:var(--good);border-color:var(--good)}
+    .chk svg{width:16px;height:16px;color:#06141f}
+    .task-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle);display:none}
+    .task[open=true] .task-detail{display:block}
+    .quick-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .qa-btn{padding:5px 10px;border-radius:var(--r4);background:var(--bg-elevated);border:1px solid var(--border-subtle);font-size:12px;color:var(--text-secondary)}
+    .qa-btn:hover{color:var(--text-primary);border-color:var(--border-strong)}
+
+    /* Sub-tabs */
+    .subtabs{display:flex;gap:4px;padding:4px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r8);margin-bottom:16px;overflow-x:auto;flex-wrap:wrap}
+    .subtab-btn{padding:8px 14px;border-radius:var(--r4);color:var(--text-secondary);font-size:13px;cursor:pointer;white-space:nowrap;transition:all var(--t-fast)}
+    .subtab-btn:hover{color:var(--text-primary)}
+    .subtab-btn[aria-pressed="true"]{background:var(--bg-elevated);color:var(--text-primary);font-weight:500}
+    .subpage{display:none}
+    .subpage.active{display:block}
+
+    /* Calendar heatmap */
+    .heatmap{display:grid;grid-template-rows:repeat(7,14px);grid-auto-flow:column;gap:2px}
+    .hm-cell{width:14px;height:14px;border-radius:2px;background:var(--bg-elevated);cursor:help}
+    .hm-cell.lvl-min{background:var(--warn)}
+    .hm-cell.lvl-target{background:var(--accent)}
+    .hm-cell.lvl-stretch{background:var(--good)}
+    .hm-cell.lvl-skip{background:var(--bad)}
+
+    /* SVG charts */
+    .chart{width:100%;height:180px;background:var(--bg-base);border-radius:var(--r8)}
+
+    /* Footer / settings */
+    footer.app-footer{padding:32px 16px;text-align:center;color:var(--text-muted);font-size:12px;border-top:1px solid var(--border-subtle);margin-top:48px}
+
+    /* Bottom nav (mobile) */
+    .botnav{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--bg-card);border-top:1px solid var(--border-subtle);padding:6px 4px;padding-bottom:max(6px,env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr);gap:2px}
+    .botnav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:var(--r8);color:var(--text-secondary);font-size:11px;cursor:pointer}
+    .botnav-btn[aria-current=page]{color:var(--accent)}
+    .botnav-btn svg{width:20px;height:20px}
+
+    /* Bottom sheet */
+    .sheet-overlay{position:fixed;inset:0;background:var(--bg-overlay);z-index:100;display:none;animation:fadein .15s}
+    .sheet-overlay.open{display:block}
+    .sheet{position:fixed;left:0;right:0;bottom:0;z-index:101;background:var(--bg-card);border-top-left-radius:var(--r20);border-top-right-radius:var(--r20);padding:20px 16px 24px;transform:translateY(100%);transition:transform .3s cubic-bezier(.2,0,0,1)}
+    .sheet.open{transform:translateY(0)}
+    .sheet-handle{width:36px;height:4px;background:var(--border-strong);border-radius:999px;margin:0 auto 16px}
+    .sheet h3{margin-bottom:12px}
+    .sheet-item{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:var(--r8);cursor:pointer;color:var(--text-primary)}
+    .sheet-item:hover{background:var(--bg-elevated)}
+    .sheet-item svg{width:20px;height:20px;color:var(--text-secondary)}
+    @keyframes fadein{from{opacity:0}to{opacity:1}}
+
+    /* Toast */
+    .toast-region{position:fixed;top:72px;right:16px;z-index:200;display:flex;flex-direction:column;gap:8px;max-width:360px}
+    .toast{background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:var(--r8);padding:12px 14px;font-size:13px;animation:slidein .25s ease-out;cursor:pointer}
+    .toast.warn{border-color:#553c1a;color:var(--warn)}
+    .toast.bad{border-color:#5a2a2a;color:var(--bad)}
+    .toast.good{border-color:#1f4d3a;color:var(--good)}
+    @keyframes slidein{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:var(--bg-overlay);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;animation:fadein .15s}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:var(--r12);padding:24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto}
+    .modal h3{margin-bottom:12px}
+    .modal-actions{margin-top:20px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+
+    /* FAB */
+    .fab{display:none;position:fixed;bottom:80px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#06141f;border:0;box-shadow:0 4px 12px rgba(56,182,255,.4);align-items:center;justify-content:center;z-index:80}
+    .fab svg{width:24px;height:24px}
+
+    /* Lists */
+    .res-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+    .res-list li{padding:10px 12px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--r8);display:flex;align-items:center;gap:10px}
+    .res-list li .meta{flex:1}
+    .res-list li .meta .ttl{font-weight:500}
+    .res-list li .meta .sub{font-size:12px;color:var(--text-muted)}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:24px}
+    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border-subtle)}
+    .tl-item{position:relative;padding:8px 0 20px}
+    .tl-item::before{content:"";position:absolute;left:-20px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg-base)}
+    .tl-item.locked::before{background:var(--lock)}
+    .tl-item.done::before{background:var(--good)}
+    .tl-item.warn::before{background:var(--warn)}
+    .tl-date{font-size:12px;color:var(--text-muted);font-weight:600;letter-spacing:.3px}
+    .tl-title{font-weight:500;margin:2px 0 4px}
+    .tl-desc{font-size:13px;color:var(--text-secondary)}
+
+    /* KPI cards */
+    .kpi{padding:14px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r8)}
+    .kpi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .kpi-q{font-weight:600;font-size:14px}
+    .kpi-list{list-style:none;padding:0;margin:0;font-size:13px;color:var(--text-secondary);display:flex;flex-direction:column;gap:4px}
+
+    /* Compare table */
+    .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+    .cmp-table th,.cmp-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border-subtle);vertical-align:top}
+    .cmp-table th{color:var(--text-secondary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .cmp-table tr:hover{background:var(--bg-elevated)}
+    .cmp-row-head{font-weight:600;color:var(--text-primary)}
+
+    /* Exercise card */
+    .ex{padding:12px;background:var(--bg-elevated);border-radius:var(--r8);border-left:3px solid var(--body)}
+    .ex h4{margin-bottom:4px}
+    .ex .ex-meta{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+    .ex p{font-size:13px;color:var(--text-secondary);margin:0}
+
+    /* Subject icon helpers */
+    .subj-icon{width:20px;height:20px;flex-shrink:0}
+
+    /* Responsive */
+    @media (min-width:1440px){main{max-width:1280px}}
+    @media (max-width:1023px){
+      .app{grid-template-columns:1fr}
+      .sidebar{position:sticky;top:0;flex-direction:row;height:auto;overflow-x:auto;overflow-y:hidden;padding:8px 12px;gap:4px}
+      .sidebar .brand{border-bottom:0;border-right:1px solid var(--border-subtle);padding:4px 12px 4px 4px;margin-bottom:0;margin-right:8px}
+      .sidebar .nav-sep,.sidebar .nav-group{display:none}
+      .navlink{padding:8px 12px;white-space:nowrap}
+      .navlink[aria-current="page"]::before{left:8px;right:8px;top:auto;bottom:0;width:auto;height:3px;border-radius:0}
+      main{padding:16px}
+    }
+    @media (max-width:639px){
+      .sidebar{display:none}
+      .botnav{display:grid}
+      .fab{display:flex}
+      main{padding:12px 12px 96px}
+      .statusbar{height:48px;padding:8px 12px}
+      .sb-center{display:none}
+      h1{font-size:22px}h2{font-size:18px}
+    }
+
+    /* Print */
+    @media print{
+      .sidebar,.botnav,.fab,.statusbar,.toast-region,.modal-overlay,.sheet-overlay,.sheet,.emergency-panel{display:none!important}
+      .app{grid-template-columns:1fr}
+      .page{display:block!important;page-break-before:always}
+      .page:first-of-type{page-break-before:auto}
+      .card,.task,.kpi{break-inside:avoid}
+      .subpage{display:block!important}
+      details{break-inside:avoid}
+      details>div{display:block!important}
+      *{background:#fff!important;color:#000!important;border-color:#999!important}
+      a{color:#000!important;text-decoration:underline}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Skip link for a11y -->
+<a href="#main" style="position:absolute;left:-9999px" onfocus="this.style.left='8px';this.style.top='8px';this.style.zIndex='999';this.style.padding='8px 12px';this.style.background='var(--bg-elevated)';this.style.borderRadius='8px'" onblur="this.style.left='-9999px'">Перейти до контенту</a>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="sidebar" role="navigation" aria-label="Головна навігація">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--accent)"><path d="M12 2l9 4.5v11L12 22l-9-4.5v-11L12 2z"/><path d="M12 2v20M3 6.5l9 4.5 9-4.5"/></svg>
+      <div>
+        <div class="brand-name">Roadmap 2028</div>
+        <div class="brand-sub">PL · SK · 9→11 клас</div>
+      </div>
+    </div>
+    <a class="navlink" href="#today" data-route="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Сьогодні</a>
+    <a class="navlink" href="#progress" data-route="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5 5 9-13"/><path d="M3 19h18"/></svg>Прогрес</a>
+    <div class="nav-group">Країни</div>
+    <a class="navlink" href="#pl" data-route="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 12h18"/></svg>Польща</a>
+    <a class="navlink" href="#sk" data-route="sk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 10h18M3 14h18"/></svg>Словаччина</a>
+    <a class="navlink" href="#compare" data-route="compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7h13M8 12h13M8 17h13"/><path d="M3 7l2 2-2 2M3 12l2 2-2 2"/></svg>Порівняння</a>
+    <div class="nav-group">Навчання</div>
+    <a class="navlink" href="#subjects" data-route="subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Предмети</a>
+    <a class="navlink" href="#body" data-route="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l3 3M18 4l-3 3M2 12h4M18 12h4M6 20l3-3M18 20l-3-3M9 7h6v10H9z"/></svg>Тіло й розум</a>
+    <div class="nav-group">Сервіс</div>
+    <a class="navlink" href="#settings" data-route="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h0a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h0a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Налаштування</a>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <div>
+    <header class="statusbar" role="banner">
+      <div class="sb-streak" id="sbStreak" aria-label="Стрик днів"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 5 5 6 5 11a5 5 0 01-10 0c0-3 2-4 3-7 1 2 2 3 2 5 0-3 0-6 0-9z"/></svg><span class="n tnum" id="streakN">0</span><span class="muted" style="font-size:13px">днів</span></div>
+      <div class="sb-center">
+        <span id="sbDate">—</span>
+        <span class="sb-period" id="sbPeriod">—</span>
+        <span class="sb-track both" id="sbTrack">PL + SK</span>
+        <span id="sbCountdown" class="muted">—</span>
+      </div>
+      <button class="sb-energy" id="sbEnergyBtn" aria-label="Поточна енергія"><span class="dot" id="sbEnergyDot"></span><span class="v tnum" id="sbEnergyV">—</span></button>
+    </header>
+
+    <main id="main">
+
+<!-- ════════════════════════════ TODAY ════════════════════════════ -->
+<section class="page" id="page-today" data-page="today" aria-labelledby="h-today">
+  <h1 id="h-today" style="margin-bottom:4px">Сьогодні</h1>
+  <p class="muted" id="todayDateLong" style="margin-bottom:20px">—</p>
+
+  <div class="grid cols-2" style="margin-bottom:16px">
+    <div class="energy-card">
+      <div class="card-title"><span class="dot" style="background:var(--good)"></span>Енергія сьогодні</div>
+      <div class="energy-slider-row">
+        <span class="energy-val tnum" id="energySliderVal">5</span>
+        <div style="flex:1">
+          <input type="range" min="1" max="10" value="5" id="energySlider" aria-label="Рівень енергії 1-10">
+          <div class="flex" style="justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
+            <span>Виснаження</span><span>Норма</span><span>Висока</span>
+          </div>
+        </div>
+        <svg class="spark" id="energySpark" viewBox="0 0 120 36" aria-hidden="true"></svg>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" id="logEnergyBtn">Записати енергію</button>
+        <span class="muted tnum" id="energyLast">Останнє: —</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Поточний фокус</div>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text-secondary)">
+        Обери, на яку мову робиш ставку сьогодні. До 2027-Q1 можна тримати обидві паралельно, далі — обери одну primary.
+      </div>
+      <div class="mode-switch" role="group" aria-label="Активний трек">
+        <button class="mode-btn" data-track="PL" aria-pressed="false"><span class="label">Польща</span><span class="min" style="color:var(--polski)">PL</span></button>
+        <button class="mode-btn" data-track="BOTH" aria-pressed="true"><span class="label">Обидві</span><span class="min">PL+SK</span></button>
+        <button class="mode-btn" data-track="SK" aria-pressed="false"><span class="label">Словаччина</span><span class="min" style="color:var(--slovak)">SK</span></button>
+      </div>
+      <p class="muted" style="font-size:12px;margin:0">Активний трек впливає на склад денних задач і пріоритет ресурсів.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Режим дня</div>
+    <div class="mode-switch" role="group" aria-label="Режим навантаження">
+      <button class="mode-btn" data-mode="MIN" aria-pressed="false"><span class="label">MINIMUM</span><span class="min">25 хв</span></button>
+      <button class="mode-btn" data-mode="TARGET" aria-pressed="true"><span class="label">TARGET</span><span class="min" id="targetMin">— хв</span></button>
+      <button class="mode-btn" data-mode="STRETCH" aria-pressed="false"><span class="label">STRETCH</span><span class="min" id="stretchMin">— хв</span></button>
+    </div>
+    <div class="flex" style="justify-content:space-between;font-size:13px;color:var(--text-secondary);flex-wrap:wrap;gap:8px">
+      <span>Сьогоднішній бюджет: <strong class="tnum" id="todayBudget">— хв</strong></span>
+      <span id="modeFlag"></span>
+    </div>
+  </div>
+
+  <div id="actionChecklistWrap" class="card hidden" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Дії травень–серпень 2026</div>
+    <div id="actionList" class="col"></div>
+  </div>
+  <div id="actionSummary" class="card hidden" style="margin-bottom:16px"></div>
+
+  <div class="section-h">Задачі дня</div>
+  <div class="task-list" id="taskList" role="list"></div>
+
+  <div id="dayClosed" class="card hidden" style="margin-top:16px;border-color:var(--good)">
+    <div class="card-title" style="color:var(--good)"><span class="dot" style="background:var(--good)"></span>День закритий ✓</div>
+    <div class="muted" id="dayClosedText">+0 очок</div>
+  </div>
+
+  <div class="section-h">Швидкі дії</div>
+  <div class="btn-row" style="margin-bottom:16px">
+    <button class="btn" data-quick="anki1">+1 Anki</button>
+    <button class="btn" data-quick="math30">+30 хв Math</button>
+    <button class="btn" data-quick="energy">Лог енергії</button>
+    <button class="btn" data-quick="workout">Тренування зроблено</button>
+    <button class="btn danger" id="emergencyToggle">Деградований режим</button>
+  </div>
+
+  <div class="card hidden emergency-panel" id="emergency" style="margin-bottom:16px;border-color:var(--bad)">
+    <div class="card-title" style="color:var(--bad)"><span class="dot" style="background:var(--bad)"></span>Деградований режим</div>
+    <p class="muted" style="margin-bottom:12px">Будь-яка опція переключає день на MINIMUM. Стрик не зривається.</p>
+    <div class="btn-row">
+      <button class="btn" data-emergency="blackout">Блекаут</button>
+      <button class="btn" data-emergency="alarm">Тривога</button>
+      <button class="btn" data-emergency="sick">Хвороба</button>
+      <button class="btn ghost" data-emergency="off">Повернутись до режиму</button>
+    </div>
+    <div id="emergencyHint" class="muted" style="margin-top:12px;font-size:13px"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PROGRESS ════════════════════════════ -->
+<section class="page" id="page-progress" data-page="progress" aria-labelledby="h-progress">
+  <h1 id="h-progress" style="margin-bottom:20px">Прогрес</h1>
+  <div class="grid cols-4" style="margin-bottom:16px">
+    <div class="stat"><div class="stat-label">Стрик днів</div><div class="stat-value tnum" id="pStreak">0</div></div>
+    <div class="stat"><div class="stat-label">Total очок</div><div class="stat-value tnum" id="pPoints">0</div><div class="stat-sub">з 1 травня 2026</div></div>
+    <div class="stat"><div class="stat-label">Польська</div><div class="stat-value" id="pPolskiLevel">A0</div><div class="bar" style="margin-top:8px"><i id="pPolskiBar" style="width:5%"></i></div></div>
+    <div class="stat"><div class="stat-label">Словацька</div><div class="stat-value" id="pSlovakLevel">A0</div><div class="bar" style="margin-top:8px"><i id="pSlovakBar" class="warn" style="width:5%"></i></div></div>
+  </div>
+
+  <div class="grid cols-2" style="margin-bottom:16px">
+    <div class="card"><div class="card-title">Енергія · 30 днів</div><svg class="chart" id="chartEnergy" viewBox="0 0 600 180" preserveAspectRatio="none" aria-label="Графік енергії"></svg></div>
+    <div class="card"><div class="card-title">Math mock-бали</div><svg class="chart" id="chartMath" viewBox="0 0 600 180" preserveAspectRatio="none" aria-label="Графік Math mock-балів"></svg></div>
+    <div class="card"><div class="card-title">Anki черга (PL+SK+EN+UKR+HIST)</div><svg class="chart" id="chartAnki" viewBox="0 0 600 180" preserveAspectRatio="none" aria-label="Anki черга"></svg></div>
+    <div class="card"><div class="card-title">Активні слова</div><svg class="chart" id="chartVocab" viewBox="0 0 600 180" preserveAspectRatio="none" aria-label="Слова за тижнями"></svg></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Anti-burnout</div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <span class="badge" id="lockBadge">Lock вимкнено</span>
+      <div style="display:flex;gap:6px" id="lockDots" aria-label="Останні 3 значення енергії"></div>
+      <button class="btn ghost" id="overrideLock">Override</button>
+    </div>
+    <p class="muted" style="margin-top:10px;font-size:13px">Активується, якщо останні 3 енергії ≤4. Деактивується після 3 поспіль ≥6. Під час Lock — Anki new ≤5, review ≤30, Math ≤15 хв.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Календар (90 днів)</div>
+    <div class="heatmap" id="heatmap" aria-label="Календар активності"></div>
+    <div class="flex" style="font-size:11px;color:var(--text-muted);margin-top:10px;gap:14px;flex-wrap:wrap">
+      <span><span class="hm-cell" style="display:inline-block;vertical-align:middle"></span> no data</span>
+      <span><span class="hm-cell lvl-min" style="display:inline-block;vertical-align:middle"></span> MIN</span>
+      <span><span class="hm-cell lvl-target" style="display:inline-block;vertical-align:middle"></span> TARGET</span>
+      <span><span class="hm-cell lvl-stretch" style="display:inline-block;vertical-align:middle"></span> STRETCH</span>
+      <span><span class="hm-cell lvl-skip" style="display:inline-block;vertical-align:middle"></span> skip</span>
+    </div>
+  </div>
+
+  <div class="section-h">KPI по кварталах</div>
+  <div class="grid cols-4" id="kpiGrid"></div>
+</section>
+
+<!-- ════════════════════════════ POLAND ════════════════════════════ -->
+<section class="page" id="page-pl" data-page="pl" aria-labelledby="h-pl">
+  <h1 id="h-pl" style="margin-bottom:8px;color:var(--polski)">Трек: Польща</h1>
+  <p class="muted" style="margin-bottom:16px">Ціль: безкоштовне навчання у держ. ВНЗ через сертифікат C1 PKPZJP до квітня 2028.</p>
+
+  <div class="subtabs" role="tablist" aria-label="Розділи Польщі">
+    <button class="subtab-btn" data-sub="pl-overview" aria-pressed="true">Огляд</button>
+    <button class="subtab-btn" data-sub="pl-lang" aria-pressed="false">Польська</button>
+    <button class="subtab-btn" data-sub="pl-uni" aria-pressed="false">ВНЗ та вступ</button>
+    <button class="subtab-btn" data-sub="pl-money" aria-pressed="false">Гроші та побут</button>
+    <button class="subtab-btn" data-sub="pl-pmz" aria-pressed="false">ПМЖ та документи</button>
+  </div>
+
+  <!-- PL Overview -->
+  <div class="subpage active" id="sub-pl-overview" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="stat"><div class="stat-label">Поточний рівень</div><div class="stat-value" id="polskiHeroLevel">A0</div></div>
+      <div class="stat"><div class="stat-label">Активні слова</div><div class="stat-value tnum" id="polskiHeroWords">0</div></div>
+      <div class="stat"><div class="stat-label">До PKPZJP C1</div><div class="stat-value tnum" id="polskiHeroDays">—</div><div class="stat-sub">квітень 2028</div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--polski)"></span>Ключові факти Польщі</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>Безкоштовне держ. навчання іноземця без коренів — <strong>лише при C1 PKPZJP</strong> (art. 11a ust. 2 ustawy o języku polskim, art. 324 ust. 2 prawa o szkolnictwie wyższym).</li>
+        <li>PKPZJP — 2 сесії на рік (березень/червень/листопад залежно від року), сертифікат через ~2 міс.</li>
+        <li><strong>art. 195 ust. 4</strong> ustawy o cudzoziemcach: 50% студентського періоду зараховується до 5-річного стажу на ПМЖ → 4 роки бакалаврату = 2 роки зачёту.</li>
+        <li>Naturalізація: 10 років безперервно + ПМЖ + дохід + житло + B1 польської.</li>
+        <li>Англомовні програми коштують €3000–4000/рік — не наш план.</li>
+        <li>НМТ приймається, окрему maturę не сдавати.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>6 контрольних точок (PKPZJP)</div>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
+        <li><strong>Серпень 2026:</strong> 500 активних слів, розуміти Easy Polish без субтитрів.</li>
+        <li><strong>Листопад 2026:</strong> 1200 слів, читати адаптовані A2.</li>
+        <li><strong>Травень 2027:</strong> 2500 слів, говорити 5 хв без довгих пауз, mock B1 з Hurra.</li>
+        <li><strong>Листопад 2027:</strong> пробний PKPZJP B1.</li>
+        <li><strong>Березень 2028:</strong> пробний PKPZJP B2.</li>
+        <li><strong>Квітень 2028:</strong> реальний PKPZJP C1.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- PL Language -->
+  <div class="subpage" id="sub-pl-lang" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--polski)"></span>6 методик</div>
+      <details><summary><strong>1. Comprehensible Input</strong> (Krashen, i+1)</summary><p class="muted">Слухай матеріал, де розумієш 50% (A0/A1) → 90% (B2). На A0 — Easy Polish зі субтитрами, slowmedia.pl podcasts.</p></details>
+      <details><summary><strong>2. Sentence Mining</strong></summary><p class="muted">Вытаскуй ціле речення з контенту. Anki-картка = фраза, не слово. Контекст важливіший за переклад.</p></details>
+      <details><summary><strong>3. Shadowing</strong></summary><p class="muted">Повтор фрази без паузи 3 круги, фокус на інтонацію. 5–10 хв на день вже дає різницю.</p></details>
+      <details><summary><strong>4. Output Delay</strong></summary><p class="muted">Перші 2 місяці не говори. Накопичуй ввод. На A2 — починай говорити вголос на самоті, потім Italki.</p></details>
+      <details><summary><strong>5. Spaced Repetition (Anki)</strong></summary><p class="muted">Фільтр «зустрічалося в контенті». Не учи рідкісних слів зі словника — лише з власних media.</p></details>
+      <details><summary><strong>6. Italki + Tandem</strong> (з місяця 9)</summary><p class="muted">1–2 уроки/тиждень з носієм за €10–15/год. Фокус — говоріння, виправлення помилок, природний flow.</p></details>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси за рівнями</div>
+      <details open><summary><strong>A0–A1</strong></summary><ul class="res-list" style="margin-top:8px"><li><div class="meta"><div class="ttl">Hurra! Po polsku 1</div><div class="sub">Małolepsza, Szymkiewicz · підручник</div></div></li><li><div class="meta"><div class="ttl">Polski Krok po Kroku 1</div><div class="sub">Stempek, Stelmach</div></div></li><li><a href="https://www.youtube.com/@EasyPolish" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Easy Polish (YouTube)</div><div class="sub">street interviews · subtitles</div></a></li><li><a href="https://www.duolingo.com/course/pl/en/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Duolingo Polish</div><div class="sub">app · щодня 10 хв</div></a></li><li><a href="https://slowmedia.pl/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">slowmedia.pl</div><div class="sub">podcasts повільні</div></a></li></ul></details>
+      <details><summary><strong>A1–B1</strong></summary><ul class="res-list" style="margin-top:8px"><li><div class="meta"><div class="ttl">Hurra! Po polsku 2</div></div></li><li><div class="meta"><div class="ttl">Polish: An Essential Grammar</div><div class="sub">Bielec · граматика</div></div></li><li><a href="https://www.youtube.com/@PolskiNaWynos" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Polski na Wynos</div></a></li><li><a href="https://realpolish.pl/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Real Polish</div><div class="sub">podcast + transcripts</div></a></li><li><div class="meta"><div class="ttl">Świat według Kiepskich</div><div class="sub">TV-серіал на YouTube</div></div></li></ul></details>
+      <details><summary><strong>B1–B2</strong></summary><ul class="res-list" style="margin-top:8px"><li><div class="meta"><div class="ttl">Hurra! Po polsku 3</div></div></li><li><a href="https://www.italki.com/teachers/polish" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Italki Polish</div><div class="sub">€10–15/год · 2 уроки/тиждень</div></a></li><li><a href="https://www.tandem.net/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Tandem</div><div class="sub">мовний обмін PL ↔ UA</div></a></li><li><div class="meta"><div class="ttl">Olga Tokarczuk «Dom dzienny, dom nocny»</div></div></li><li><div class="meta"><div class="ttl">«1670» (Netflix)</div><div class="sub">сатира · PL озвучка</div></div></li></ul></details>
+      <details><summary><strong>B2–C1</strong></summary><ul class="res-list" style="margin-top:8px"><li><div class="meta"><div class="ttl">«Z polskim na ty» (B2)</div></div></li><li><div class="meta"><div class="ttl">Polski Krok po Kroku C1</div></div></li><li><a href="https://certyfikatpolski.pl/o-egzaminie/przykladowe-testy/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">PKPZJP — приклади тестів</div><div class="sub">certyfikatpolski.pl · officia</div></a></li><li><div class="meta"><div class="ttl">Stanisław Lem, Wisława Szymborska</div></div></li><li><div class="meta"><div class="ttl">1 ессе/тиждень 200–250 слів</div><div class="sub">з перевіркою на Italki</div></div></li></ul></details>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>30 хв Anki (повторення + нові за лімітом).</li>
+        <li>30 хв активний input (відео/podcast з конспектом).</li>
+        <li>15 хв output (говорити вголос; раз/тиждень запис).</li>
+        <li>15 хв чтение або грамматика.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="plMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="polski">+ Додати mock</button>
+    </div>
+  </div>
+
+  <!-- PL Universities -->
+  <div class="subpage" id="sub-pl-uni" role="tabpanel">
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--polski)"></span>PWr — основа</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">Politechnika Wrocławska, Wrocław. Очікуваний конкурс: middle.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Informatyka на польській — <strong>так</strong></li>
+          <li>Cyberbezpieczeństwo PL: <select class="uni-state" data-uni="pwr" data-field="cyber"><option value="yes">знайдено</option><option value="no">не знайдено</option><option value="unknown" selected>невідомо</option></select></li>
+          <li>Профіль створено: <input type="checkbox" data-doc="pwrProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px">pwr.edu.pl</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--polski)"></span>AGH — стрейч</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">AGH Kraków. Очікуваний конкурс: high.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Informatyka на польській — <strong>так</strong></li>
+          <li>Cyberbezpieczeństwo PL: <select class="uni-state" data-uni="agh" data-field="cyber"><option value="yes">знайдено</option><option value="no">не знайдено</option><option value="unknown" selected>невідомо</option></select></li>
+          <li>Профіль створено: <input type="checkbox" data-doc="aghProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px">agh.edu.pl</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--polski)"></span>PP — safety</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">Politechnika Poznańska, Poznań. Очікуваний конкурс: low.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Informatyka на польській — <strong>так</strong></li>
+          <li>Cyberbezpieczeństwo PL: <select class="uni-state" data-uni="pp" data-field="cyber"><option value="yes">знайдено</option><option value="no">не знайдено</option><option value="unknown" selected>невідомо</option></select></li>
+          <li>Профіль створено: <input type="checkbox" data-doc="ppProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px">put.poznan.pl</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Стратегія: подавати в усі 3 паралельно. Польська система це дозволяє. PWr — основа (мат-інформ профіль), AGH — стрейч (вищий конкурс, але сильніша ІТ-репутація), PP — safety (нижчий поріг прохідного балу).</p>
+  </div>
+
+  <!-- PL Money -->
+  <div class="subpage" id="sub-pl-money" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Вартість життя · оцінка 2028 з +20% інфляції</div>
+      <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label for="plCity">Місто:</label>
+        <select id="plCity" class="btn" style="background:var(--bg-elevated)">
+          <option value="Wrocław">Wrocław</option>
+          <option value="Kraków">Kraków</option>
+          <option value="Poznań">Poznań</option>
+        </select>
+      </div>
+      <table class="cmp-table" id="plCostTable">
+        <thead><tr><th>Стаття</th><th>€/міс</th><th>€/рік</th><th>€/3.5 року</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted" style="font-size:12px;margin-top:8px" data-unverified="true">Цифри 2028 — оцінка по +20% інфляції до даних 2025. Реальні значення можуть відрізнятися.</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Бюджет батьків</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <label for="familyBudget">Стеля €/міс:</label>
+        <input type="number" id="familyBudget" min="0" value="0" style="padding:8px 12px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:120px">
+        <span id="budgetStatus" class="badge">—</span>
+      </div>
+      <p class="muted" style="font-size:13px;margin-top:8px">Підсвічується bad-color, якщо менше мінімуму обраного міста.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--bad)"></span>Якщо C1 не складено</div>
+      <details><summary>Платний польський потік — резервний план</summary>
+        <p class="muted" style="margin-top:8px">Платні польські програми ~<strong>€2000/рік</strong>. Це менше за англомовний потік (€3000–4000/рік). Загальний бюджет (€2000 + житло Wrocław €5160/рік) = ~€7000/рік проти ~€8000–9000/рік англомовного. Економія невелика, але є.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- PL PMZ -->
+  <div class="subpage" id="sub-pl-pmz" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>ПМЖ-таймлайн · art. 195 ust. 4</div>
+      <div class="timeline">
+        <div class="tl-item locked"><div class="tl-date">2028</div><div class="tl-title">Karta Pobytu czasowego (на час навчання)</div><div class="tl-desc">3.5 року бакалаврату → 1.75 року зачёту по art. 195 ust. 4.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2031 жовтень</div><div class="tl-title">Закінчення ВНЗ, перехід на роботу/магістратуру</div><div class="tl-desc">Pobyt czasowy на іншій підставі.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2033–2034</div><div class="tl-title">Eligible на zezwolenie na pobyt stały</div><div class="tl-desc">1.75 (студ.) + 3.25 (праця) ≥ 5 років.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2039</div><div class="tl-title">Uznanie za obywatela polskiego</div><div class="tl-desc">10 років непереривного перебування + ПМЖ + дохід + B1.</div></div>
+      </div>
+      <p style="margin-top:12px;font-size:13px"><a href="https://lexlege.pl/ustawa-o-cudzoziemcach/art-195/" target="_blank" rel="noopener noreferrer">Текст art. 195 ust. 4</a> · <a href="https://www.gov.pl/web/uw-lodzki/uznanie-za-obywatela-polskiego" target="_blank" rel="noopener noreferrer">art. 30 ustawy o obywatelstwie</a></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Документальний чек-лист</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li><label><input type="checkbox" checked disabled> Загранпаспорт</label></li>
+        <li><label><input type="checkbox" disabled> Польські корені — N/A</label> <span class="muted" style="font-size:12px">недоступно</span></li>
+        <li><label><input type="checkbox" data-doc="pwrProfile2"> Профіль на pwr.edu.pl</label></li>
+        <li><label><input type="checkbox" data-doc="aghProfile2"> Профіль на agh.edu.pl</label></li>
+        <li><label><input type="checkbox" data-doc="ppProfile2"> Профіль на put.poznan.pl</label></li>
+        <li><label><input type="checkbox" data-doc="pkpzjp"> Розклад PKPZJP перевірено на certyfikatpolski.pl</label></li>
+        <li><label><input type="checkbox" data-doc="apostille"> Аттестат → апостиль МЗС УА (з осені 2027)</label></li>
+        <li><label><input type="checkbox" data-doc="sworn"> Присяжний переклад атестата на PL</label></li>
+        <li><label><input type="checkbox" data-doc="uznanie"> Uznanie kwalifikacji (kuratorium oświaty)</label></li>
+        <li><label><input type="checkbox" data-doc="visaD"> Віза D у консульстві (липень–серпень 2028)</label></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ SLOVAKIA ════════════════════════════ -->
+<section class="page" id="page-sk" data-page="sk" aria-labelledby="h-sk">
+  <h1 id="h-sk" style="margin-bottom:8px;color:var(--slovak)">Трек: Словаччина</h1>
+  <p class="muted" style="margin-bottom:16px">Ціль: безкоштовне навчання у держ. ВНЗ через сертифікат словацької B1/B2 до літа 2028.</p>
+
+  <div class="subtabs" role="tablist" aria-label="Розділи Словаччини">
+    <button class="subtab-btn" data-sub="sk-overview" aria-pressed="true">Огляд</button>
+    <button class="subtab-btn" data-sub="sk-lang" aria-pressed="false">Словацька</button>
+    <button class="subtab-btn" data-sub="sk-uni" aria-pressed="false">ВНЗ та вступ</button>
+    <button class="subtab-btn" data-sub="sk-money" aria-pressed="false">Гроші та побут</button>
+    <button class="subtab-btn" data-sub="sk-pmz" aria-pressed="false">ПМЖ та документи</button>
+  </div>
+
+  <div class="subpage active" id="sub-sk-overview" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="stat"><div class="stat-label">Поточний рівень</div><div class="stat-value" id="slovakHeroLevel">A0</div></div>
+      <div class="stat"><div class="stat-label">Активні слова</div><div class="stat-value tnum" id="slovakHeroWords">0</div></div>
+      <div class="stat"><div class="stat-label">До літа 2028</div><div class="stat-value tnum" id="slovakHeroDays">—</div><div class="stat-sub">подача документів</div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>Ключові факти Словаччини</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>Безкоштовне держ. навчання — <strong>якщо програма словацькою</strong>. Англомовні платні (€1500–4000/рік STEM, €9000–11000/рік медицина).</li>
+        <li><strong>Немає єдиного національного іспиту</strong> на кшталт PKPZJP. Кожен ВНЗ приймає сертифікат від мовної школи або UJOP / Studia Academica Slovaca на рівні <strong>B1 або B2</strong>.</li>
+        <li>Univerzita Komenského Bratislava (UK) Faculty of Arts: <strong>B2</strong> required. EUBA: <strong>B1</strong>. STU FIIT (ІТ): де-факто B1–B2, плюс приймальний іспит з математики.</li>
+        <li>Безкоштовні держ. курси словацької для іноземців 16+ A1–B1 (2025, 2026 продовжується).</li>
+        <li><strong>Немає 50% зачёта</strong> студентських років для ПМЖ. 5 років temporary residence → 5 років long-term → громадянство після 8 рр permanent residence.</li>
+        <li>Слов'янський бонус: для україномовного словацька — швидша за польську на ~30–40%. Реально B1 за 8–10 міс щоденної практики.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>5 контрольних точок (Slovak)</div>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
+        <li><strong>Серпень 2026:</strong> 400 активних слів (повільніше за PL — паралельно з PL основним).</li>
+        <li><strong>Травень 2027:</strong> 1500 слів, A2+, читання Easy Slovak без субтитрів.</li>
+        <li><strong>Листопад 2027:</strong> mock B1 від UK Bratislava.</li>
+        <li><strong>Березень 2028:</strong> здача сертифікату B1 у UJOP/SAS.</li>
+        <li><strong>Червень 2028:</strong> сертифікат B2 (якщо вибрав SK як основну).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="subpage" id="sub-sk-lang" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>6 методик</div>
+      <details><summary><strong>1. Слов'янський mapping</strong> (специфічне для SK)</summary><p class="muted">~70% базової лексики словацької — когнати з українською. Перші 200 слів — це 1 тиждень. Використовуй це.</p></details>
+      <details><summary><strong>2. Comprehensible Input</strong></summary><p class="muted">Easy Slovak, Slovak Naživo, slovake.eu.</p></details>
+      <details><summary><strong>3. Sentence Mining</strong></summary><p class="muted">Так само як для PL — Anki-фрази.</p></details>
+      <details><summary><strong>4. Shadowing</strong></summary><p class="muted">Особливо корисно для словацької інтонації — вона рівніша за українську.</p></details>
+      <details><summary><strong>5. Чеська як support</strong></summary><p class="muted">Чеська і словацька mutually intelligible ~95%. Чеські ресурси (Český rozhlas, ČT24) — додатковий вхід.</p></details>
+      <details><summary><strong>6. Italki + iTalki Slovak</strong> (з місяця 6)</summary><p class="muted">€8–12/год. Менше носіїв на платформі ніж для PL, але вистачає.</p></details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси за рівнями</div>
+      <details open><summary><strong>A0–A1</strong></summary><ul class="res-list" style="margin-top:8px">
+        <li><div class="meta"><div class="ttl">Krížom-krážom A1</div><div class="sub">SAS Univerzita Komenského · базовий підручник</div></div></li>
+        <li><a href="https://slovake.eu/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">slovake.eu</div><div class="sub">безкоштовний онлайн-курс A1–B1</div></a></li>
+        <li><a href="https://www.youtube.com/@EasySlovak" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Easy Slovak (YouTube)</div></a></li>
+        <li><a href="https://fns.uniba.sk/en/course_of_slovak/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">FNS UK Intensive Slovak</div><div class="sub">офіційні літні курси</div></a></li>
+        <li><a href="https://vaia.gov.sk/sk/2025/07/bezplatne-kurzy-pre-zahranicny-talent-pokracuju/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Бесплатні держ. курси SK</div><div class="sub">9 шкіл, A1–B1, MŠVVaM SR</div></a></li>
+      </ul></details>
+      <details><summary><strong>A1–B1</strong></summary><ul class="res-list" style="margin-top:8px">
+        <li><div class="meta"><div class="ttl">Krížom-krážom A2, B1</div></div></li>
+        <li><a href="https://www.rtvs.sk/radio/radio_slovensko" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Rádio Slovensko</div><div class="sub">live news</div></a></li>
+        <li><div class="meta"><div class="ttl">«Slovenský denník» podcasty</div></div></li>
+        <li><div class="meta"><div class="ttl">Telka: «Tvoja tvár znie povedome», «Inkognito»</div></div></li>
+      </ul></details>
+      <details><summary><strong>B1–B2</strong></summary><ul class="res-list" style="margin-top:8px">
+        <li><a href="https://dennikn.sk/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Denník N</div><div class="sub">якісна публіцистика</div></a></li>
+        <li><div class="meta"><div class="ttl">Pavel Vilikovský, Daniela Kapitáňová</div><div class="sub">сучасна проза</div></div></li>
+        <li><a href="https://uniba.sk/o-univerzite/fakulty-a-dalsie-sucasti/cdv/sas/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">SAS Univerzita Komenského</div><div class="sub">видає сертифікат B1/B2</div></a></li>
+        <li><a href="https://eclexam.eu/" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">ECL Slovak certificate</div><div class="sub">альтернатива, визнається ВНЗ</div></a></li>
+      </ul></details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>Якщо SK — secondary трек: 15 хв Anki + 15 хв пасивний input (подкаст).</li>
+        <li>Якщо SK — primary трек (з 2027-Q1): структура така ж як PL primary (90/30/15).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="skMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="slovak">+ Додати mock</button>
+    </div>
+  </div>
+
+  <div class="subpage" id="sub-sk-uni" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>STU FIIT — основа</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">Slovenská technická univerzita, Bratislava. Informatika.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Інформатика SK — <strong>так</strong></li>
+          <li>Приймальний іспит — <strong>математика</strong> (письмовий)</li>
+          <li>Мова — B1/B2 SK (на практиці)</li>
+          <li>Профіль створено: <input type="checkbox" data-doc="stuProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px"><a href="https://www.fiit.stuba.sk" target="_blank" rel="noopener noreferrer">fiit.stuba.sk</a></p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>FMFI UK — стрейч</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">Univerzita Komenského FMFI, Bratislava. Informatika/Aplikovaná informatika.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Інформатика SK — <strong>так</strong></li>
+          <li>Приймальний іспит — математика + лог. тест</li>
+          <li>Мова — рекомендують B2 SK</li>
+          <li>Профіль створено: <input type="checkbox" data-doc="ukProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px"><a href="https://fmph.uniba.sk" target="_blank" rel="noopener noreferrer">fmph.uniba.sk</a></p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>TUKE FEI — safety</div>
+        <p class="muted" style="font-size:13px;margin-bottom:8px">Technická univerzita Košice, FEI. Informatika.</p>
+        <ul style="margin:0;padding-left:20px;font-size:13px">
+          <li>Інформатика SK — <strong>так</strong></li>
+          <li>Часто без приймального іспиту, на оцінки</li>
+          <li>Мова — B1 SK</li>
+          <li>Профіль створено: <input type="checkbox" data-doc="tukeProfile"></li>
+        </ul>
+        <p class="muted" style="font-size:12px;margin-top:8px"><a href="https://www.fei.tuke.sk" target="_blank" rel="noopener noreferrer">fei.tuke.sk</a></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Процедура вступу іноземця в SK</div>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>Атестат → апостиль МЗС УА → присяжний переклад на словацьку.</li>
+        <li>Подання заяви на <strong>uznanie kvalifikácie</strong> (eвaluovaní v krajskom úrade alebo na konkrétnu VŠ).</li>
+        <li>Електронна заявка через AIS системи ВНЗ.</li>
+        <li>Сертифікат словацької (B1/B2) додається до заяви, або складається тест в SAS UK.</li>
+        <li>Приймальний іспит (для FIIT/FMFI) — математика, червень–вересень.</li>
+        <li>Preliminary Letter of Acceptance.</li>
+        <li>Заявка на віза D + prechodný pobyt na účel štúdia в консульстві.</li>
+        <li>Прибуття до 1 жовтня, реєстрація в Cudzineckej polícii впродовж 3 діб.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="subpage" id="sub-sk-money" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Вартість життя · 2026 (продовжено на 2028 +20%)</div>
+      <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label for="skCity">Місто:</label>
+        <select id="skCity" class="btn" style="background:var(--bg-elevated)">
+          <option value="Bratislava">Bratislava</option>
+          <option value="Košice" selected>Košice</option>
+          <option value="Žilina">Žilina</option>
+        </select>
+      </div>
+      <table class="cmp-table" id="skCostTable">
+        <thead><tr><th>Стаття</th><th>€/міс</th><th>€/рік</th><th>€/3 роки</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted" style="font-size:12px;margin-top:8px">Дані 2026: eduslovakia.sk, numbeo. Прогноз 2028: <span data-unverified="true">+20% інфляції</span>.</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--good)"></span>Гуртожитки STU/UK/TUKE</div>
+      <p style="font-size:14px;margin:0">€150–250/міс — суттєво дешевше за приватну кімнату (€350–500). Подаватись треба <strong>відразу при заявці на навчання</strong>, не після прибуття.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Стипендії</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Motivačné štipendium</strong> — за успіхи у навчанні, до ~€500/семестр.</li>
+        <li><strong>Sociálne štipendium</strong> — за критерієм доходу сім'ї.</li>
+        <li><strong>Erasmus+</strong> — €500–1500/міс на період обміну (доступне з 2 року).</li>
+        <li><strong>National Scholarship Programme of SR</strong> — для не-EU студентів магістратури/доктор.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subpage" id="sub-sk-pmz" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>ПМЖ-таймлайн SK · Zákon č. 404/2011 Z.z.</div>
+      <div class="timeline">
+        <div class="tl-item locked"><div class="tl-date">2028</div><div class="tl-title">Prechodný pobyt na účel štúdia</div><div class="tl-desc">Видається на термін навчання + 30 днів. Рахується 1:1.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2031–2032</div><div class="tl-title">Закінчення бакалаврату</div><div class="tl-desc">3 роки (стандарт) або 4 роки. Перехід на pobyt na zamestnanie.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2033</div><div class="tl-title">Eligible на trvalý pobyt na 5 rokov · §52(1)(a)</div><div class="tl-desc">5 років безперервного pobytu (студентський рахується).</div></div>
+        <div class="tl-item locked"><div class="tl-date">2038</div><div class="tl-title">Trvalý pobyt na neobmedzený čas</div><div class="tl-desc">+5 років TP-5.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2041</div><div class="tl-title">Громадянство · §7 zák. 40/1993 Z.z.</div><div class="tl-desc">8 років безперервного TP. Іспит зі словацької B1 + знання реалій SR.</div></div>
+      </div>
+      <p style="margin-top:12px;font-size:13px"><a href="https://www.akmv.sk/en/long-term-residence-permit-in-slovakia/" target="_blank" rel="noopener noreferrer">AKMV Long-term residence (2026)</a> · <a href="https://www.akmv.sk/en/granting-of-citizenship-of-foreigners-in-slovakia/" target="_blank" rel="noopener noreferrer">AKMV Citizenship 2026</a> · <a href="https://mic.iom.sk/en/residence/permanent-residence.html" target="_blank" rel="noopener noreferrer">IOM Slovakia</a></p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Документальний чек-лист (SK)</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        <li><label><input type="checkbox" checked disabled> Загранпаспорт</label></li>
+        <li><label><input type="checkbox" disabled> Корені/osvedčenie Slováka žijúceho v zahraničí — N/A</label></li>
+        <li><label><input type="checkbox" data-doc="stuProfile2"> Профіль на fiit.stuba.sk (AIS)</label></li>
+        <li><label><input type="checkbox" data-doc="ukProfile2"> Профіль на fmph.uniba.sk</label></li>
+        <li><label><input type="checkbox" data-doc="tukeProfile2"> Профіль на fei.tuke.sk</label></li>
+        <li><label><input type="checkbox" data-doc="sasReg"> Реєстрація на іспит SAS UK / ECL</label></li>
+        <li><label><input type="checkbox" data-doc="skApostille"> Аттестат + апостиль (з осені 2027)</label></li>
+        <li><label><input type="checkbox" data-doc="skSworn"> Присяжний переклад на словацьку</label></li>
+        <li><label><input type="checkbox" data-doc="skUznanie"> Uznanie kvalifikácie (krajský úrad)</label></li>
+        <li><label><input type="checkbox" data-doc="skVisa"> Віза D + prechodný pobyt у консульстві</label></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ COMPARE ════════════════════════════ -->
+<section class="page" id="page-compare" data-page="compare" aria-labelledby="h-cmp">
+  <h1 id="h-cmp" style="margin-bottom:8px">Порівняння: PL ↔ SK</h1>
+  <p class="muted" style="margin-bottom:20px">Один погляд на ключові відмінності. Чим раніше зробиш вибір primary — тим краще.</p>
+  <div class="card" style="margin-bottom:16px;overflow-x:auto">
+    <table class="cmp-table">
+      <thead><tr><th>Критерій</th><th style="color:var(--polski)">Польща</th><th style="color:var(--slovak)">Словаччина</th></tr></thead>
+      <tbody>
+        <tr><td class="cmp-row-head">Безкоштовне навчання</td><td>Лише з C1 PKPZJP</td><td>Якщо програма словацькою (без сертифікату іноді достатньо приймального іспиту)</td></tr>
+        <tr><td class="cmp-row-head">Мовний сертифікат</td><td>PKPZJP C1 (national, державний)</td><td>B1/B2 від університету або UJOP/SAS · нема national exam</td></tr>
+        <tr><td class="cmp-row-head">Сесій PKPZJP/сертифікату/рік</td><td>2 (квітень + листопад зазвичай)</td><td>Гнучкіше · UK SAS видає сертифікати після 1-семестрового курсу</td></tr>
+        <tr><td class="cmp-row-head">Складність мови для UA</td><td>Складніше за SK · 1000 год до C1</td><td>Простіше · слов'янський бонус, ~700 год до B2</td></tr>
+        <tr><td class="cmp-row-head">Вступний іспит</td><td>Нема, beruть НМТ-бали</td><td>Часто є (FIIT STU, FMFI UK — математика)</td></tr>
+        <tr><td class="cmp-row-head">Англомовний резерв</td><td>€3000–4000/рік</td><td>€1500–4000/рік (STEM)</td></tr>
+        <tr><td class="cmp-row-head">Платний польський/словацький потік</td><td>€2000/рік</td><td>Не існує як окрема опція — словацькою або безкоштовно, або англомовно платно</td></tr>
+        <tr><td class="cmp-row-head">Вартість життя · столиця (€/міс, 2028 +20%)</td><td>Wrocław <span class="tnum">~620</span> · Kraków <span class="tnum">~700</span></td><td>Bratislava <span class="tnum">~780</span> · Košice <span class="tnum">~720</span></td></tr>
+        <tr><td class="cmp-row-head">Гуртожитки</td><td>€100–180/міс</td><td>€150–250/міс</td></tr>
+        <tr><td class="cmp-row-head">Studium → ПМЖ</td><td><strong>50% зачёт</strong> студ. років (art. 195 ust. 4)</td><td>1:1 без зачёта · §52 Zák. 404/2011</td></tr>
+        <tr><td class="cmp-row-head">ПМЖ доступно з</td><td>~2033 (3.25 р. праці + 1.75 р. зачёту = 5 р.)</td><td>2033 (5 р. безперервного pobytu)</td></tr>
+        <tr><td class="cmp-row-head">ПМЖ неoзначений</td><td>—</td><td>+5 років TP-5 → 2038</td></tr>
+        <tr><td class="cmp-row-head">Громадянство</td><td>2039 (10 р. + B1 + дохід + житло)</td><td>2041 (8 р. permanent residence) або 2043</td></tr>
+        <tr><td class="cmp-row-head">ІТ-ринок (вибір спеціальності)</td><td>Великий, конкурентний</td><td>Менший, але 94% випускників STU FIIT працюють за фахом</td></tr>
+        <tr><td class="cmp-row-head">Розташування</td><td>Кордон з UA · близько до дому</td><td>Bratislava — 1 год від Відня, центр EU</td></tr>
+        <tr><td class="cmp-row-head">Складність плану B (якщо C1 не складено)</td><td>Платний PL потік €2000/р або англомовний €3000–4000/р</td><td>Лише англомовний (€1500–4000/р), словацька — обов'язкова для free</td></tr>
+        <tr><td class="cmp-row-head">Erasmus+</td><td>Доступний</td><td>Доступний (STU — 300+ партнерів)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Моя рекомендація · логіка вибору</div>
+    <p style="font-size:14px">Якщо ціль — <strong>швидке безкоштовне навчання + ІТ-кар'єра в EU</strong>, SK тактично простіше (легша мова, нижчий поріг сертифікату). PL стратегічно вигідніше (швидше до громадянства, більший ринок). До <strong>січня 2027</strong> зроби фінальний вибір на основі: реальний прогрес у PL, доступ до іспитів, готовність батьків до конкретного міста.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════ SUBJECTS ════════════════════════════ -->
+<section class="page" id="page-subjects" data-page="subjects" aria-labelledby="h-subj">
+  <h1 id="h-subj" style="margin-bottom:16px">Предмети</h1>
+  <div class="subtabs" role="tablist">
+    <button class="subtab-btn" data-sub="subj-math" aria-pressed="true">Математика</button>
+    <button class="subtab-btn" data-sub="subj-ukr" aria-pressed="false">Українська</button>
+    <button class="subtab-btn" data-sub="subj-history" aria-pressed="false">Історія</button>
+    <button class="subtab-btn" data-sub="subj-english" aria-pressed="false">English</button>
+    <button class="subtab-btn" data-sub="subj-python" aria-pressed="false">Python</button>
+  </div>
+
+  <!-- Math -->
+  <div class="subpage active" id="sub-subj-math" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="stat"><div class="stat-label">Останній mock</div><div class="stat-value tnum" id="mathLast">—</div><div class="stat-sub">з 200</div></div>
+      <div class="stat"><div class="stat-label">Ціль</div><div class="stat-value tnum">175</div></div>
+      <div class="stat"><div class="stat-label">Прогрес</div><div class="bar" style="margin-top:14px"><i id="mathProgressBar" style="width:0%"></i></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--math)"></span>Методики</div>
+      <details><summary><strong>Deliberate practice</strong></summary><p class="muted">Цільові задачі на конкретну слабкість. Не «прорішати ще 50 задач», а «розібрати 5 типів, де помиляюсь».</p></details>
+      <details><summary><strong>Spaced retrieval</strong></summary><p class="muted">Помилкові задачі повертати через 1д / 3д / 1т / 1м. Anki-колода «Слабкі теми».</p></details>
+      <details><summary><strong>Interleaved practice</strong></summary><p class="muted">Не блоками теми, а тематичний mix. Це болить, але дає +15% на іспиті.</p></details>
+      <details><summary><strong>Feynman</strong></summary><p class="muted">Поясни задачу вголос, ніби ти репетитор. Якщо застряг — повернись до підручника.</p></details>
+      <details><summary><strong>Error log</strong></summary><p class="muted">Лог помилок: задача, причина (неуважність / не знав теорію / арифметика). Аналіз раз/тиждень.</p></details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Збірники ЗНО/НМТ 2020–2025</div><div class="sub">УЦОЯО · відкритий PDF</div></div></li>
+        <li><div class="meta"><div class="ttl">Мерзляк-Полонський-Якір</div><div class="sub">Алгебра 10–11 · профільний</div></div></li>
+        <li><div class="meta"><div class="ttl">Захарійченко · Збірник тестових завдань НМТ</div></div></li>
+        <li><a href="https://testportal.com.ua" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">testportal.com.ua</div></a></li>
+        <li><a href="https://zno.osvita.ua" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">zno.osvita.ua</div></a></li>
+        <li><a href="https://www.youtube.com/@MathematikaZNulia" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Математика з нуля</div><div class="sub">Геранчук</div></a></li>
+        <li><div class="meta"><div class="ttl">Репетитор з вересня 2026</div><div class="sub">1 год/тиждень · фокус слабкі теми</div></div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>5 задач/день mix-тем + 15 хв розбір помилок.</li>
+        <li>1 mock-блок 30 задач / 90 хв на тиждень.</li>
+        <li>1 повний mock 4 год / місяць.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="mathMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="math">+ Додати mock</button>
+    </div>
+  </div>
+
+  <!-- Ukr -->
+  <div class="subpage" id="sub-subj-ukr" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="stat"><div class="stat-label">Останній mock</div><div class="stat-value tnum" id="ukrLast">—</div><div class="stat-sub">з 200</div></div>
+      <div class="stat"><div class="stat-label">Ціль</div><div class="stat-value tnum">175</div></div>
+      <div class="stat"><div class="stat-label">Прогрес</div><div class="bar" style="margin-top:14px"><i id="ukrProgressBar" class="warn" style="width:0%"></i></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--ukr)"></span>Методики</div>
+      <details><summary><strong>Active recall Anki</strong></summary><p class="muted">Правила орфографії, пунктуації. Cloze-картки.</p></details>
+      <details><summary><strong>Аналіз помилок диктантів</strong></summary><p class="muted">Помилка → правило → cloze в Anki.</p></details>
+      <details><summary><strong>Reading-driven vocab</strong></summary><p class="muted">Жадан, Андрухович, Ірванець. Незнайомі слова → Anki.</p></details>
+      <details><summary><strong>Шаблонізація творів</strong></summary><p class="muted">5–6 універсальних вступів і висновків, які підходять до 80% тем.</p></details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Авраменко О. · Підготовка до НМТ</div></div></li>
+        <li><div class="meta"><div class="ttl">Збірники Авраменка 2022–2025</div></div></li>
+        <li><a href="https://www.youtube.com/@OvcharenkoSergii" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Сергій Овчаренко (YouTube)</div></a></li>
+        <li><div class="meta"><div class="ttl">«Дикий лінгвіст»</div></div></li>
+        <li><div class="meta"><div class="ttl">«Авраменко Олександр»</div></div></li>
+        <li><div class="meta"><div class="ttl">Жадан, Ірванець, Андрухович</div><div class="sub">сучасна проза</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>10 хв Anki/день.</li>
+        <li>1 диктант/тиждень.</li>
+        <li>1 письмове висловлення/тиждень.</li>
+        <li>1 повний mock/місяць.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="subpage" id="sub-subj-history" role="tabpanel">
+    <div class="grid cols-3" style="margin-bottom:16px">
+      <div class="stat"><div class="stat-label">Останній mock</div><div class="stat-value tnum" id="histLast">—</div><div class="stat-sub">з 200</div></div>
+      <div class="stat"><div class="stat-label">Ціль</div><div class="stat-value tnum">170</div></div>
+      <div class="stat"><div class="stat-label">Прогрес</div><div class="bar" style="margin-top:14px"><i id="histProgressBar" style="width:0%;background:var(--history)"></i></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--history)"></span>Методики</div>
+      <details><summary><strong>Хронологічна шкала</strong></summary><p class="muted">Кістяк: десятиріччя → роки → події. Без шкали — все плаває.</p></details>
+      <details><summary><strong>Причина + наслідок</strong></summary><p class="muted">На кожну подію — 1 причина + 1 наслідок. Anki-картка.</p></details>
+      <details><summary><strong>Карти й персоналії</strong></summary><p class="muted">Окремі Anki-колоди для карт і персоналій.</p></details>
+      <details><summary><strong>6 тематичних блоків</strong></summary><p class="muted">Київська Русь → Козаччина → ХIХ ст. → визвольні змагання 1917–21 → радянська доба → незалежність.</p></details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Власов В. · Підготовка до НМТ</div></div></li>
+        <li><div class="meta"><div class="ttl">Гісем-Мартинюк · Історія України 10–11</div></div></li>
+        <li><div class="meta"><div class="ttl">Збірники Святокума</div></div></li>
+        <li><div class="meta"><div class="ttl">Атлас «Картографія»</div></div></li>
+        <li><a href="https://www.youtube.com/@HistoryBezMifiv" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Історія без міфів</div><div class="sub">Гайдукевич</div></a></li>
+        <li><div class="meta"><div class="ttl">«100 дат, які треба знати»</div><div class="sub">Власов</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>10 хв Anki/день (дати + персоналії).</li>
+        <li>1 тематичний блок/тиждень.</li>
+        <li>1 повний mock/місяць.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- English -->
+  <div class="subpage" id="sub-subj-english" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--english)"></span>English · фон, IELTS не сдаємо</div>
+      <p style="font-size:14px">Утримати 170→185 для НМТ. Англомовний потік ВНЗ — не план. Не вкладати багато ресурсу.</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Anki English 5000 most common</div></div></li>
+        <li><a href="https://www.bbc.co.uk/learningenglish" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">BBC Learning English</div></a></li>
+        <li><div class="meta"><div class="ttl">YouTube: TED-Ed, Veritasium</div><div class="sub">пасивний input</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Щоденна практика</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>10 хв Anki/день — повторення.</li>
+        <li>1 mock-блок/2 тижні.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Python -->
+  <div class="subpage" id="sub-subj-python" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--python)"></span>Python · літо 2026, фон 2027</div>
+      <p style="font-size:14px">Літо 2026: 30 хв/день. Літо 2027: 15 хв/день. Ціль: 1 проект до вересня 2026, 2–3 до травня 2027 (для CV при вступі і для пет-проектів).</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Ресурси</div>
+      <ul class="res-list">
+        <li><a href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">FreeCodeCamp Python (4 год)</div></a></li>
+        <li><a href="https://automatetheboringstuff.com" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Automate the Boring Stuff</div><div class="sub">Sweigart · безкоштовно онлайн</div></a></li>
+        <li><a href="https://exercism.org/tracks/python" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Exercism Python</div><div class="sub">задачі з менторством</div></a></li>
+        <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">GitHub</div><div class="sub">профіль + щоденні коміти</div></a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Ідеї для проектів</div>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
+        <li>Anki-helper: скрипт що бере PDF-підручник і генерує cloze-картки.</li>
+        <li>Habit tracker CLI з графіком streak (для цього самого роадмапу).</li>
+        <li>Скрапер вакансій з NoFluffJobs/Profesia і фільтрація під SK/PL.</li>
+        <li>Бот Telegram для нагадувань про PKPZJP-дедлайни.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ BODY ════════════════════════════ -->
+<section class="page" id="page-body" data-page="body" aria-labelledby="h-body">
+  <h1 id="h-body" style="margin-bottom:8px">Тіло й розум</h1>
+  <p class="muted" style="margin-bottom:16px">Тренування, мотивація, сон і харчування. Тіло — підкладка для мозку, без неї план не витримує 24 місяці.</p>
+  <div class="subtabs" role="tablist">
+    <button class="subtab-btn" data-sub="body-fit" aria-pressed="true">Фітнес</button>
+    <button class="subtab-btn" data-sub="body-mot" aria-pressed="false">Мотивація & Фільми</button>
+    <button class="subtab-btn" data-sub="body-life" aria-pressed="false">Сон & Харчування</button>
+  </div>
+
+  <!-- Fitness -->
+  <div class="subpage active" id="sub-body-fit" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--body)"></span>Антропометрія</div>
+      <div class="grid cols-4">
+        <div class="stat"><div class="stat-label">Зріст</div><div class="stat-value tnum">174 см</div></div>
+        <div class="stat"><div class="stat-label">Вага</div><div class="stat-value tnum" id="bodyWeight">63 кг</div></div>
+        <div class="stat"><div class="stat-label">BMI</div><div class="stat-value tnum" id="bodyBMI">20.8</div><div class="stat-sub">норма</div></div>
+        <div class="stat"><div class="stat-label">Інвентар</div><div class="stat-value" style="font-size:14px">2× гантелі 3 кг</div></div>
+      </div>
+      <p class="muted" style="margin-top:12px;font-size:13px"><strong>Контекст:</strong> 174/63 — BMI 20.8, нормальна вага. Це не «зайва вага». «Живіт» при такій антропометрії = слабкий кор + поза. Рішення — не дієта, а: (1) кор-вправи, (2) комплекси з вагою тіла, (3) 7–10к кроків/день, (4) сон 8 год. Гантелі 3 кг — допоміжні, не основний драйвер.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>4-денна програма · 30–40 хв</div>
+      <p class="muted" style="font-size:13px;margin-bottom:12px">ПН Push+Core · СР Pull+Core · ПТ Legs · СБ Full+HIIT. ВТ/ЧТ — 30 хв ходьби або кардіо. НД — повний відпочинок.</p>
+
+      <h3 style="margin-bottom:8px;color:var(--body)">День A · Push + Core</h3>
+      <div class="grid cols-2" style="margin-bottom:12px">
+        <div class="ex"><h4>Віджимання</h4><div class="ex-meta">3 × макс (12+ ціль) · 60с відпочинок</div><p>Колінами якщо не виходить. Прогрес — повний обсяг.</p></div>
+        <div class="ex"><h4>Dumbbell shoulder press</h4><div class="ex-meta">3 × 12 · 3 кг кожна</div><p>Жим обома гантелями над головою. Лопатки зведені.</p></div>
+        <div class="ex"><h4>Dumbbell chest fly</h4><div class="ex-meta">3 × 12 · на спині</div><p>Лежачи, руки трохи зігнуті, опускати на сторони, контроль.</p></div>
+        <div class="ex"><h4>Plank</h4><div class="ex-meta">3 × 60с</div><p>Рівне тіло від голови до п'ят. Без провисання попереку.</p></div>
+        <div class="ex"><h4>Hollow body hold</h4><div class="ex-meta">3 × 30с</div><p>Лежачи на спині, руки і ноги відірвані від підлоги, поперек в підлогу.</p></div>
+        <div class="ex"><h4>Dead bug</h4><div class="ex-meta">3 × 12/сторона</div><p>Лежачи, протилежна рука + нога, контрольно.</p></div>
+      </div>
+
+      <h3 style="margin-bottom:8px;color:var(--body)">День B · Pull + Core</h3>
+      <div class="grid cols-2" style="margin-bottom:12px">
+        <div class="ex"><h4>Inverted rows</h4><div class="ex-meta">3 × 8–12 · стіл або перекладина</div><p>Якщо нема — використай міцний стіл. Тіло пряме.</p></div>
+        <div class="ex"><h4>Dumbbell rows</h4><div class="ex-meta">3 × 12 кожна рука</div><p>Опертись на стілець, тягнути гантелю до пояса.</p></div>
+        <div class="ex"><h4>Reverse fly</h4><div class="ex-meta">3 × 12</div><p>Нахилитись 45°, розводити гантелі в сторони, лопатки зведені.</p></div>
+        <div class="ex"><h4>Bicep curl</h4><div class="ex-meta">3 × 15</div><p>3 кг — для високого рейтингу повторень, до пекучого відчуття.</p></div>
+        <div class="ex"><h4>Leg raises</h4><div class="ex-meta">3 × 15</div><p>Лежачи, прямі ноги до 90°, контроль на опусканні.</p></div>
+        <div class="ex"><h4>Side plank</h4><div class="ex-meta">3 × 40с кожен бік</div><p>На лікті, тіло пряме.</p></div>
+      </div>
+
+      <h3 style="margin-bottom:8px;color:var(--body)">День C · Legs</h3>
+      <div class="grid cols-2" style="margin-bottom:12px">
+        <div class="ex"><h4>Air squats</h4><div class="ex-meta">4 × 20</div><p>Глибокий присід, п'ятки в підлозі, коліна не виходять за пальці ніг.</p></div>
+        <div class="ex"><h4>Goblet squat</h4><div class="ex-meta">3 × 12 · обидві гантелі разом</div><p>Гантелі біля грудей, повільний присід, 2с пауза внизу.</p></div>
+        <div class="ex"><h4>Reverse lunges</h4><div class="ex-meta">3 × 10/нога · з гантелями</div><p>Крок назад, опуститись до прямого кута в коліні.</p></div>
+        <div class="ex"><h4>Calf raises</h4><div class="ex-meta">3 × 20 · з гантелями</div><p>На сходинці для повного діапазону.</p></div>
+        <div class="ex"><h4>Glute bridge</h4><div class="ex-meta">3 × 15 · з гантелями на стегнах</div><p>2с пауза вгорі, стискати сідниці.</p></div>
+        <div class="ex"><h4>Wall sit</h4><div class="ex-meta">3 × 45с</div><p>Сидіти спиною до стіни, коліна 90°.</p></div>
+      </div>
+
+      <h3 style="margin-bottom:8px;color:var(--body)">День D · Full body + HIIT (Tabata 4×4 хв)</h3>
+      <div class="grid cols-2">
+        <div class="ex"><h4>Burpees</h4><div class="ex-meta">20с робота / 10с відпочинок · 8 раундів</div><p>Класична Tabata.</p></div>
+        <div class="ex"><h4>Mountain climbers</h4><div class="ex-meta">20с / 10с · 8 раундів</div><p>Швидкі, як біг у планці.</p></div>
+        <div class="ex"><h4>Jumping jacks</h4><div class="ex-meta">20с / 10с · 8 раундів</div><p>Для розігріву серця.</p></div>
+        <div class="ex"><h4>Dumbbell thrusters</h4><div class="ex-meta">20с / 10с · 8 раундів</div><p>Присід + жим гантелей над головою на встанні.</p></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Прогресія 8 тижнів</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Тижні 1–2:</strong> 3 дні/тиждень, фокус на форму. Менше повторів.</li>
+        <li><strong>Тижні 3–4:</strong> 4 дні/тиждень, додаємо 2-3 повтори/підхід.</li>
+        <li><strong>Тижні 5–6:</strong> ущільнюємо відпочинок (45с замість 60с).</li>
+        <li><strong>Тижні 7–8:</strong> додаємо HIIT-день D. Перші результати по талії.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Лог</div>
+      <p class="muted" style="font-size:13px;margin-bottom:12px">Виміри раз/2 тижні. Віджимання-max і вага — раз/тиждень.</p>
+      <div class="btn-row">
+        <button class="btn" data-quick="workout">Сьогодні тренувався</button>
+        <button class="btn ghost" data-action="log-measure">Записати вимір</button>
+      </div>
+      <div id="workoutLog" class="muted" style="margin-top:12px;font-size:13px">Тренувань цього тижня: <strong id="workoutsThisWeek">0</strong></div>
+    </div>
+  </div>
+
+  <!-- Motivation -->
+  <div class="subpage" id="sub-body-mot" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--polski)"></span>Польські фільми</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Cold War</div><div class="sub">Pawlikowski, 2018 · ч/б, love story PRL</div></div></li>
+        <li><div class="meta"><div class="ttl">Ida</div><div class="sub">Pawlikowski, 2013 · Oscar</div></div></li>
+        <li><div class="meta"><div class="ttl">Boże Ciało</div><div class="sub">Komasa, 2019 · переродження</div></div></li>
+        <li><div class="meta"><div class="ttl">Wesele</div><div class="sub">Wajda · класика</div></div></li>
+        <li><div class="meta"><div class="ttl">1670</div><div class="sub">Netflix · сатира · PL озвучка</div></div></li>
+        <li><div class="meta"><div class="ttl">Wataha</div><div class="sub">Showmax · прикордонна служба</div></div></li>
+        <li><div class="meta"><div class="ttl">Rojst</div><div class="sub">Netflix · нуар-трилер</div></div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>Словацькі фільми та серіали</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Sluha</div><div class="sub">Hašek, 2024 · сучасна драма</div></div></li>
+        <li><div class="meta"><div class="ttl">Žaby bez jazyka</div><div class="sub">Šinková · вирости в SK</div></div></li>
+        <li><div class="meta"><div class="ttl">Báthory</div><div class="sub">Jakubisko · історичний</div></div></li>
+        <li><div class="meta"><div class="ttl">Slovensko 2.0</div><div class="sub">документал, 10 коротких історій</div></div></li>
+        <li><div class="meta"><div class="ttl">Trezor</div><div class="sub">RTVS · крипто-трилер</div></div></li>
+        <li><div class="meta"><div class="ttl">Ukradnutá vojna</div><div class="sub">Lechký · 1968</div></div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Universal motivation</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Whiplash</div><div class="sub">Chazelle, 2014 · одержимість майстерністю</div></div></li>
+        <li><div class="meta"><div class="ttl">The Pursuit of Happyness</div><div class="sub">Muccino · як вирости з нуля</div></div></li>
+        <li><div class="meta"><div class="ttl">Hidden Figures</div><div class="sub">проти системи</div></div></li>
+        <li><div class="meta"><div class="ttl">Soul (Pixar)</div><div class="sub">сенс не там, де думаєш</div></div></li>
+        <li><div class="meta"><div class="ttl">Good Will Hunting</div><div class="sub">математика як вибір</div></div></li>
+        <li><div class="meta"><div class="ttl">A Beautiful Mind</div><div class="sub">Nash, математика, психіка</div></div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--ukr)"></span>Українські для опори</div>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Кіборги</div><div class="sub">Сеітаблаєв, 2017 · Донецький аеропорт</div></div></li>
+        <li><div class="meta"><div class="ttl">Памфір</div><div class="sub">Сухолиткий-Собчук, 2022 · батько-син</div></div></li>
+        <li><div class="meta"><div class="ttl">Жорстокий розпад</div><div class="sub">Vakhtang Kipiani · доко-серіал про 1990-ті</div></div></li>
+        <li><div class="meta"><div class="ttl">Слово</div><div class="sub">Іллєнко · 1989 · класика</div></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Sleep/nutrition -->
+  <div class="subpage" id="sub-body-life" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Сон · фундамент мозку</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>7.5–9 годин/добу</strong>. У 15 років мозок ще активно дозріває.</li>
+        <li>Лягати о 22:30, прокидатись о 6:30–7:00. Постійний час важливіший за кількість.</li>
+        <li>За 1 год до сну — без екранів. Якщо неможливо — Night Shift / Twilight.</li>
+        <li>Темна, прохолодна (16–18°C), тиша. У війну — стельові навушники для тривог не потрібні, але майте під рукою.</li>
+        <li>Якщо тривога/блекаут зриває сон — наступного дня MIN-режим, не TARGET.</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Харчування · 63 кг, ціль «прибрати живіт» (рекомпозиція)</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Дефіцит легкий: 200–300 ккал/добу.</strong> Не більше — інакше потрапиш в ригід-режим, мозок втратить продуктивність.</li>
+        <li><strong>Білок 1.6–2.0 г/кг = 100–125 г/день.</strong> Курка, яйця, риба, гречка з фасоллю, грецький йогурт, сир.</li>
+        <li><strong>Вуглеводи 4–5 г/кг.</strong> Не різати — мозку потрібні (особливо на іспитах).</li>
+        <li><strong>Жири 0.8–1 г/кг.</strong> Оливкова олія, горіхи, лосось 1–2 рази/тиждень.</li>
+        <li><strong>Вода 2.5–3 л/день.</strong> Слабкість концентрації часто — дегідратація.</li>
+        <li>Алкоголь — ні. Цукор — мінімізувати, особливо ввечері (зриває сон).</li>
+        <li><strong>Без екстремальних дієт.</strong> Кето / голодування 16/8 — у твоєму віці не варто.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Управління стресом</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>5 хв «box breathing» (4-4-4-4) перед mock-іспитом — реально знижує тривогу.</li>
+        <li>Раз/тиждень — 1 година повного digital detox.</li>
+        <li>Контакт із друзями — критично. Соціальна ізоляція в 15 років руйнує дофамін.</li>
+        <li>Якщо тривога перевалила за 2 тижні — звернись до психолога (БФ «Лікарі без кордонів», «Безбар'єрність», або платно).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ SETTINGS ════════════════════════════ -->
+<section class="page" id="page-settings" data-page="settings" aria-labelledby="h-set">
+  <h1 id="h-set" style="margin-bottom:20px">Налаштування</h1>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Рівні мов</div>
+    <div class="grid cols-2">
+      <div>
+        <label class="muted" for="polskiLevelSel" style="font-size:12px">Польська</label>
+        <select id="polskiLevelSel" class="btn" style="width:100%;margin-top:4px"></select>
+      </div>
+      <div>
+        <label class="muted" for="slovakLevelSel" style="font-size:12px">Словацька</label>
+        <select id="slovakLevelSel" class="btn" style="width:100%;margin-top:4px"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Anki ліміти</div>
+    <div class="grid cols-3">
+      <div><label class="muted" style="font-size:12px">Anki new (карт/день)</label><input type="number" id="limAnkiNew" min="0" max="100" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px"></div>
+      <div><label class="muted" style="font-size:12px">Anki review (карт/день)</label><input type="number" id="limAnkiRev" min="0" max="500" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px"></div>
+      <div><label class="muted" style="font-size:12px">Math min (хв)</label><input type="number" id="limMathMin" min="0" max="240" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Дані</div>
+    <div class="btn-row">
+      <button class="btn primary" data-action="export">Експорт JSON</button>
+      <label class="btn">Імпорт JSON<input type="file" id="importFile" accept="application/json" style="display:none"></label>
+      <button class="btn ghost" data-action="reset-day">Reset day</button>
+      <button class="btn danger" data-action="reset-all">Reset all</button>
+    </div>
+    <p class="muted" style="margin-top:10px;font-size:13px">LocalStorage key: <code>roadmap_pl_sk_v1</code>. Reset day обнуляє todayTasks; energy і streak не чіпаються.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Про роадмап</div>
+    <p style="font-size:13px;margin-bottom:6px">Single-file HTML · offline-ready · працює через <code>file://</code>.</p>
+    <p style="font-size:13px;margin-bottom:6px">Будь-яка цифра не з прямих джерел відмічена <code>data-unverified="true"</code> і виглядає сірою з «?».</p>
+    <p style="font-size:13px;margin:0">Версія: <strong>v1 · 2026</strong></p>
+  </div>
+</section>
+
+    </main>
+    <footer class="app-footer">
+      <div>Roadmap PL/SK-2028 · single-file · offline-ready · LocalStorage <span id="storageStatus"></span></div>
+      <div style="margin-top:4px">Збережено: <span id="lastSaved" class="muted">—</span></div>
+    </footer>
+  </div>
+</div>
+
+<!-- Bottom nav mobile -->
+<nav class="botnav" role="navigation" aria-label="Mobile навігація">
+  <button class="botnav-btn" data-route="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>Сьогодні</button>
+  <button class="botnav-btn" data-route="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5 5 9-13"/></svg>Прогрес</button>
+  <button class="botnav-btn" data-action="countries-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>Країни</button>
+  <button class="botnav-btn" data-action="more-sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>Більше</button>
+</nav>
+
+<!-- Sheet overlay -->
+<div class="sheet-overlay" id="sheetOverlay" data-close="sheet"></div>
+<aside class="sheet" id="sheetCountries" role="dialog" aria-modal="true" aria-label="Вибір країни">
+  <div class="sheet-handle"></div>
+  <h3>Перейти до</h3>
+  <button class="sheet-item" data-route="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 12h18"/></svg>Польща</button>
+  <button class="sheet-item" data-route="sk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 10h18M3 14h18"/></svg>Словаччина</button>
+  <button class="sheet-item" data-route="compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7h13M8 12h13M8 17h13"/></svg>Порівняння PL ↔ SK</button>
+</aside>
+<aside class="sheet" id="sheetMore" role="dialog" aria-modal="true" aria-label="Більше">
+  <div class="sheet-handle"></div>
+  <h3>Більше</h3>
+  <button class="sheet-item" data-route="subjects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/></svg>Предмети</button>
+  <button class="sheet-item" data-route="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7h6v10H9z"/><path d="M6 4l3 3M18 4l-3 3"/></svg>Тіло й розум</button>
+  <button class="sheet-item" data-route="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Налаштування</button>
+</aside>
+
+<!-- FAB -->
+<button class="fab" id="fab" aria-label="Швидкі дії"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<!-- Toast region -->
+<div class="toast-region" id="toastRegion" role="region" aria-live="polite" aria-label="Сповіщення"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" data-close="modal" role="dialog" aria-modal="true"></div>
+
+<script>
+(function(){
+'use strict';
+
+// ════════════════════════════ STATE ════════════════════════════
+const LS_KEY = 'roadmap_pl_sk_v1';
+const todayISO = () => new Date().toISOString().slice(0,10);
+const dayMs = 86400000;
+const LEVELS = ['A0','A1','A2','B1','B2','C1','C2'];
+
+const defaults = {
+  v:1,
+  polskiLevel:'A0',
+  slovakLevel:'A0',
+  polskiWords:0,
+  slovakWords:0,
+  activeTrack:'BOTH', // PL | SK | BOTH
+  currentMode:'TARGET', // MIN | TARGET | STRETCH | EMERGENCY
+  emergencyType:null, // blackout | alarm | sick | null
+  streak:0,
+  lastDoneDate:null,
+  totalPoints:0,
+  energyHistory:[], // {date,v}
+  workoutHistory:[], // dates
+  mathMocks:[], slovakMocks:[], polskiMocks:[], ukrMocks:[], histMocks:[],
+  todayTasks:[],
+  todayDate:null,
+  heatmap:{}, // date -> level
+  docs:{}, // checklist booleans
+  unis:{pwr:{cyber:'unknown'},agh:{cyber:'unknown'},pp:{cyber:'unknown'}},
+  plCity:'Wrocław', skCity:'Košice',
+  familyBudget:0,
+  limAnkiNew:15, limAnkiRev:120, limMathMin:60,
+  lastUpdated:null
+};
+
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function deepMerge(t,s){
+  for(const k in s){
+    if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){
+      t[k]=t[k]||{};
+      deepMerge(t[k],s[k]);
+    } else if(t[k]===undefined||(s[k]!==undefined&&s[k]!==null)){
+      t[k]=s[k];
+    }
+  }
+  return t;
+}
+
+let memoryOnly=false;
+let state=load();
+
+function load(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw) return clone(defaults);
+    const parsed=JSON.parse(raw);
+    return deepMerge(clone(defaults),parsed);
+  }catch(e){
+    memoryOnly=true;
+    return clone(defaults);
+  }
+}
+function save(){
+  state.lastUpdated=Date.now();
+  if(memoryOnly) return updateStorageStatus();
+  try{
+    localStorage.setItem(LS_KEY,JSON.stringify(state));
+    updateStorageStatus();
+  }catch(e){ memoryOnly=true; updateStorageStatus(); }
+}
+function updateStorageStatus(){
+  const el=document.getElementById('storageStatus');
+  const lastEl=document.getElementById('lastSaved');
+  if(el) el.textContent=memoryOnly?'(in-memory · file:// або вимкнено)':'';
+  if(lastEl) lastEl.textContent=state.lastUpdated?new Date(state.lastUpdated).toLocaleString('uk-UA'):'—';
+}
+
+// ════════════════════════════ PERIOD DETECTOR ════════════════════════════
+const PERIODS=[
+  {id:'pre-summer', start:'2026-05-01', end:'2026-05-31', label:'Підготовка', minTarget:120, minStretch:180},
+  {id:'summer-2026', start:'2026-06-01', end:'2026-08-31', label:'Літо 2026', minTarget:195, minStretch:280},
+  {id:'adapt-2026', start:'2026-09-01', end:'2026-09-30', label:'Адаптація 10 кл', minTarget:85, minStretch:130},
+  {id:'school-2026-27', start:'2026-10-01', end:'2027-06-30', label:'10 клас', minTarget:130, minStretch:185},
+  {id:'summer-2027', start:'2027-07-01', end:'2027-08-31', label:'Літо 2027', minTarget:195, minStretch:280},
+  {id:'school-2027-28', start:'2027-09-01', end:'2028-04-30', label:'11 клас', minTarget:150, minStretch:210},
+  {id:'post', start:'2028-05-01', end:'2030-12-31', label:'Після НМТ', minTarget:60, minStretch:120}
+];
+function detectPeriod(date){
+  const d=date||todayISO();
+  for(const p of PERIODS){ if(d>=p.start&&d<=p.end) return p; }
+  return PERIODS[0];
+}
+
+// ════════════════════════════ TASKS BUILDER ════════════════════════════
+function buildTasks(){
+  const p=detectPeriod();
+  const mode=state.currentMode;
+  const track=state.activeTrack;
+  const tasks=[];
+  const inLock=isCrisisLock();
+
+  // Anki — adjust by mode and lock
+  const ankiRev = inLock?Math.min(30,state.limAnkiRev):state.limAnkiRev;
+  const ankiNew = inLock?Math.min(5,state.limAnkiNew):(mode==='MIN'?5:state.limAnkiNew);
+
+  // Polski / Slovak split
+  function plTask(min,label,quick){ tasks.push({id:'pl-'+tasks.length,subject:'polski',title:label,dur:min,done:false,quick:quick||[]}); }
+  function skTask(min,label,quick){ tasks.push({id:'sk-'+tasks.length,subject:'slovak',title:label,dur:min,done:false,quick:quick||[]}); }
+  function mathTask(min,label){ tasks.push({id:'math-'+tasks.length,subject:'math',title:label,dur:min,done:false}); }
+  function genericTask(subj,min,label){ tasks.push({id:subj+'-'+tasks.length,subject:subj,title:label,dur:min,done:false}); }
+
+  if(mode==='MIN'){
+    if(track==='PL'||track==='BOTH') plTask(20,'Польська: Anki '+ankiRev+' review + '+Math.min(5,ankiNew)+' new');
+    if(track==='SK'||track==='BOTH') skTask(15,'Словацька: Anki review + слухати 5 хв подкаст');
+    mathTask(15,'Math: 2 задачі легких + повторити 1 розбір');
+    return tasks;
+  }
+
+  if(p.id==='pre-summer'){
+    if(track!=='SK'){ plTask(30,'Польська: Anki '+ankiRev+' review + '+ankiNew+' new'); plTask(30,'Польська: Easy Polish 1 епізод + конспект'); }
+    if(track!=='PL'){ skTask(20,'Словацька: slovake.eu A1 1 урок + Anki '+Math.min(10,ankiNew)+' new'); }
+    mathTask(35,'Math: 5 задач НМТ + розбір помилок');
+    genericTask('english',15,'English: Anki 30 review');
+  } else if(p.id==='summer-2026'){
+    if(track!=='SK'){ plTask(45,'Польська: Anki '+ankiRev+'r/'+ankiNew+'n + activ input 30 хв'); plTask(45,'Польська: shadowing 10 хв + reading A1'); }
+    if(track!=='PL'){ skTask(30,'Словацька: slovake.eu + Anki '+Math.min(10,ankiNew)+'n'); }
+    mathTask(60,'Math: 8 задач mix + 1 mock-блок 30 хв');
+    genericTask('python',30,'Python: Automate the Boring Stuff · 1 розділ');
+    genericTask('english',15,'English: Anki 30 review');
+  } else if(p.id==='adapt-2026'){
+    if(track!=='SK'){ plTask(30,'Польська: Anki '+ankiRev+'r/'+Math.min(10,ankiNew)+'n'); plTask(15,'Польська: 1 коротке відео'); }
+    if(track!=='PL'){ skTask(15,'Словацька: Anki review + 1 короткий подкаст'); }
+    mathTask(30,'Math: 4 задачі + розбір');
+    genericTask('english',10,'English: Anki');
+  } else if(p.id==='school-2026-27'){
+    if(track!=='SK'){ plTask(45,'Польська: Anki + Italki підготовка'); plTask(20,'Польська: shadowing + reading'); }
+    if(track!=='PL'){ skTask(20,'Словацька: input + Anki'); }
+    mathTask(40,'Math: 6 задач НМТ + теорія тиждня');
+    genericTask('ukr',10,'Укр. мова: Anki правил');
+    genericTask('history',10,'Історія: 1 тематичний блок міні');
+  } else if(p.id==='summer-2027'){
+    if(track!=='SK'){ plTask(60,'Польща primary: Anki + Italki урок + reading B1'); plTask(30,'Польща: shadowing + grammar drill'); }
+    if(track!=='PL'){ skTask(45,'Словацька: курс UJOP / Krížom-krážom + Anki'); }
+    mathTask(75,'Math: 10 задач + 1 mock-блок 30 хв');
+    genericTask('python',15,'Python: проект 30 хв');
+    genericTask('english',15,'English: Anki + 1 video');
+  } else if(p.id==='school-2027-28'){
+    if(track!=='SK'){ plTask(50,'Польща: Italki 2/тиж + Anki + reading B2'); plTask(25,'Польща: пробний PKPZJP блок'); }
+    if(track!=='PL'){ skTask(30,'Словацька: SAS UK / ECL підготовка + Anki'); }
+    mathTask(40,'Math: НМТ-тренувальні задачі');
+    genericTask('ukr',15,'Укр. мова: твір/диктант'); 
+    genericTask('history',15,'Історія: тематичний блок');
+    genericTask('english',5,'English: Anki');
+  } else if(p.id==='post'){
+    if(track!=='SK') plTask(30,'Польська: підтримка');
+    if(track!=='PL') skTask(20,'Словацька: підтримка');
+    mathTask(15,'Math: підтримка');
+    genericTask('english',15,'English: підтримка');
+  }
+  return tasks;
+}
+
+function ensureTodayTasks(){
+  if(state.todayDate!==todayISO()){
+    state.todayDate=todayISO();
+    state.todayTasks=buildTasks();
+    save();
+  }
+}
+
+// ════════════════════════════ ANTI-BURNOUT ════════════════════════════
+function isCrisisLock(){
+  const last3=state.energyHistory.slice(-3);
+  if(last3.length<3) return false;
+  if(state.crisisLockOverride) return false;
+  const lows=last3.filter(e=>e.v<=4).length;
+  const highs=last3.filter(e=>e.v>=6).length;
+  if(state.crisisLockActive){
+    if(highs===3){ state.crisisLockActive=false; save(); return false; }
+    return true;
+  } else {
+    if(lows===3){ state.crisisLockActive=true; save(); toast('warn','Anti-burnout активовано: 3 поспіль низькі енергії'); return true; }
+    return false;
+  }
+}
+
+// ════════════════════════════ DAY CLOSURE ════════════════════════════
+function checkDayClosure(){
+  ensureTodayTasks();
+  if(!state.todayTasks.length) return;
+  const totalDone=state.todayTasks.filter(t=>t.done).reduce((s,t)=>s+(t.dur||0),0);
+  const totalAll=state.todayTasks.reduce((s,t)=>s+(t.dur||0),0);
+  const p=detectPeriod();
+  let threshold;
+  if(state.currentMode==='MIN') threshold=25;
+  else if(state.currentMode==='STRETCH') threshold=p.minStretch;
+  else threshold=p.minTarget;
+  const ratio=totalDone/Math.max(1,threshold);
+  const wrap=document.getElementById('dayClosed');
+  const txt=document.getElementById('dayClosedText');
+  if(ratio>=1){
+    if(!state.lastClosedDate||state.lastClosedDate!==todayISO()){
+      state.lastClosedDate=todayISO();
+      const yesterday=new Date(Date.now()-dayMs).toISOString().slice(0,10);
+      if(state.lastDoneDate===yesterday||!state.lastDoneDate) state.streak+=1;
+      else if(state.lastDoneDate!==todayISO()) state.streak=1;
+      state.lastDoneDate=todayISO();
+      const pts = state.currentMode==='STRETCH'?15:(state.currentMode==='TARGET'?10:5);
+      state.totalPoints+=pts;
+      // heatmap
+      let lvl='lvl-target';
+      if(state.currentMode==='MIN') lvl='lvl-min';
+      else if(state.currentMode==='STRETCH') lvl='lvl-stretch';
+      state.heatmap[todayISO()]=lvl;
+      save();
+      flashStreak();
+      toast('good','День закрито! +'+pts+' очок');
+    }
+    if(wrap){ wrap.classList.remove('hidden'); txt.textContent='Виконано '+totalDone+'/'+threshold+' хв. +'+(state.currentMode==='STRETCH'?15:(state.currentMode==='TARGET'?10:5))+' очок'; }
+  } else {
+    if(wrap) wrap.classList.add('hidden');
+  }
+}
+
+function flashStreak(){
+  const sb=document.getElementById('sbStreak'); if(!sb) return;
+  sb.classList.add('pulse'); setTimeout(()=>sb.classList.remove('pulse'),350);
+}
+
+// ════════════════════════════ RENDERING ════════════════════════════
+function renderStatusbar(){
+  const d=new Date();
+  document.getElementById('sbDate').textContent=d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});
+  const p=detectPeriod(); document.getElementById('sbPeriod').textContent=p.label;
+  const t=state.activeTrack; const tEl=document.getElementById('sbTrack');
+  tEl.className='sb-track '+(t==='PL'?'pl':t==='SK'?'sk':'both');
+  tEl.textContent=t==='PL'?'PL':t==='SK'?'SK':'PL + SK';
+  document.getElementById('streakN').textContent=state.streak;
+  // energy
+  const last=state.energyHistory[state.energyHistory.length-1];
+  const v=last?last.v:0;
+  document.getElementById('sbEnergyV').textContent=v||'—';
+  const dot=document.getElementById('sbEnergyDot');
+  dot.style.background = v>=7?'var(--good)':(v>=5?'var(--accent)':(v>=3?'var(--warn)':v?'var(--bad)':'var(--lock)'));
+  // countdown
+  const target=new Date('2028-04-15');
+  const days=Math.ceil((target-d)/dayMs);
+  document.getElementById('sbCountdown').textContent='PKPZJP: '+(days>0?days+' дн.':'минув');
+  // today
+  document.getElementById('todayDateLong').textContent=d.toLocaleDateString('uk-UA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+function renderModeBudget(){
+  const p=detectPeriod();
+  document.getElementById('targetMin').textContent=p.minTarget+' хв';
+  document.getElementById('stretchMin').textContent=p.minStretch+' хв';
+  let bud=p.minTarget;
+  if(state.currentMode==='MIN') bud=25;
+  else if(state.currentMode==='STRETCH') bud=p.minStretch;
+  document.getElementById('todayBudget').textContent=bud+' хв';
+  document.querySelectorAll('.mode-btn[data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===state.currentMode?'true':'false'));
+  document.querySelectorAll('.mode-btn[data-track]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.track===state.activeTrack?'true':'false'));
+  const flag=document.getElementById('modeFlag');
+  if(isCrisisLock()) flag.innerHTML='<span class="pill warn">Lock активовано</span>';
+  else if(state.currentMode==='EMERGENCY') flag.innerHTML='<span class="pill bad">Деградований</span>';
+  else flag.textContent='';
+}
+
+function renderTasks(){
+  const ul=document.getElementById('taskList'); if(!ul) return;
+  ensureTodayTasks();
+  ul.innerHTML='';
+  state.todayTasks.forEach(t=>{
+    const div=document.createElement('div');
+    div.className='task'+(t.done?' done':'');
+    div.dataset.subject=t.subject;
+    div.setAttribute('role','listitem');
+    div.innerHTML=`
+      <div class="task-row">
+        <div class="chk${t.done?' checked':''}" data-task="${t.id}" aria-label="Виконати завдання" role="button" tabindex="0">${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-13"/></svg>':''}</div>
+        <div class="task-title">${t.title}</div>
+        <span class="task-dur tnum">${t.dur||''} хв</span>
+      </div>`;
+    ul.appendChild(div);
+  });
+  checkDayClosure();
+}
+
+function renderActionChecklist(){
+  const p=detectPeriod();
+  const wrap=document.getElementById('actionChecklistWrap');
+  const summary=document.getElementById('actionSummary');
+  if(!wrap) return;
+  if(p.id==='pre-summer'){
+    wrap.classList.remove('hidden');
+    const items=[
+      {id:'cert',label:'Розклад PKPZJP перевірено на certyfikatpolski.pl'},
+      {id:'sas',label:'Розклад іспитів SAS UK (Слов.) перевірено'},
+      {id:'pwr',label:'Профіль на pwr.edu.pl створено'},
+      {id:'stu',label:'Профіль на fiit.stuba.sk створено'},
+      {id:'anki',label:'Anki Hurra A0 + Krížom-krážom A0 встановлено'},
+      {id:'phys',label:'Розклад тренувань Day A/B/C/D вибрано'}
+    ];
+    state.actionChecklist=state.actionChecklist||{};
+    const list=document.getElementById('actionList');
+    list.innerHTML='';
+    items.forEach(it=>{
+      const checked=!!state.actionChecklist[it.id];
+      const el=document.createElement('label');
+      el.style.cssText='display:flex;align-items:center;gap:12px;padding:8px 0';
+      el.innerHTML=`<input type="checkbox" data-act="${it.id}" ${checked?'checked':''}> <span>${it.label}</span>`;
+      list.appendChild(el);
+    });
+  } else {
+    wrap.classList.add('hidden');
+    summary.classList.remove('hidden');
+    const done=Object.values(state.actionChecklist||{}).filter(Boolean).length;
+    summary.innerHTML=`<div class="card-title"><span class="dot"></span>Дії травня 2026</div><p class="muted">Виконано: <strong>${done}</strong> з 6</p>`;
+  }
+}
+
+function renderEnergy(){
+  const last=state.energyHistory[state.energyHistory.length-1];
+  const v=last?last.v:5;
+  const slider=document.getElementById('energySlider'); const val=document.getElementById('energySliderVal');
+  if(slider) slider.value=v;
+  if(val) val.textContent=v;
+  const lastEl=document.getElementById('energyLast');
+  if(lastEl) lastEl.textContent=last?'Останнє: '+v+'/10 ('+last.date+')':'Жодного запису';
+  renderSpark();
+}
+
+function renderSpark(){
+  const svg=document.getElementById('energySpark'); if(!svg) return;
+  const data=state.energyHistory.slice(-14);
+  if(!data.length){ svg.innerHTML='<text x="60" y="20" fill="#5a6373" font-size="10" text-anchor="middle">no data</text>'; return; }
+  const W=120,H=36,maxV=10;
+  const step=data.length>1?W/(data.length-1):0;
+  let path='';
+  data.forEach((d,i)=>{ const x=i*step; const y=H-(d.v/maxV)*H; path+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)+' '; });
+  svg.innerHTML=`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="1.5"/>`;
+}
+
+function renderProgress(){
+  document.getElementById('pStreak').textContent=state.streak;
+  document.getElementById('pPoints').textContent=state.totalPoints;
+  document.getElementById('pPolskiLevel').textContent=state.polskiLevel;
+  document.getElementById('pSlovakLevel').textContent=state.slovakLevel;
+  const plIdx=LEVELS.indexOf(state.polskiLevel); const skIdx=LEVELS.indexOf(state.slovakLevel);
+  document.getElementById('pPolskiBar').style.width=(plIdx/5*100).toFixed(0)+'%';
+  document.getElementById('pSlovakBar').style.width=(skIdx/5*100).toFixed(0)+'%';
+  // hero
+  const polskiH=document.getElementById('polskiHeroLevel'); if(polskiH) polskiH.textContent=state.polskiLevel;
+  const polskiW=document.getElementById('polskiHeroWords'); if(polskiW) polskiW.textContent=state.polskiWords;
+  const slovakH=document.getElementById('slovakHeroLevel'); if(slovakH) slovakH.textContent=state.slovakLevel;
+  const slovakW=document.getElementById('slovakHeroWords'); if(slovakW) slovakW.textContent=state.slovakWords;
+  const polskiD=document.getElementById('polskiHeroDays'); if(polskiD){ const d=Math.ceil((new Date('2028-04-15')-new Date())/dayMs); polskiD.textContent=d>0?d:'минув'; }
+  const slovakD=document.getElementById('slovakHeroDays'); if(slovakD){ const d=Math.ceil((new Date('2028-06-01')-new Date())/dayMs); slovakD.textContent=d>0?d:'минув'; }
+  renderCharts(); renderLock(); renderHeatmap(); renderKPI();
+}
+
+function renderCharts(){
+  // energy 30d
+  drawLineChart('chartEnergy',state.energyHistory.slice(-30).map(e=>e.v),0,10,'var(--accent)');
+  // math
+  drawLineChart('chartMath',state.mathMocks.map(m=>m.score),100,200,'var(--math)');
+  // anki queue (placeholder — total review count)
+  drawBarChart('chartAnki',[state.limAnkiRev,state.limAnkiRev*0.8,state.limAnkiRev*1.1,state.limAnkiRev],'var(--good)');
+  // vocab
+  drawBarChart('chartVocab',[state.polskiWords,state.slovakWords],'var(--polski)');
+}
+function drawLineChart(id,vals,minV,maxV,color){
+  const svg=document.getElementById(id); if(!svg) return;
+  if(!vals.length){ svg.innerHTML='<text x="300" y="90" fill="#5a6373" font-size="12" text-anchor="middle">no data</text>'; return; }
+  const W=600,H=180;
+  const step=vals.length>1?W/(vals.length-1):W/2;
+  let path=''; vals.forEach((v,i)=>{ const x=i*step; const y=H-((v-minV)/(maxV-minV))*H; path+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)+' '; });
+  svg.innerHTML=`
+    <line x1="0" y1="${H-1}" x2="${W}" y2="${H-1}" stroke="var(--border-subtle)"/>
+    <path d="${path}" fill="none" stroke="${color}" stroke-width="2"/>
+  `;
+}
+function drawBarChart(id,vals,color){
+  const svg=document.getElementById(id); if(!svg) return;
+  if(!vals.length){ svg.innerHTML='<text x="300" y="90" fill="#5a6373" font-size="12" text-anchor="middle">no data</text>'; return; }
+  const W=600,H=180,n=vals.length,bw=Math.max(1,W/n-8);
+  const mx=Math.max(1,...vals);
+  let html=`<line x1="0" y1="${H-1}" x2="${W}" y2="${H-1}" stroke="var(--border-subtle)"/>`;
+  vals.forEach((v,i)=>{ const x=i*(W/n)+4; const h=(v/mx)*(H-20); html+=`<rect x="${x}" y="${H-h}" width="${bw}" height="${h}" fill="${color}" rx="2"/>`; });
+  svg.innerHTML=html;
+}
+
+function renderLock(){
+  const lock=isCrisisLock();
+  const b=document.getElementById('lockBadge'); if(!b) return;
+  b.textContent=lock?'Lock активовано':'Lock вимкнено';
+  b.className='badge '+(lock?'warn':'good');
+  const dots=document.getElementById('lockDots'); dots.innerHTML='';
+  const last3=state.energyHistory.slice(-3);
+  for(let i=0;i<3;i++){
+    const v=last3[i]?last3[i].v:0;
+    const d=document.createElement('span');
+    d.style.cssText='width:14px;height:14px;border-radius:50%;background:'+(v>=6?'var(--good)':v>=5?'var(--accent)':v>=3?'var(--warn)':v?'var(--bad)':'var(--lock)');
+    d.title=v?v+'/10':'no data';
+    dots.appendChild(d);
+  }
+}
+
+function renderHeatmap(){
+  const el=document.getElementById('heatmap'); if(!el) return;
+  el.innerHTML='';
+  for(let i=89;i>=0;i--){
+    const d=new Date(Date.now()-i*dayMs);
+    const iso=d.toISOString().slice(0,10);
+    const lvl=state.heatmap[iso]||'';
+    const c=document.createElement('span');
+    c.className='hm-cell '+lvl;
+    c.title=iso+(lvl?' · '+lvl.replace('lvl-',''):' · no data');
+    el.appendChild(c);
+  }
+}
+
+const KPI_DATA=[
+  {q:'2026-Q2',mode:'MIN',items:['Польська A1','Math 140→145','Anki стартовано']},
+  {q:'2026-Q3',mode:'TARGET',items:['Польська A2','Math 145→150','Python 1 проект']},
+  {q:'2026-Q4',mode:'TARGET',items:['Польська A2+','Math 150→155','Slovak A1']},
+  {q:'2027-Q1',mode:'TARGET',items:['Польська B1','Math 155→160','Вибір primary']},
+  {q:'2027-Q2',mode:'STRETCH',items:['Польська B1','Math 160→165','Slovak A2']},
+  {q:'2027-Q3',mode:'STRETCH',items:['Польська B2','Math 165→170','PKPZJP пробний']},
+  {q:'2027-Q4',mode:'TARGET',items:['Польська B2+','Math 170','Документи готові']},
+  {q:'2028-Q1',mode:'STRETCH',items:['PKPZJP C1','Math 175','НМТ + подачі']}
+];
+function renderKPI(){
+  const wrap=document.getElementById('kpiGrid'); if(!wrap) return;
+  wrap.innerHTML='';
+  KPI_DATA.forEach(k=>{
+    const div=document.createElement('div');
+    div.className='kpi';
+    div.innerHTML=`<div class="kpi-head"><span class="kpi-q">${k.q}</span><span class="badge ${k.mode==='STRETCH'?'good':k.mode==='MIN'?'warn':'accent'}">${k.mode}</span></div><ul class="kpi-list">${k.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+    wrap.appendChild(div);
+  });
+}
+
+// ════════════════════════════ COST TABLES ════════════════════════════
+const PL_COST_2025={
+  'Wrocław':{rent:[260,400],food:[140,200],transport:[15,25],comm:[20,30],fun:[60,100]},
+  'Kraków':{rent:[310,450],food:[150,210],transport:[15,25],comm:[20,30],fun:[60,100]},
+  'Poznań':{rent:[240,360],food:[140,200],transport:[15,25],comm:[20,30],fun:[60,100]}
+};
+const SK_COST_2026={
+  'Bratislava':{rent:[350,550],food:[180,260],transport:[20,30],comm:[25,35],fun:[70,120]},
+  'Košice':{rent:[280,460],food:[160,230],transport:[15,25],comm:[25,35],fun:[60,100]},
+  'Žilina':{rent:[260,420],food:[160,220],transport:[15,25],comm:[25,35],fun:[60,100]}
+};
+function renderPLCost(){
+  const tbody=document.querySelector('#plCostTable tbody'); if(!tbody) return;
+  const c=PL_COST_2025[state.plCity]; if(!c) return;
+  const items=[['Житло (кімната/гурт)',c.rent],['Їжа',c.food],['Транспорт',c.transport],['Комуналка',c.comm],['Розваги',c.fun]];
+  // +20% for 2028
+  const adj=v=>Math.round(v*1.2);
+  let totMin=0,totMax=0;
+  tbody.innerHTML=items.map(([n,r])=>{ const lo=adj(r[0]),hi=adj(r[1]); totMin+=lo; totMax+=hi; return `<tr><td>${n}</td><td>${lo}–${hi}</td><td>${lo*12}–${hi*12}</td><td>${(lo*12*3.5).toFixed(0)}–${(hi*12*3.5).toFixed(0)}</td></tr>`; }).join('')+`<tr><td class="cmp-row-head">Разом</td><td><strong>${totMin}–${totMax}</strong></td><td><strong>${totMin*12}–${totMax*12}</strong></td><td><strong>${(totMin*12*3.5).toFixed(0)}–${(totMax*12*3.5).toFixed(0)}</strong></td></tr>`;
+  // budget validation
+  const bud=document.getElementById('familyBudget'); const stat=document.getElementById('budgetStatus');
+  if(bud&&stat){
+    const val=Number(bud.value)||0;
+    if(val===0){ stat.textContent='Введи бюджет'; stat.className='badge'; }
+    else if(val<totMin){ stat.textContent='нижче мінімуму '+totMin+' €'; stat.className='badge bad'; }
+    else if(val<totMax){ stat.textContent='у середньому діапазоні'; stat.className='badge warn'; }
+    else { stat.textContent='повний комфорт'; stat.className='badge good'; }
+  }
+}
+function renderSKCost(){
+  const tbody=document.querySelector('#skCostTable tbody'); if(!tbody) return;
+  const c=SK_COST_2026[state.skCity]; if(!c) return;
+  const items=[['Житло (кімната/гурт)',c.rent],['Їжа',c.food],['Транспорт',c.transport],['Комуналка',c.comm],['Розваги',c.fun]];
+  const adj=v=>Math.round(v*1.2);
+  let totMin=0,totMax=0;
+  tbody.innerHTML=items.map(([n,r])=>{ const lo=adj(r[0]),hi=adj(r[1]); totMin+=lo; totMax+=hi; return `<tr><td>${n}</td><td>${lo}–${hi}</td><td>${lo*12}–${hi*12}</td><td>${(lo*12*3).toFixed(0)}–${(hi*12*3).toFixed(0)}</td></tr>`; }).join('')+`<tr><td class="cmp-row-head">Разом</td><td><strong>${totMin}–${totMax}</strong></td><td><strong>${totMin*12}–${totMax*12}</strong></td><td><strong>${(totMin*12*3).toFixed(0)}–${(totMax*12*3).toFixed(0)}</strong></td></tr>`;
+}
+
+// ════════════════════════════ MOCKS ════════════════════════════
+function renderMockList(subject,listId){
+  const el=document.getElementById(listId); if(!el) return;
+  const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
+  const arr=state[key]||[];
+  if(!arr.length){ el.innerHTML='<p class="muted" style="font-size:13px">Поки нема mock\'ів</p>'; return; }
+  el.innerHTML=arr.slice().reverse().map(m=>`<div class="task" style="cursor:default"><div class="task-row"><span class="task-title">${m.date}</span><span class="tnum">${m.score}</span></div></div>`).join('');
+}
+function renderAllMocks(){
+  renderMockList('math','mathMockList');
+  renderMockList('polski','plMockList');
+  renderMockList('slovak','skMockList');
+  // subject pages
+  const setLast=(arr,elId,barId)=>{ const last=arr[arr.length-1]; const e=document.getElementById(elId); if(e) e.textContent=last?last.score:'—'; const b=document.getElementById(barId); if(b&&last){ const v=Math.min(100,Math.max(0,(last.score-100)/100*100)); b.style.width=v.toFixed(0)+'%'; } };
+  setLast(state.mathMocks,'mathLast','mathProgressBar');
+  setLast(state.ukrMocks,'ukrLast','ukrProgressBar');
+  setLast(state.histMocks,'histLast','histProgressBar');
+}
+
+// ════════════════════════════ WORKOUT ════════════════════════════
+function renderWorkout(){
+  const el=document.getElementById('workoutsThisWeek'); if(!el) return;
+  const now=Date.now();
+  const weekStart=now-7*dayMs;
+  const count=state.workoutHistory.filter(d=>new Date(d).getTime()>=weekStart).length;
+  el.textContent=count;
+}
+
+// ════════════════════════════ SETTINGS PAGE ════════════════════════════
+function renderSettings(){
+  const plSel=document.getElementById('polskiLevelSel');
+  const skSel=document.getElementById('slovakLevelSel');
+  if(plSel&&!plSel.options.length){ LEVELS.forEach(l=>{ const o=document.createElement('option'); o.value=l; o.textContent=l; plSel.appendChild(o); }); }
+  if(skSel&&!skSel.options.length){ LEVELS.forEach(l=>{ const o=document.createElement('option'); o.value=l; o.textContent=l; skSel.appendChild(o); }); }
+  if(plSel) plSel.value=state.polskiLevel;
+  if(skSel) skSel.value=state.slovakLevel;
+  const lin=document.getElementById('limAnkiNew'); if(lin) lin.value=state.limAnkiNew;
+  const lir=document.getElementById('limAnkiRev'); if(lir) lir.value=state.limAnkiRev;
+  const lim=document.getElementById('limMathMin'); if(lim) lim.value=state.limMathMin;
+  const bud=document.getElementById('familyBudget'); if(bud) bud.value=state.familyBudget;
+  document.getElementById('plCity').value=state.plCity;
+  document.getElementById('skCity').value=state.skCity;
+  // doc checkboxes
+  document.querySelectorAll('input[data-doc]').forEach(c=>{ c.checked=!!state.docs[c.dataset.doc]; });
+  document.querySelectorAll('select.uni-state').forEach(s=>{ const u=state.unis[s.dataset.uni]||{}; if(u[s.dataset.field]) s.value=u[s.dataset.field]; });
+}
+
+// ════════════════════════════ ROUTING ════════════════════════════
+const ROUTES=['today','progress','pl','sk','compare','subjects','body','settings'];
+function route(name){
+  if(!ROUTES.includes(name)) name='today';
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===name));
+  document.querySelectorAll('.navlink').forEach(a=>a.setAttribute('aria-current',a.dataset.route===name?'page':'false'));
+  document.querySelectorAll('.botnav-btn[data-route]').forEach(b=>b.setAttribute('aria-current',b.dataset.route===name?'page':'false'));
+  history.replaceState(null,'','#'+name);
+  closeSheets();
+  // page-specific render
+  if(name==='progress'||name==='pl'||name==='sk') renderProgress();
+  if(name==='pl') renderPLCost();
+  if(name==='sk') renderSKCost();
+  if(name==='subjects'||name==='pl'||name==='sk') renderAllMocks();
+  if(name==='body') renderWorkout();
+  if(name==='settings') renderSettings();
+}
+
+function routeFromHash(){
+  const h=(location.hash||'').replace(/^#/,'')||'today';
+  route(h);
+}
+
+// ════════════════════════════ TOAST ════════════════════════════
+function toast(kind,msg,ms){
+  const r=document.getElementById('toastRegion'); if(!r) return;
+  const t=document.createElement('div'); t.className='toast '+kind; t.textContent=msg;
+  t.onclick=()=>t.remove();
+  r.appendChild(t);
+  setTimeout(()=>t.remove(),ms||4000);
+}
+
+// ════════════════════════════ MODAL ════════════════════════════
+function openModal(title,bodyHTML,actions){
+  const o=document.getElementById('modalOverlay');
+  o.innerHTML=`<div class="modal" role="document"><h3>${title}</h3><div>${bodyHTML}</div><div class="modal-actions">${(actions||[]).map((a,i)=>`<button class="btn ${a.kind||''}" data-modal-action="${i}">${a.label}</button>`).join('')}</div></div>`;
+  o.classList.add('open');
+  o.querySelectorAll('[data-modal-action]').forEach(b=>{ b.onclick=()=>{ const i=Number(b.dataset.modalAction); o.classList.remove('open'); if(actions[i].cb) actions[i].cb(o); }; });
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+
+// ════════════════════════════ SHEETS ════════════════════════════
+function openSheet(id){
+  document.getElementById('sheetOverlay').classList.add('open');
+  document.getElementById(id).classList.add('open');
+}
+function closeSheets(){
+  document.getElementById('sheetOverlay').classList.remove('open');
+  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('open'));
+}
+
+// ════════════════════════════ EVENT WIRING ════════════════════════════
+function wireEvents(){
+  // sidebar / botnav
+  document.querySelectorAll('[data-route]').forEach(el=>{
+    el.addEventListener('click',e=>{ e.preventDefault(); route(el.dataset.route); });
+  });
+  document.querySelectorAll('[data-action="countries-sheet"]').forEach(b=>b.onclick=()=>openSheet('sheetCountries'));
+  document.querySelectorAll('[data-action="more-sheet"]').forEach(b=>b.onclick=()=>openSheet('sheetMore'));
+  document.querySelectorAll('[data-close="sheet"]').forEach(b=>b.onclick=closeSheets);
+  document.querySelectorAll('[data-close="modal"]').forEach(b=>b.onclick=closeModal);
+
+  // subtabs
+  document.querySelectorAll('.subtab-btn').forEach(btn=>{
+    btn.onclick=()=>{
+      const targetId=btn.dataset.sub;
+      const parent=btn.closest('.page');
+      parent.querySelectorAll('.subtab-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      parent.querySelectorAll('.subpage').forEach(p=>p.classList.toggle('active',p.id==='sub-'+targetId));
+    };
+  });
+
+  // energy slider
+  const sl=document.getElementById('energySlider'); const slV=document.getElementById('energySliderVal');
+  if(sl){ sl.addEventListener('input',()=>{ slV.textContent=sl.value; }); }
+  const logBtn=document.getElementById('logEnergyBtn');
+  if(logBtn) logBtn.onclick=()=>{
+    const v=Number(sl.value);
+    const t=todayISO();
+    const last=state.energyHistory[state.energyHistory.length-1];
+    if(last&&last.date===t) last.v=v;
+    else state.energyHistory.push({date:t,v});
+    save(); renderEnergy(); renderStatusbar(); renderLock();
+    toast('good','Енергія '+v+'/10 збережено');
+  };
+
+  // mode switch
+  document.querySelectorAll('.mode-btn[data-mode]').forEach(b=>b.onclick=()=>{
+    state.currentMode=b.dataset.mode; save();
+    renderModeBudget(); renderTasks();
+  });
+  // track switch
+  document.querySelectorAll('.mode-btn[data-track]').forEach(b=>b.onclick=()=>{
+    state.activeTrack=b.dataset.track; save();
+    state.todayDate=null; ensureTodayTasks();
+    renderModeBudget(); renderTasks(); renderStatusbar();
+  });
+
+  // tasks
+  document.getElementById('taskList').addEventListener('click',e=>{
+    const c=e.target.closest('.chk'); if(!c) return;
+    const id=c.dataset.task;
+    const t=state.todayTasks.find(x=>x.id===id);
+    if(t){ t.done=!t.done; save(); renderTasks(); }
+  });
+
+  // quick
+  document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{
+    const q=b.dataset.quick;
+    b.classList.add('flash'); setTimeout(()=>b.classList.remove('flash'),120);
+    if(q==='anki1'){ const t=state.todayTasks.find(x=>!x.done&&/[Aa]nki/.test(x.title)); if(t){ t.done=true; save(); renderTasks(); toast('good','Anki відмічено'); } else toast('warn','Нема активної Anki-задачі'); }
+    else if(q==='math30'){ const t=state.todayTasks.find(x=>x.subject==='math'&&!x.done); if(t){ t.done=true; save(); renderTasks(); toast('good','Math відмічено'); } }
+    else if(q==='energy'){ const lb=document.getElementById('logEnergyBtn'); if(lb) lb.click(); }
+    else if(q==='workout'){ const t=todayISO(); if(!state.workoutHistory.includes(t)) state.workoutHistory.push(t); save(); renderWorkout(); toast('good','Тренування записано'); }
+  });
+
+  // emergency
+  const eTog=document.getElementById('emergencyToggle');
+  if(eTog) eTog.onclick=()=>{ document.getElementById('emergency').classList.toggle('hidden'); };
+  document.querySelectorAll('[data-emergency]').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.emergency;
+    const hint=document.getElementById('emergencyHint');
+    if(k==='off'){ state.currentMode='TARGET'; state.emergencyType=null; hint.textContent=''; }
+    else { state.currentMode='MIN'; state.emergencyType=k; const lbl={blackout:'Блекаут',alarm:'Тривога',sick:'Хвороба'}[k]; hint.textContent='Активовано: '+lbl+'. Сьогодні мінімум. Стрик не зривається.'; }
+    save(); renderModeBudget(); renderTasks();
+  });
+
+  // override lock
+  const ov=document.getElementById('overrideLock');
+  if(ov) ov.onclick=()=>{
+    state.crisisLockOverride=!state.crisisLockOverride; save();
+    toast('warn',state.crisisLockOverride?'Lock override на сьогодні':'Lock override знято');
+    renderLock(); renderTasks();
+  };
+
+  // cities
+  document.getElementById('plCity').onchange=e=>{ state.plCity=e.target.value; save(); renderPLCost(); };
+  document.getElementById('skCity').onchange=e=>{ state.skCity=e.target.value; save(); renderSKCost(); };
+  document.getElementById('familyBudget').oninput=e=>{ state.familyBudget=Number(e.target.value)||0; save(); renderPLCost(); };
+
+  // settings
+  document.getElementById('polskiLevelSel').onchange=e=>{ state.polskiLevel=e.target.value; save(); renderProgress(); };
+  document.getElementById('slovakLevelSel').onchange=e=>{ state.slovakLevel=e.target.value; save(); renderProgress(); };
+  document.getElementById('limAnkiNew').onchange=e=>{ state.limAnkiNew=Number(e.target.value)||0; save(); };
+  document.getElementById('limAnkiRev').onchange=e=>{ state.limAnkiRev=Number(e.target.value)||0; save(); };
+  document.getElementById('limMathMin').onchange=e=>{ state.limMathMin=Number(e.target.value)||0; save(); };
+
+  // doc checkboxes
+  document.addEventListener('change',e=>{
+    const t=e.target;
+    if(t&&t.dataset&&t.dataset.doc){ state.docs[t.dataset.doc]=t.checked; save(); }
+    if(t&&t.dataset&&t.dataset.act){ state.actionChecklist=state.actionChecklist||{}; state.actionChecklist[t.dataset.act]=t.checked; save(); renderActionChecklist(); }
+    if(t&&t.classList&&t.classList.contains('uni-state')){ state.unis[t.dataset.uni]=state.unis[t.dataset.uni]||{}; state.unis[t.dataset.uni][t.dataset.field]=t.value; save(); }
+  });
+
+  // mocks
+  document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>{
+    const subject=b.dataset.mock;
+    const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
+    openModal('Новий mock — '+subject,`<div style="display:flex;flex-direction:column;gap:10px"><label>Дата:<br><input type="date" id="mDate" value="${todayISO()}" style="margin-top:4px;padding:8px;width:100%;border-radius:8px;background:var(--bg-elevated);border:1px solid var(--border-subtle)"></label><label>Бал (число):<br><input type="number" id="mScore" min="100" max="200" value="140" style="margin-top:4px;padding:8px;width:100%;border-radius:8px;background:var(--bg-elevated);border:1px solid var(--border-subtle)"></label></div>`,[
+      {label:'Скасувати',cb:closeModal},
+      {label:'Зберегти',kind:'primary',cb:()=>{ const d=document.getElementById('mDate').value; const s=Number(document.getElementById('mScore').value); if(d&&s){ state[key]=state[key]||[]; state[key].push({date:d,score:s}); save(); renderAllMocks(); renderProgress(); toast('good','Mock збережено'); } closeModal(); }}
+    ]);
+  });
+
+  // export/import/reset
+  document.querySelectorAll('[data-action="export"]').forEach(b=>b.onclick=()=>{
+    const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='roadmap_'+todayISO()+'.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+  const ipt=document.getElementById('importFile');
+  if(ipt) ipt.onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{ const p=JSON.parse(r.result); state=deepMerge(clone(defaults),p); save(); routeFromHash(); renderAll(); toast('good','Імпортовано'); }catch(err){ toast('bad','Помилка імпорту'); } };
+    r.readAsText(f);
+  };
+  document.querySelectorAll('[data-action="reset-day"]').forEach(b=>b.onclick=()=>{
+    openModal('Reset day','<p>Обнулити сьогоднішні задачі? Енергія і стрик не чіпаються.</p>',[
+      {label:'Скасувати',cb:closeModal},
+      {label:'Так',kind:'danger',cb:()=>{ state.todayDate=null; ensureTodayTasks(); renderTasks(); toast('good','День скинуто'); closeModal(); }}
+    ]);
+  });
+  document.querySelectorAll('[data-action="reset-all"]').forEach(b=>b.onclick=()=>{
+    openModal('Reset all','<p>Видалити <strong>весь</strong> стан і повернутись до дефолту? Дія незворотня. Експортуй JSON перед цим.</p>',[
+      {label:'Скасувати',cb:closeModal},
+      {label:'Так, видалити все',kind:'danger',cb:()=>{ state=clone(defaults); save(); renderAll(); toast('good','Усе скинуто'); closeModal(); }}
+    ]);
+  });
+
+  // FAB
+  document.getElementById('fab').onclick=()=>openSheet('sheetMore');
+
+  // hash routing
+  window.addEventListener('hashchange',routeFromHash);
+
+  // ESC to close modal/sheet
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeSheets(); } });
+}
+
+// ════════════════════════════ RENDER ALL ════════════════════════════
+function renderAll(){
+  renderStatusbar();
+  renderModeBudget();
+  renderEnergy();
+  renderActionChecklist();
+  renderTasks();
+  renderProgress();
+  renderPLCost(); renderSKCost();
+  renderAllMocks();
+  renderWorkout();
+  renderSettings();
+  updateStorageStatus();
+}
+
+// ════════════════════════════ INIT ════════════════════════════
+function init(){
+  // ensure object subkeys
+  state.heatmap=state.heatmap||{};
+  state.docs=state.docs||{};
+  state.unis=state.unis||{};
+  state.actionChecklist=state.actionChecklist||{};
+  state.energyHistory=state.energyHistory||[];
+  state.workoutHistory=state.workoutHistory||[];
+  ['mathMocks','slovakMocks','polskiMocks','ukrMocks','histMocks'].forEach(k=>{ state[k]=state[k]||[]; });
+
+  wireEvents();
+  routeFromHash();
+  renderAll();
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+else init();
+
+})();
+</script>
+
+</body>
+</html>
