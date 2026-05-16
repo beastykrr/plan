@@ -365,6 +365,13 @@
   <h1 id="h-today" style="margin-bottom:4px">Сьогодні</h1>
   <p class="muted" id="todayDateLong" style="margin-bottom:20px">—</p>
 
+  <div id="backupBanner" class="card" style="display:none;margin-bottom:16px;border:2px solid var(--danger);background:rgba(255,80,80,0.08)">
+    <div class="card-title"><span class="dot" style="background:var(--danger)"></span>Строковий бекап ПРОСТРОЧЕНИЙ</div>
+    <p style="font-size:14px;margin:0 0 8px 0" id="backupBannerText">—</p>
+    <p style="font-size:13px;margin:0 0 10px 0;color:var(--text-muted)">Браузер може стерти localStorage при очищенні кешу. Збери файл собі на диск або в хмару (Google Drive / Dropbox).</p>
+    <button class="btn danger" data-action="export">Скачати резервну копію зараз</button>
+  </div>
+
   <div class="grid cols-2" style="margin-bottom:16px">
     <div class="energy-card">
       <div class="card-title"><span class="dot" style="background:var(--good)"></span>Енергія сьогодні</div>
@@ -385,16 +392,16 @@
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="dot"></span>Поточний фокус</div>
-      <div style="margin-bottom:12px;font-size:13px;color:var(--text-secondary)">
-        Обери, на яку мову робиш ставку сьогодні. До 2027-Q1 можна тримати обидві паралельно, далі — обери одну primary.
+      <div class="card-title"><span class="dot"></span>Поточний фокус · primary / secondary</div>
+      <div style="margin-bottom:12px;font-size:13px;color:var(--text-secondary);line-height:1.6">
+        Дефолт — <strong style="color:var(--polski)">PL primary (Plan A)</strong>, бо з ПМЖ-таймлайну виходить коротший шлях до резидента UE. Обидві мови з A0 одночасно (режим «BOTH») — високий ризик лексичної інтерференції (слова-підміни). Рекомендація: тримай PL primary, SK secondary лише як 5–10 хв пасивного вводу на тиждень (після досягнення A2 з PL).
       </div>
       <div class="mode-switch" role="group" aria-label="Активний трек">
-        <button class="mode-btn" data-track="PL" aria-pressed="false"><span class="label">Польща</span><span class="min" style="color:var(--polski)">PL</span></button>
-        <button class="mode-btn" data-track="BOTH" aria-pressed="true"><span class="label">Обидві</span><span class="min">PL+SK</span></button>
+        <button class="mode-btn" data-track="PL" aria-pressed="true"><span class="label">Польща</span><span class="min" style="color:var(--polski)">PL</span></button>
+        <button class="mode-btn" data-track="BOTH" aria-pressed="false"><span class="label">Обидві ⚠</span><span class="min">PL+SK</span></button>
         <button class="mode-btn" data-track="SK" aria-pressed="false"><span class="label">Словаччина</span><span class="min" style="color:var(--slovak)">SK</span></button>
       </div>
-      <p class="muted" style="font-size:12px;margin:0">Активний трек впливає на склад денних задач і пріоритет ресурсів.</p>
+      <p class="muted" style="font-size:12px;margin:0;line-height:1.5">Активний трек впливає на склад денних задач і пріоритет ресурсів. Якщо PL критично не йде до Листопада 2027 (B1 mock &lt; 60%) — перемикайся на SK як primary.</p>
     </div>
   </div>
 
@@ -515,13 +522,19 @@
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li>Безкоштовне держ. навчання іноземця без коренів — <strong>лише при C1 PKPZJP</strong> (art. 11a ust. 2 ustawy o języku polskim, art. 324 ust. 2 prawa o szkolnictwie wyższym).</li>
         <li>PKPZJP — 2 сесії на рік (березень/червень/листопад залежно від року), сертифікат через ~2 міс.</li>
-        <li><strong>art. 195 ust. 4</strong> ustawy o cudzoziemcach: 50% студентського періоду зараховується до 5-річного стажу на ПМЖ → 4 роки бакалаврату = 2 роки зачёту.</li>
+        <li><strong>art. 212 ust. 1 pkt 3 lit. b</strong> ustawy o cudzoziemcach: половина періоду перебування під час навчання зараховується до 5-річного стажу на <strong>rezydent długoterminowy UE</strong> (НЕ pobyt stały — це різні статуси): 4 р. бакалаврату = 2 роки зачёту. <strong>Pobyt stały</strong> (art. 195) — окремий статус для Karty Polaka / родини громадянина / біженців, не для студентів.</li>
         <li>Naturalізація: 10 років безперервно + ПМЖ + дохід + житло + B1 польської.</li>
         <li>Англомовні програми коштують €3000–4000/рік — не наш план.</li>
         <li>НМТ приймається, окрему maturę не сдавати.</li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px;border:2px solid var(--danger);background:rgba(255,80,80,0.05)">
+      <div class="card-title"><span class="dot" style="background:var(--danger)"></span>КРИТИЧНО · Вікове обмеження PKPZJP C1</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">PKPZJP C1 проводиться <strong>лише в групі для дорослих</strong> (osoby dorosłe). Мінімум — <strong>18 років на день іспиту</strong>. У дитячо-молодіжній групі (14–17 років) C1 <strong>відсутній</strong> — лише до B2.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">Перевір свою дату народження проти графіка іспитів certyfikatpolski.pl. Якщо тобі виповнюється 18 років <em>після</em> весняної сесії 2028 (зазвичай березень-травень) — реальна найперша дата C1 буде осінь 2028 (зазвичай листопад), що зсуне вступ на 2029/2030 рік.</p>
+      <p style="font-size:13px;margin:0"><a href="https://certyfikatpolski.pl/o-egzaminie/kto-moze-zdawac-egzamin/" target="_blank" rel="noopener noreferrer">Текст regulaminu — хто може складати іспит</a> · <a href="https://certyfikatpolski.pl/dla-zdajacych/harmonogram-egzaminow/" target="_blank" rel="noopener noreferrer">Графік сесій</a></p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>6 контрольних точок (PKPZJP)</div>
       <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
         <li><strong>Серпень 2026:</strong> 500 активних слів, розуміти Easy Polish без субтитрів.</li>
@@ -529,8 +542,14 @@
         <li><strong>Травень 2027:</strong> 2500 слів, говорити 5 хв без довгих пауз, mock B1 з Hurra.</li>
         <li><strong>Листопад 2027:</strong> пробний PKPZJP B1.</li>
         <li><strong>Березень 2028:</strong> пробний PKPZJP B2.</li>
-        <li><strong>Квітень 2028:</strong> реальний PKPZJP C1.</li>
+        <li><strong>Квітень/Травень 2028:</strong> реальний PKPZJP C1 (лише якщо станеш повнолітнім — інакше Листопад 2028).</li>
       </ol>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Plan B+ · платний 1-й курс → перевід на безкоштовний з 2-го</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">Якщо C1 PKPZJP не встигаєш до квітня 2028 — вступай на <strong>платний польськомовний потік</strong> у 2028/2029 з рівнем B2 (~€2000/рік + житло). Перший курс — повне занурення в мовне середовище і весняна спроба C1 2029. Після отримання C1 — заявка на перевід на безкоштовний потік на 2-й курс (art. 324 ust. 2 prawa o szkolnictwie wyższym).</p>
+      <p style="font-size:13px;line-height:1.5;margin:0 0 8px 0"><strong>Ризик:</strong> перевід <strong>не гарантований</strong> — це політика конкретного ВНЗ і факультету. PWr, AGH, PP мають різні правила. Перед вступом перевір "Regulamin studiów" і "Zasady odpłatności" обраного факультету. У деяких ВНЗ перевід можливий лише після 1-го семестру, у деяких — лише з нового набору.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0"><strong>Бюджет 1-го курсу:</strong> платне навчання €2000/рік + житло Wrocław €5160/рік + харч/транспорт = ~€7500/рік. Це різниця ~€2400/рік порівняно з безкоштовним з 1-го курсу. За 1 рік = €2400 — це ціна за страховку від провалу C1.</p>
     </div>
   </div>
 
@@ -561,6 +580,64 @@
         <li>30 хв активний input (відео/podcast з конспектом).</li>
         <li>15 хв output (говорити вголос; раз/тиждень запис).</li>
         <li>15 хв чтение або грамматика.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--polski)"></span>Стартовий курикулум A0 → A1 · перші 90 днів</div>
+      <p class="muted" style="font-size:13px;margin:0 0 10px 0">Поточний рівень: <strong>A0 (знаю кілька слів)</strong>. Українська рідна — слов'янський бонус дає ~30% швидший старт від англомовних. Не плутати з «розумію» — пасивна впізнаваність на старті ≠ знання.</p>
+      <details open><summary><strong>Тиждень 1–2 · фонетика і вітання</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Алфавіт + сильні різниці:</strong> ą, ę, ć, ł, ń, ś, ź, ż, ó, sz, cz, rz, ch, dz, dź, dż. Аудіо вимова кожної на forvo.com.</li>
+          <li><strong>Привіт-фрази (50 шт):</strong> Cześć, dzień dobry, dobry wieczór, do widzenia, dziękuję, przepraszam, proszę, tak/nie, jak się masz, jestem z Ukrainy.</li>
+          <li><strong>Числа 0–100 + дні + місяці.</strong></li>
+          <li><strong>Anki:</strong> 10 нових карток/день. Бази готових: Anki Hurra Po Polsku 1 (Vocabulary), Polski Krok po Kroku.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 3–4 · базова граматика</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Особисті займенники:</strong> ja, ty, on/ona/ono, my, wy, oni/one.</li>
+          <li><strong>Czasownik «być»</strong> в Present (jestem, jesteś, jest...).</li>
+          <li><strong>«Mieć», «mówić», «mieszkać», «pracować», «studiować»</strong> в Present.</li>
+          <li><strong>Питальні слова:</strong> co, kto, gdzie, kiedy, ile, dlaczego, jak.</li>
+          <li><strong>Easy Polish #1–10</strong> з субтитрами (YouTube).</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 5–6 · відмінки (перше знайомство)</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Mianownik (називний)</strong> — базова форма іменника.</li>
+          <li><strong>Biernik (знахідний)</strong> — для прямого об'єкта (znam Polskę, lubię kawę). Це найважливіший відмінок для початківця.</li>
+          <li><strong>Miejscownik (місцевий)</strong> — після «w», «na», «o»: mieszkam w Wrocławiu, mówię o Ukrainie.</li>
+          <li><strong>Hurra! 1, Lekcje 1–6.</strong> Усі вправи з зошита + аудіо.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 7–8 · лексика повсякдення</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Сім'я, дім, школа, місто, їжа.</strong> ~300 слів.</li>
+          <li><strong>Hurra! 1, Lekcje 7–12.</strong></li>
+          <li><strong>Перший простий діалог</strong> із собою вголос: 5 хв/день. Запис на телефон, прослухати через 2 дні.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 9–12 · ABCD-методи · перевірка A1</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Часи минулий / майбутній</strong> базові форми.</li>
+          <li><strong>500 активних слів</strong> в Anki з 80% retention.</li>
+          <li><strong>Hurra! 1 повністю закінчити.</strong></li>
+          <li><strong>Mini-mock A1 з certyfikatpolski.pl</strong> — мета 60%.</li>
+          <li><strong>Italki:</strong> 1 розмовний урок (€10–15) щоб перевірити вимову.</li>
+        </ul>
+      </details>
+      <p class="muted" style="font-size:12px;margin-top:10px"><strong>Часова інвестиція:</strong> 60 хв/день × 90 днів = ~90 годин. Для слов'янського L1 це достатньо для A1. Якщо B1 mock після 12 місяців &lt; 60% — переходимо на SK primary.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Лексична інтерференція PL ↔ SK · що робити</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">Польська і словацька — близько-споріднені (~70% спільної лексики), тому одночасне навчання з нуля ВИКЛИКАЄ підмінню слів. Реальні приклади: PL «szukać» (шукати) ↔ SK «hľadať». PL «warzywo» ↔ SK «zelenina». PL «czerwony» ↔ SK «červený» (майже однаково).</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Стратегія 90/10:</strong> 90% часу — primary (PL). 10% часу — secondary (SK) лише на пасивний вход (Easy Slovak ютуб без notes).</li>
+        <li><strong>Не вчити SK граматику</strong> поки PL не досягнеш A2. Уривчасте вивчення обох граматик з нуля = тотальне змішування.</li>
+        <li><strong>Окремі Anki-колоди.</strong> Не змішувати в одній «слов'янські слова».</li>
+        <li><strong>Контроль:</strong> якщо в репетитора PL з'являються словацькі слова — пауза з SK на 2 тижні.</li>
       </ul>
     </div>
 
@@ -606,6 +683,20 @@
       </div>
     </div>
     <p class="muted" style="margin-top:12px;font-size:13px">Стратегія: подавати в усі 3 паралельно. Польська система це дозволяє. PWr — основа (мат-інформ профіль), AGH — стрейч (вищий конкурс, але сильніша ІТ-репутація), PP — safety (нижчий поріг прохідного балу).</p>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title"><span class="dot"></span>НМТ → польські бали · Uchwała rekrutacyjna трекер</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 10px 0">PWr/AGH/PP приймають НМТ-сертифікат як еквівалент matury. Формула перерахунку та <strong>коефіцієнти змінюються щорічно</strong> рішенням Senatu ВНЗ (Uchwała rekrutacyjna), яке публікується <strong>у червні–липні попереднього року</strong>. Перевіряти треба <strong>щовесни</strong> перед заявкою.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0 0 10px 0"><strong>Що шукати:</strong> "Uchwała Senatu w sprawie warunków i trybu rekrutacji [рік]" → секція "Kandydaci z dokumentami zagranicznymi" або "Świadectwo zagraniczne / NMT" → таблиця з коефіцієнтами для кожного предмета.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaPwr2027"> Перевірив PWr Uchwała rekrutacyjna 2027/2028 (червень 2027)</label> <a href="https://rekrutacja.pwr.edu.pl" target="_blank" rel="noopener noreferrer" style="font-size:12px">rekrutacja.pwr.edu.pl</a></li>
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaAgh2027"> Перевірив AGH Uchwała rekrutacyjna 2027/2028</label> <a href="https://www.agh.edu.pl/kandydaci" target="_blank" rel="noopener noreferrer" style="font-size:12px">agh.edu.pl/kandydaci</a></li>
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaPp2027"> Перевірив PP Uchwała rekrutacyjna 2027/2028</label> <a href="https://kandydaci.put.poznan.pl" target="_blank" rel="noopener noreferrer" style="font-size:12px">kandydaci.put.poznan.pl</a></li>
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaPwr2028"> Перевірив PWr Uchwała rekrutacyjna 2028/2029 (червень 2028) — реальний вступ</label></li>
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaAgh2028"> Перевірив AGH Uchwała rekrutacyjna 2028/2029</label></li>
+        <li><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-doc="uchwalaPp2028"> Перевірив PP Uchwała rekrutacyjna 2028/2029</label></li>
+      </ul>
+      <p class="muted" style="font-size:12px;margin-top:10px"><strong>FactCheckR:</strong> точні коефіцієнти на 2028/2029 на момент червня 2026 ще НЕ опубліковані. Орієнтовно: PWr 2025 використовував коефіцієнт <strong>0.5–0.8</strong> для базового рівня matury і <strong>1.0</strong> для розширеного. НМТ зазвичай прирівнюється до базового рівня. Якщо набираєш 175 з 200 (87,5%) — це не безпосередньо переноситься як 87,5% в польську систему. Перевіряти треба формулу конкретної факультети у році вступу.</p>
+    </div>
   </div>
 
   <!-- PL Money -->
@@ -646,14 +737,15 @@
   <!-- PL PMZ -->
   <div class="subpage" id="sub-pl-pmz" role="tabpanel">
     <div class="card" style="margin-bottom:16px">
-      <div class="card-title"><span class="dot"></span>ПМЖ-таймлайн · art. 195 ust. 4</div>
+      <div class="card-title"><span class="dot"></span>ПМЖ-таймлайн · art. 212 ust. 1 pkt 3 lit. b (rezydent długoterminowy UE)</div>
+      <p class="muted" style="margin-top:0;margin-bottom:12px;font-size:13px"><strong>FactCheckR:</strong> для студентів без Karty Polaka / родинних підстав реальний перший статус — <strong>zezwolenie na pobyt rezydenta długoterminowego UE</strong>, НЕ pobyt stały. Правило половини зарахування періоду навчання прописане в art. 212 ust. 1 pkt 3 lit. b.</p>
       <div class="timeline">
-        <div class="tl-item locked"><div class="tl-date">2028</div><div class="tl-title">Karta Pobytu czasowego (на час навчання)</div><div class="tl-desc">3.5 року бакалаврату → 1.75 року зачёту по art. 195 ust. 4.</div></div>
-        <div class="tl-item locked"><div class="tl-date">2031 жовтень</div><div class="tl-title">Закінчення ВНЗ, перехід на роботу/магістратуру</div><div class="tl-desc">Pobyt czasowy на іншій підставі.</div></div>
-        <div class="tl-item locked"><div class="tl-date">2033–2034</div><div class="tl-title">Eligible на zezwolenie na pobyt stały</div><div class="tl-desc">1.75 (студ.) + 3.25 (праця) ≥ 5 років.</div></div>
-        <div class="tl-item locked"><div class="tl-date">2039</div><div class="tl-title">Uznanie za obywatela polskiego</div><div class="tl-desc">10 років непереривного перебування + ПМЖ + дохід + B1.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2028</div><div class="tl-title">Karta Pobytu czasowego (на час навчання)</div><div class="tl-desc">art. 144 ustawy o cudzoziemcach. 3.5 року бакалаврату → 1.75 року зачёту по art. 212 ust. 1 pkt 3 lit. b.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2031 жовтень</div><div class="tl-title">Закінчення ВНЗ, перехід на роботу/магістратуру</div><div class="tl-desc">Pobyt czasowy на іншій підставі (праця, магістерка).</div></div>
+        <div class="tl-item locked"><div class="tl-date">2033–2034</div><div class="tl-title">Eligible на rezydent długoterminowy UE</div><div class="tl-desc">1.75 (студ.) + 3.25 (праця) ≥ 5 років. Плюс вимоги: стабільний дохід (≥3 роки), медстрах, житло, B1 польської.</div></div>
+        <div class="tl-item locked"><div class="tl-date">2039</div><div class="tl-title">Uznanie za obywatela polskiego (art. 30 ust. 1 pkt 1)</div><div class="tl-desc">10 років непереривного перебування + rezydent UE + дохід + B1 польської.</div></div>
       </div>
-      <p style="margin-top:12px;font-size:13px"><a href="https://lexlege.pl/ustawa-o-cudzoziemcach/art-195/" target="_blank" rel="noopener noreferrer">Текст art. 195 ust. 4</a> · <a href="https://www.gov.pl/web/uw-lodzki/uznanie-za-obywatela-polskiego" target="_blank" rel="noopener noreferrer">art. 30 ustawy o obywatelstwie</a></p>
+      <p style="margin-top:12px;font-size:13px"><a href="https://sip.lex.pl/akty-prawne/dzu-dziennik-ustaw/cudzoziemcy-18053962/art-212" target="_blank" rel="noopener noreferrer">Текст art. 212 (Lex)</a> · <a href="https://migrant.poznan.uw.gov.pl/pl/faq/rezydent-dlugoterminowy-ue" target="_blank" rel="noopener noreferrer">UW Познань · FAQ резидент UE</a> · <a href="https://www.gov.pl/web/uw-lodzki/uznanie-za-obywatela-polskiego" target="_blank" rel="noopener noreferrer">art. 30 ustawy o obywatelstwie</a></p>
     </div>
     <div class="card">
       <div class="card-title"><span class="dot"></span>Документальний чек-лист</div>
@@ -754,6 +846,47 @@
         <li>Якщо SK — primary трек (з 2027-Q1): структура така ж як PL primary (90/30/15).</li>
       </ul>
     </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--slovak)"></span>Стартовий курикулум A0 → A1 · якщо SK primary</div>
+      <p class="muted" style="font-size:13px;margin:0 0 10px 0">Поточний рівень: <strong>A0 (повний нуль)</strong>. Слов'янський бонус — більший, ніж для польської (SK ближча до української за лексикою + інтонацією). Реалістичні очікування: A1 за 2 міс, B1 за 6–8 міс, B2 (для STU) за 12–15 міс.</p>
+      <details open><summary><strong>Тиждень 1–2 · фонетика SK · ľ, ŕ, ô, ä</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Алфавіт + специфіка:</strong> ľ (м'яке л), ĺ (довге л), ŕ (довге р), ô (як «уо»), ä (як «е» в Західній SK, як «а» в Центральній), dž, ŕ. Forvo.com для аудіо.</li>
+          <li><strong>Привіт-фрази (50):</strong> Ahoj, dobrý deň, dobrý večer, dovidenia, ďakujem, prepáčte, prosím, áno/nie, ako sa máš, som z Ukrajiny.</li>
+          <li><strong>Числа 0–100 + дні + місяці.</strong> Pondelok, utorok, streda...</li>
+          <li><strong>Anki:</strong> 10 нових/день. База: Krížom-krážom A1 vocabulary deck.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 3–4 · базова граматика</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>«Byť»</strong> в Present (som, si, je, sme, ste, sú).</li>
+          <li><strong>«Mať», «hovoriť», «bývať», «pracovať», «študovať»</strong>.</li>
+          <li><strong>Питання:</strong> čo, kto, kde, kedy, koľko, prečo, ako.</li>
+          <li><strong>Easy Slovak #1–10</strong> з субтитрами.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 5–6 · відмінки (на відміну від PL — 7 відмінків + Vocative)</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Nominatív, Genitív, Datív, Akuzatív, Vokatív, Lokál, Inštrumentál.</strong> Уважно — кличний (Vocative) тільки в SK, в PL зник.</li>
+          <li><strong>Krížom-krážom A1, Lekcie 1–6.</strong></li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 7–8 · лексика повсякдення</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Сім'я, дім, школа, місто, їжа.</strong></li>
+          <li><strong>Krížom-krážom A1, Lekcie 7–12.</strong></li>
+          <li><strong>Перший простий діалог</strong> 5 хв/день вголос.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Тиждень 9–12 · перевірка A1</strong></summary>
+        <ul style="margin:8px 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>500 активних слів</strong> з 80% retention.</li>
+          <li><strong>Krížom-krážom A1 повністю.</strong></li>
+          <li><strong>SAS UK</strong> або slovake.eu внутрішній тест — мета 65%.</li>
+        </ul>
+      </details>
+      <p class="muted" style="font-size:12px;margin-top:10px"><strong>Бонус:</strong> словацькі ВНЗ (особливо STU) сприйнятливі до B1 SAS / SCIO Slovenský jazyk. Тобто реальна вимога для вступу — НЕ C1, а B1 (краще B2 для впевненості).</p>
+    </div>
     <div class="card">
       <div class="card-title"><span class="dot"></span>Mock-журнал</div>
       <div id="skMockList" style="margin-bottom:8px"></div>
@@ -797,18 +930,30 @@
         <p class="muted" style="font-size:12px;margin-top:8px"><a href="https://www.fei.tuke.sk" target="_blank" rel="noopener noreferrer">fei.tuke.sk</a></p>
       </div>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Процедура вступу іноземця в SK</div>
       <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li>Атестат → апостиль МЗС УА → присяжний переклад на словацьку.</li>
         <li>Подання заяви на <strong>uznanie kvalifikácie</strong> (eвaluovaní v krajskom úrade alebo na konkrétnu VŠ).</li>
         <li>Електронна заявка через AIS системи ВНЗ.</li>
-        <li>Сертифікат словацької (B1/B2) додається до заяви, або складається тест в SAS UK.</li>
-        <li>Приймальний іспит (для FIIT/FMFI) — математика, червень–вересень.</li>
+        <li>Сертифікат словацької (B1/B2) додається до заяви, або складається тест в SAS UK / SCIO.</li>
+        <li>Приймальний іспит (для FMFI UK) — математика + логіка, червень–вересень. STU FIIT у 2026 — без вступних іспитів (перевіряти щорічно).</li>
         <li>Preliminary Letter of Acceptance.</li>
         <li>Заявка на віза D + prechodný pobyt na účel štúdia в консульстві.</li>
         <li>Прибуття до 1 жовтня, реєстрація в Cudzineckej polícii впродовж 3 діб.</li>
       </ol>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>SCIO NPS — Národné porovnávacie skúšky</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 10px 0">SCIO NPS — стандартизований тест, який деякі словацькі/чеські ВНЗ використовують як альтернативу до власних приймальних іспитів. Складається 7× на рік, реєстрація незалежна від заявки на ВНЗ.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>VŠP</strong> (Všeobecné študijné predpoklady) — словацька версія. Логіка, аргументація, робота з інформацією. Складніше за шкільну математику.</li>
+        <li><strong>Matematika</strong> — окремий тест, рівень приблизно вступу на технічні ВНЗ.</li>
+        <li><strong>ZSV</strong> — основи суспільних наук (не наша ціль).</li>
+        <li><strong>Slovenský jazyk — SAS B1/B2</strong> — словацький як іноземна. Сертифікат SCIO акцептується STU як доказ B1 словацької при вступі.</li>
+      </ul>
+      <p class="muted" style="font-size:12px;margin-top:10px"><strong>FactCheckR:</strong> NPS — опція, НЕ всезагальна вимога. STU FIIT у 2026 приймає без вступних іспитів на бакалаврат. FMFI UK має власний іспит. Перед вибором тесту — читай prijímacie konanie конкретної факультети на рік вступу.</p>
+      <p style="font-size:13px;margin-top:8px"><a href="https://www.scio.sk/nps" target="_blank" rel="noopener noreferrer">scio.sk/nps</a> · <a href="https://www.svf.stuba.sk/sk/uchadzaci/bakalarske-studium.html" target="_blank" rel="noopener noreferrer">STU · prijímacie konanie</a> · <a href="https://www.fiit.stuba.sk" target="_blank" rel="noopener noreferrer">FIIT STU</a></p>
     </div>
   </div>
 
@@ -833,7 +978,7 @@
       <div class="card-title"><span class="dot" style="background:var(--good)"></span>Гуртожитки STU/UK/TUKE</div>
       <p style="font-size:14px;margin:0">€150–250/міс — суттєво дешевше за приватну кімнату (€350–500). Подаватись треба <strong>відразу при заявці на навчання</strong>, не після прибуття.</p>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Стипендії</div>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li><strong>Motivačné štipendium</strong> — за успіхи у навчанні, до ~€500/семестр.</li>
@@ -841,6 +986,14 @@
         <li><strong>Erasmus+</strong> — €500–1500/міс на період обміну (доступне з 2 року).</li>
         <li><strong>National Scholarship Programme of SR</strong> — для не-EU студентів магістратури/доктор.</li>
       </ul>
+    </div>
+    <div class="card" style="border:2px solid var(--warn);background:rgba(255,180,0,0.05)">
+      <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Схований кошт · fin. zabezpečenie на prechodný pobyt</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">При поданні заявки на prechodný pobyt na účel štúdia (Zák. 404/2011, §32 ods. 5) треба доказати фінансове забезпечення: <strong>12 × životné minimum</strong> на період перебування.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">Životné minimum з 1.07.2025: <strong>284,13 €/міс</strong> для повнолітньої особи (Opatrenie 168/2025 Z. z., MPSVR SR). ×12 = <strong>~3 410 € на рік</strong>. Суму треба мати на рахунку (výpis z účtu) або зафіксовану в банку як депозит.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0"><strong>Щорічне продовження:</strong> при поданні на обновлення pobytu на наступний рік — знову 12 × ŽM. Сума оновлюється щорічно 1 липня. На весь бакалаврат (3 роки): ~<strong>10 200 €</strong> понад оренди/харч/навчання.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0"><strong>Бухгалтерія родини:</strong> це НЕ витрата — сума залишається в ваших руках і може бути витрачена протягом року на побут. Але на момент подання вона має бути фактично на рахунку, інакше відмова.</p>
+      <p style="font-size:12px;margin-top:8px"><a href="https://www.mpsvr.sk/sk/rodina-socialna-pomoc/hmotna-nudza/zivotne-minimum/vyska-zivotneho-minima-od-1-jula-2025.html" target="_blank" rel="noopener noreferrer">MPSVR SR · ŽM від 1.07.2025</a> · <a href="https://www.mic.iom.sk/sk/na-stiahnutie/info-karty/item/309-co-potrebujes-vediet-ako-student-s-prechodnym-pobytom-na-slovensku.html" target="_blank" rel="noopener noreferrer">IOM MIC · студент з prechodným pobytom</a></p>
     </div>
   </div>
 
@@ -891,7 +1044,7 @@
         <tr><td class="cmp-row-head">Платний польський/словацький потік</td><td>€2000/рік</td><td>Не існує як окрема опція — словацькою або безкоштовно, або англомовно платно</td></tr>
         <tr><td class="cmp-row-head">Вартість життя · столиця (€/міс, 2028 +20%)</td><td>Wrocław <span class="tnum">~620</span> · Kraków <span class="tnum">~700</span></td><td>Bratislava <span class="tnum">~780</span> · Košice <span class="tnum">~720</span></td></tr>
         <tr><td class="cmp-row-head">Гуртожитки</td><td>€100–180/міс</td><td>€150–250/міс</td></tr>
-        <tr><td class="cmp-row-head">Studium → ПМЖ</td><td><strong>50% зачёт</strong> студ. років (art. 195 ust. 4)</td><td>1:1 без зачёта · §52 Zák. 404/2011</td></tr>
+        <tr><td class="cmp-row-head">Studium → резидент UE / TP</td><td><strong>50% зачёт</strong> студ. років (art. 212 ust. 1 pkt 3 lit. b) → rezydent UE</td><td>1:1 без зачёта · §52 Zák. 404/2011 → trvalý pobyt</td></tr>
         <tr><td class="cmp-row-head">ПМЖ доступно з</td><td>~2033 (3.25 р. праці + 1.75 р. зачёту = 5 р.)</td><td>2033 (5 р. безперервного pobytu)</td></tr>
         <tr><td class="cmp-row-head">ПМЖ неoзначений</td><td>—</td><td>+5 років TP-5 → 2038</td></tr>
         <tr><td class="cmp-row-head">Громадянство</td><td>2039 (10 р. + B1 + дохід + житло)</td><td>2041 (8 р. permanent residence) або 2043</td></tr>
@@ -954,6 +1107,83 @@
         <li>1 повний mock 4 год / місяць.</li>
       </ul>
     </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Топік-плейлист НМТ (порядок проходження)</div>
+      <p class="muted" style="font-size:13px;margin:0 0 10px 0">Порядок не випадковий — кожен наступний пункт спирається на попередні. Без основи в №1–3 решта не запам'ятовується.</p>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
+        <li><strong>Раціональні числа й вирази.</strong> Дроби, степені, корені, формули скороченого множення. Перевірка: вмієш за 30 сек розкласти на множники <code>x² − 5x + 6</code>.</li>
+        <li><strong>Рівняння та нерівності.</strong> Лінійні, квадратні, дробово-раціональні, з модулем, ірраціональні. Метод інтервалів. Перевірка: <code>|x − 3| &lt; 5</code> без помилки в знаку.</li>
+        <li><strong>Функції та графіки.</strong> Лінійна, квадратична, степенева, обернена пропорційність. Зсуви/розтяги. Перевірка: будуєш <code>y = (x−2)² − 3</code> без таблички значень.</li>
+        <li><strong>Тригонометрія.</strong> Одиничне коло, формули зведення, основні тотожності, рівняння. Перевірка: знаєш sin/cos/tg для 0°, 30°, 45°, 60°, 90° без шпори.</li>
+        <li><strong>Показникові та логарифмічні.</strong> Властивості, рівняння, нерівності. ln vs lg vs log₂. Перевірка: <code>log₂(x+3) = 4</code> розв'язуєш за 1 хв.</li>
+        <li><strong>Послідовності.</strong> Арифметична, геометрична прогресії. Сума n членів. Нескінченна геометрична.</li>
+        <li><strong>Похідна та її застосування.</strong> Похідні таблиці, правила диференціювання, дотична, екстремуми, монотонність. Складна функція.</li>
+        <li><strong>Первісна та інтеграл.</strong> Таблиця первісних, заміна змінної, площа криволінійної трапеції.</li>
+        <li><strong>Стереометрія.</strong> Призма, піраміда, циліндр, конус, куля. Об'єми, площі. Перевірка: знаєш, що V_конуса = ⅓·π·r²·h без підглядання.</li>
+        <li><strong>Планіметрія.</strong> Трикутники (синусів/косинусів), кола, многокутники, координати. Векторна алгебра.</li>
+        <li><strong>Комбінаторика та ймовірність.</strong> Перестановки, розміщення, сполучення. Класичне визначення ймовірності.</li>
+        <li><strong>Елементи статистики.</strong> Середнє, медіана, мода, дисперсія. Це 1–2 задачі НМТ, не вкладай більше 4 годин.</li>
+      </ol>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Календарний план (місяць за місяцем)</div>
+      <details><summary><strong>Літо 2026 (червень–серпень)</strong> · 60–90 хв/день</summary>
+        <ul style="margin-top:8px;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Червень:</strong> повтор 8–9 класу + теми №1–2 (раціональні, рівняння).</li>
+          <li><strong>Липень:</strong> теми №3–4 (функції, тригонометрія). 1 mock наприкінці.</li>
+          <li><strong>Серпень:</strong> теми №5–6 (логарифми, послідовності). Mock #2.</li>
+          <li><strong>Контрольна точка серпень:</strong> mock ≥ 140 з 200.</li>
+        </ul>
+      </details>
+      <details><summary><strong>10 клас (вересень 2026 – травень 2027)</strong> · 45–60 хв/день у школі, повний обсяг на канікулах</summary>
+        <ul style="margin-top:8px;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Вересень-Жовтень:</strong> тема №7 (похідна) — головна тема 10 класу.</li>
+          <li><strong>Листопад-Грудень:</strong> застосування похідної (екстремуми, дотична, задачі на оптимум).</li>
+          <li><strong>Січень-Лютий:</strong> тема №8 (інтеграл).</li>
+          <li><strong>Березень-Квітень:</strong> теми №9 (стереометрія) — мінімум 2 розряди задач.</li>
+          <li><strong>Травень:</strong> 1 mock щотижня + розбір 100 типових помилок.</li>
+        </ul>
+      </details>
+      <details><summary><strong>Літо 2027 (червень–серпень)</strong> · 90–120 хв/день</summary>
+        <ul style="margin-top:8px;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Червень:</strong> теми №10–11 (планіметрія, комбінаторика).</li>
+          <li><strong>Липень:</strong> тематичні mock-блоки по 1 темі (30 задач за 90 хв).</li>
+          <li><strong>Серпень:</strong> 4 повних mock-у. Цільова середня — 160 з 200.</li>
+        </ul>
+      </details>
+      <details><summary><strong>11 клас (вересень 2027 – квітень 2028)</strong> · 60 хв/день + 90 хв вихідні</summary>
+        <ul style="margin-top:8px;padding-left:20px;font-size:14px;line-height:1.7">
+          <li><strong>Вересень-Жовтень:</strong> повний прохід всіх 12 тем компактно.</li>
+          <li><strong>Листопад-Грудень:</strong> 1 mock/тиждень. Аналіз помилок 1 год.</li>
+          <li><strong>Січень-Лютий:</strong> 2 mock/тиждень. Полірування слабких тем за журналом помилок.</li>
+          <li><strong>Березень-Квітень:</strong> повні timed mock-и в реальних умовах. Стрес-тренінг.</li>
+        </ul>
+      </details>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Структура НМТ-тесту з математики</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>22 завдання</strong>, 100 хв (НМТ 2024 формат, перевір УЦОЯО на рік вступу).</li>
+        <li>Частина 1: 16 завдань з вибором 1 з 5. По 4 бали = 64 макс.</li>
+        <li>Частина 2: 4 завдання на встановлення відповідності. По 9 бал = 36 макс.</li>
+        <li>Частина 3: 2 завдання структурованих відповідей (короткий розв'язок). По 18 бал = 36 макс.</li>
+        <li>Сума: 136 «сирих» балів → за шкалою УЦОЯО конвертується в 100–200.</li>
+        <li><strong>Стратегія часу:</strong> 1 частина — 35 хв, 2 — 25 хв, 3 — 30 хв, перевірка — 10 хв.</li>
+      </ul>
+      <p class="muted" style="font-size:12px;margin-top:8px"><a href="https://testportal.gov.ua" target="_blank" rel="noopener noreferrer">testportal.gov.ua</a> · <a href="https://zno.osvita.ua" target="_blank" rel="noopener noreferrer">zno.osvita.ua/mathematics</a></p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Журнал помилок (error log) · як вести</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0">Заведи Google Sheet або зошит з колонками: <strong>дата · задача (фото/копія) · тема · тип помилки · правильний хід · що завчити</strong>.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0 0 8px 0"><strong>Типи помилок:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:13px;line-height:1.6">
+        <li><strong>Арифметика</strong> — пропустив знак, помножив неправильно. Лікується уважністю + перевіркою.</li>
+        <li><strong>Не знав теорії</strong> — не пам'ятав формулу. Лікується Anki-карткою.</li>
+        <li><strong>Не побачив метод</strong> — теорію знав, але не зрозумів куди застосувати. Лікується розбором 5 схожих задач.</li>
+        <li><strong>Час</strong> — знав, але не вкладався. Лікується тренуванням timed mock-ів.</li>
+      </ul>
+      <p style="font-size:13px;line-height:1.5;margin:8px 0 0 0"><strong>Раз/тиждень:</strong> переглядай журнал. Тип помилок, яких &gt;3 на тижні — наступний фокус-блок.</p>
+    </div>
     <div class="card">
       <div class="card-title"><span class="dot"></span>Mock-журнал</div>
       <div id="mathMockList" style="margin-bottom:8px"></div>
@@ -986,7 +1216,7 @@
         <li><div class="meta"><div class="ttl">Жадан, Ірванець, Андрухович</div><div class="sub">сучасна проза</div></div></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Щоденна практика</div>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li>10 хв Anki/день.</li>
@@ -994,6 +1224,11 @@
         <li>1 письмове висловлення/тиждень.</li>
         <li>1 повний mock/місяць.</li>
       </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="ukrMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="ukr">+ Додати mock</button>
     </div>
   </div>
 
@@ -1022,13 +1257,18 @@
         <li><div class="meta"><div class="ttl">«100 дат, які треба знати»</div><div class="sub">Власов</div></div></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Щоденна практика</div>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li>10 хв Anki/день (дати + персоналії).</li>
         <li>1 тематичний блок/тиждень.</li>
         <li>1 повний mock/місяць.</li>
       </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="histMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="history">+ Додати mock</button>
     </div>
   </div>
 
@@ -1046,12 +1286,17 @@
         <li><div class="meta"><div class="ttl">YouTube: TED-Ed, Veritasium</div><div class="sub">пасивний input</div></div></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Щоденна практика</div>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li>10 хв Anki/день — повторення.</li>
         <li>1 mock-блок/2 тижні.</li>
       </ul>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Mock-журнал</div>
+      <div id="engMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="english">+ Додати mock</button>
     </div>
   </div>
 
@@ -1070,7 +1315,7 @@
         <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">GitHub</div><div class="sub">профіль + щоденні коміти</div></a></li>
       </ul>
     </div>
-    <div class="card">
+    <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Ідеї для проектів</div>
       <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.8">
         <li>Anki-helper: скрипт що бере PDF-підручник і генерує cloze-картки.</li>
@@ -1078,6 +1323,12 @@
         <li>Скрапер вакансій з NoFluffJobs/Profesia і фільтрація під SK/PL.</li>
         <li>Бот Telegram для нагадувань про PKPZJP-дедлайни.</li>
       </ol>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Журнал сесій / коммітів</div>
+      <p class="muted" style="font-size:13px;margin-bottom:8px">У полі «бал» пиши хвилини роботи (60 = одна година) або кількість коммітів. Поле — просто число для трекінгу.</p>
+      <div id="pyMockList" style="margin-bottom:8px"></div>
+      <button class="btn" data-mock="python">+ Додати запис</button>
     </div>
   </div>
 </section>
@@ -1100,9 +1351,40 @@
         <div class="stat"><div class="stat-label">Зріст</div><div class="stat-value tnum">174 см</div></div>
         <div class="stat"><div class="stat-label">Вага</div><div class="stat-value tnum" id="bodyWeight">63 кг</div></div>
         <div class="stat"><div class="stat-label">BMI</div><div class="stat-value tnum" id="bodyBMI">20.8</div><div class="stat-sub">норма</div></div>
-        <div class="stat"><div class="stat-label">Інвентар</div><div class="stat-value" style="font-size:14px">2× гантелі 3 кг</div></div>
+        <div class="stat"><div class="stat-label">Інвентар</div><div class="stat-value" style="font-size:14px">2× гантелі 3 кг + турнік/брусся у дворі</div></div>
       </div>
-      <p class="muted" style="margin-top:12px;font-size:13px"><strong>Контекст:</strong> 174/63 — BMI 20.8, нормальна вага. Це не «зайва вага». «Живіт» при такій антропометрії = слабкий кор + поза. Рішення — не дієта, а: (1) кор-вправи, (2) комплекси з вагою тіла, (3) 7–10к кроків/день, (4) сон 8 год. Гантелі 3 кг — допоміжні, не основний драйвер.</p>
+      <p class="muted" style="margin-top:12px;font-size:13px;line-height:1.6"><strong>Контекст:</strong> 174/63 — BMI 20.8, нормальна вага. Це НЕ «зайва вага» і НЕ причина робити дієту. «Живіт» при BMI 20.8 = <strong>skinny fat</strong> (брак м'язової маси кору) + поза (лордоз). Рішення: будувати м'язи кору + виправляти позу.</p>
+      <p class="muted" style="margin-top:8px;font-size:13px;line-height:1.6;color:var(--warn)"><strong>FactCheckR:</strong> створювати дефіцит калорій в 15–16 років при нормальному BMI = помилка. Пік вироблення тестостерону і гормона росту в цьому віці — м'язи в дефіциті НЕ ростуть. Рекомендований режим: <strong>підтримка або легкий профіцит +100 ккал/добу</strong>. Практика: замінити 3 кг гантелі на <strong>турнік (pull-ups)</strong> і <strong>брусся (dips)</strong> — власна вага дає достатній стимул для росту.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--body)"></span>Базова калістеніка · турнік + брусся</div>
+      <p class="muted" style="font-size:13px;margin:0 0 12px 0">Це <strong>основний</strong> драйвер росту м'язів. Гантелі 3 кг — допоміжні (ізоляція, accessory). Якщо турнік недоступний вдома — купи навісний на одвірок (~600–1000 грн) або виходь на подвір'я.</p>
+      <h3 style="margin-bottom:8px;color:var(--body)">Прогресія Pull-ups (підтягувань)</h3>
+      <ol style="margin:0 0 12px 0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Нуль виходить з 0 підтягувань →</strong> <strong>«Мертвий вис»</strong> (dead hang): висіти на турніку 30–60 с × 3. 2 тижні.</li>
+        <li><strong>Scapular pulls</strong> (підтягування лопаток, лікті прямі) 8–12 × 3. 1–2 тижні.</li>
+        <li><strong>Negative pull-ups</strong>: стрибок на верхню фазу, повільне (5–7 с) опускання. 5–8 повторів × 3. 3–4 тижні.</li>
+        <li><strong>Band-assisted pull-ups</strong> (резинка-резистанс купується за ~500 грн): 6–8 × 3. Поки не виконаєш 5+5 без резинки.</li>
+        <li><strong>Повні підтягування</strong>: мета = <strong>10 повторів × 3 підходи</strong> до кінця 2026. Надалі — обтяжувальний жилет або «L-sit pull-ups».</li>
+      </ol>
+      <h3 style="margin-bottom:8px;color:var(--body)">Прогресія Dips (брусся)</h3>
+      <ol style="margin:0 0 12px 0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Bench dips</strong> (на стільці, ноги на підлозі) 12–15 × 3. 2 тижні.</li>
+        <li><strong>Elevated bench dips</strong> (ноги на стільці навпроти) 10–12 × 3. 1–2 тижні.</li>
+        <li><strong>Korean dips</strong> (на двох стільцях, руки вище пояса) 8–10 × 3. 2 тижні.</li>
+        <li><strong>Negative dips</strong> на бруссях (стрибок угору, повільне опускання 5 с) 5–8 × 3. 3–4 тижні.</li>
+        <li><strong>Повні дипи</strong> на бруссях: мета = <strong>10 × 3</strong>. Потім — обтяжувальний жилет або повільні (tempo 3-1-3) репетиції.</li>
+      </ol>
+      <h3 style="margin-bottom:8px;color:var(--body)">Осанка · «живіт» через лордоз</h3>
+      <p style="font-size:13px;line-height:1.6;margin:0 0 8px 0">При нормальному BMI «живіт» виявляється позою: поперек прогнутий (гіперлордоз) + таз нахилений вперед = «pooch belly». Лікується НЕ дієтою.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Posterior pelvic tilt</strong> (лежачи на підлозі, притисни поперек) 3 × 30 с.</li>
+        <li><strong>Hip flexor stretch</strong> (розтяжка поясно-скелетного м'яза) 2 × 45 с/нога. Щоденно.</li>
+        <li><strong>Glute bridge</strong> 3 × 15 (вже є в програмі).</li>
+        <li><strong>Dead bug, hollow body, plank</strong> — основний рецепт кору.</li>
+        <li><strong>«10×10×10» 1 раз/день</strong>: 10 віджимань + 10 присідань + 10 хв ходьби — якщо немає часу/вимкнено світло/болить спина. Міні-режим для «блек-аут днів».</li>
+      </ul>
     </div>
 
     <div class="card" style="margin-bottom:16px">
@@ -1229,24 +1511,58 @@
       </ul>
     </div>
     <div class="card" style="margin-bottom:16px">
-      <div class="card-title"><span class="dot"></span>Харчування · 63 кг, ціль «прибрати живіт» (рекомпозиція)</div>
+      <div class="card-title"><span class="dot"></span>Харчування · 63 кг, 15–16 р. · підтримка або легкий профіцит</div>
+      <p style="font-size:13px;line-height:1.6;margin:0 0 10px 0;color:var(--warn)"><strong>Виправлення від попередньої версії:</strong> було помилково «дефіцит 200–300 ккал». При BMI 20.8 і віці 15–16 дефіцит зупинить ріст м'язів і може повільнити вироблення тестостерону/ГР і ріст кісток.</p>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
-        <li><strong>Дефіцит легкий: 200–300 ккал/добу.</strong> Не більше — інакше потрапиш в ригід-режим, мозок втратить продуктивність.</li>
-        <li><strong>Білок 1.6–2.0 г/кг = 100–125 г/день.</strong> Курка, яйця, риба, гречка з фасоллю, грецький йогурт, сир.</li>
-        <li><strong>Вуглеводи 4–5 г/кг.</strong> Не різати — мозку потрібні (особливо на іспитах).</li>
-        <li><strong>Жири 0.8–1 г/кг.</strong> Оливкова олія, горіхи, лосось 1–2 рази/тиждень.</li>
+        <li><strong>Режим калорій: підтримка або +100 ккал/добу.</strong> М'язи ростуть ЛИШЕ при профіциті або підтримці + прогресивне навантаження. Без цього «кор» не з'явиться.</li>
+        <li><strong>Білок 1.6–1.8 г/кг = 100–115 г/день.</strong> Курка (1 грудка = 30 г білка), яйця (1 = 6 г), риба (хек/мінтай/тунець), грецький йогурт (10 г/100 г), кварк/сир 18 г/100 г, гречка + квасоля (повний амінокислотний профіль).</li>
+        <li><strong>Вуглеводи 4–5 г/кг.</strong> Овес/рис/гречка/картопля/хліб цільнозерновий. НЕ різати — мозку потрібні (особливо на іспитах + після тренувань).</li>
+        <li><strong>Жири 0.8–1 г/кг.</strong> Оливкова олія, горіхи (30 г/день), лосось 1–2 рази/тиждень (omega-3 для мозку).</li>
         <li><strong>Вода 2.5–3 л/день.</strong> Слабкість концентрації часто — дегідратація.</li>
+        <li><strong>Вітамін D 1000–2000 IU/день</strong> (жовтень–квітень, в Україні природного НЕДОСТАТНЬО). Омега-3 риба або капсули 1–2 г/день. Б-комплекс + магній ввечері якщо важко заснути. Креатин 3–5 г/день (безпечно для підлітків, ISSN 2021).</li>
         <li>Алкоголь — ні. Цукор — мінімізувати, особливо ввечері (зриває сон).</li>
         <li><strong>Без екстремальних дієт.</strong> Кето / голодування 16/8 — у твоєму віці не варто.</li>
       </ul>
+      <p class="muted" style="font-size:12px;margin-top:10px;line-height:1.5"><strong>Приклад дня на ~2500 ккал/110 г білка:</strong> 1) Сніданок: 3 яйця омлет + 80 г вівсянки + банан. 2) Обід: 150 г курки + 100 г гречки/рису + салат з оливковою. 3) Перекус: великий йогурт 200 г + 30 г горіхів. 4) Вечеря: 150 г риби або кварк 250 г + овочі з олією + хліб цільнозерн. Білок-сума ≈ 110 г.</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Управління стресом · базовий набір</div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Box breathing (4-4-4-4)</strong> 5 хв перед mock-іспитом — реально знижує тривогу (вдих 4 с → затримка 4 → видих 4 → затримка 4).</li>
+        <li><strong>4-7-8 дихання</strong> для засинання (вдих 4 → затримка 7 → видих 8) 4 цикли.</li>
+        <li><strong>Раз/тиждень</strong> — 1 година повного digital detox (телефон в іншу кімнату).</li>
+        <li><strong>Контакт із друзями</strong> — критично. Соціальна ізоляція в 15 років руйнує дофамін.</li>
+        <li><strong>Коли звернутися до психолога:</strong> тривога більше 2 тижнів, втрата інтересу до речей, які раніше були важливими, думки про самохворобу або самогубство, панічні атаки.</li>
+        <li><strong>Безплатні лінії</strong> (Україна): <strong>7333</strong> (Національна Лінія психологічної допомоги, 24/7) · <strong>116 123</strong> (Лінія довіри) · платформа «Teenergizer» (онлайн-чат для підлітків) · «Me + 1» від МОН України. ВНЗ з 2026 матимуть психологів-консультантів безплатно для студентів.</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Pomodoro / Time-blocking проти вигорання</div>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0"><strong>Pomodoro</strong> = 25 хв фокус + 5 хв перерва. Через кожні 4 цикли — велика перерва 15–30 хв. На перерві — <strong>НЕ екран</strong> (без TikTok, Reddit, YouTube). Вода, вікно відкрити, кілька присідань, прогулянка до кухні.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0"><strong>Для мови:</strong> 1 Pomodoro = 25 хв (їх 2 = 50 хв = TARGET).</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0"><strong>Для математики:</strong> 2 Pomodoro задач + 1 Pomodoro розбір помилок.</p>
+      <p style="font-size:14px;line-height:1.6;margin:0 0 8px 0"><strong>Сигнали вигорання</strong> (якщо &gt;7 днів): постійна втома, прокинувся в ранку вже втомлений, «все рівно», сон порушений, втрата радості від речей, що раніше приносили радість. Реакція: 3 дні «MIN»-режиму, плюс «emergency mode» в додатку.</p>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Читання / подкасти · «rozum»</div>
+      <p class="muted" style="font-size:13px;margin:0 0 10px 0">15 хв/день читання не з екрану — єдиний доведений спосіб розвинути «deep work» м'язи. Читай вранці або перед сном.</p>
+      <ul class="res-list">
+        <li><div class="meta"><div class="ttl">Deep Work · Cal Newport</div><div class="sub">як працювати глибоко в епоху TikTok</div></div></li>
+        <li><div class="meta"><div class="ttl">Atomic Habits · James Clear</div><div class="sub">як будувати звички як системи</div></div></li>
+        <li><div class="meta"><div class="ttl">Why We Sleep · Matthew Walker</div><div class="sub">сон є когнітивним ресурсом, не витратами</div></div></li>
+        <li><div class="meta"><div class="ttl">Range · David Epstein</div><div class="sub">чому широкий розвиток переважає ранню спеціалізацію</div></div></li>
+        <li><a href="https://www.youtube.com/@hubermanlab" target="_blank" rel="noopener noreferrer" class="meta"><div class="ttl">Huberman Lab Podcast</div><div class="sub">нейробіологія, сон, фокус</div></a></li>
+        <li><div class="meta"><div class="ttl">Ukrainian Reading List</div><div class="sub">«Тіні забутих предків» Коцюбинського · «Земля» Кобилянської · «Двісті років разом» Шкляра</div></div></li>
+      </ul>
     </div>
     <div class="card">
-      <div class="card-title"><span class="dot"></span>Управління стресом</div>
+      <div class="card-title"><span class="dot"></span>Цифрова гігієна і фокус</div>
       <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
-        <li>5 хв «box breathing» (4-4-4-4) перед mock-іспитом — реально знижує тривогу.</li>
-        <li>Раз/тиждень — 1 година повного digital detox.</li>
-        <li>Контакт із друзями — критично. Соціальна ізоляція в 15 років руйнує дофамін.</li>
-        <li>Якщо тривога перевалила за 2 тижні — звернись до психолога (БФ «Лікарі без кордонів», «Безбар'єрність», або платно).</li>
+        <li><strong>Телефон не в спальні.</strong> Купи будильник (~300 грн) або залишай телефон в іншій кімнаті.</li>
+        <li><strong>Обмеження соцмереж</strong> через Screen Time (iOS) / Digital Wellbeing (Android): TikTok / Instagram / YouTube — максимум 30 хв/день разом.</li>
+        <li><strong>One Sec</strong> (додаток) — перед відкриванням «проблемного» додатку 1 с дихання — реально розвиває свідомість.</li>
+        <li><strong>Одна задача одночасно.</strong> Браузер з 1 вкладкою. Не перемикатися між мовою і математикою в одному Pomodoro.</li>
+        <li><strong>Правило 5 хв</strong>: якщо не вмикається робота — все ж починай і роби 5 хв. Часто входиш у «flow» і працюєш далі.</li>
       </ul>
     </div>
   </div>
@@ -1280,14 +1596,16 @@
   </div>
 
   <div class="card" style="margin-bottom:16px">
-    <div class="card-title"><span class="dot"></span>Дані</div>
+    <div class="card-title"><span class="dot"></span>Дані · backup політика</div>
     <div class="btn-row">
-      <button class="btn primary" data-action="export">Експорт JSON</button>
+      <button class="btn primary" id="exportBtn" data-action="export">Експорт JSON</button>
       <label class="btn">Імпорт JSON<input type="file" id="importFile" accept="application/json" style="display:none"></label>
       <button class="btn ghost" data-action="reset-day">Reset day</button>
       <button class="btn danger" data-action="reset-all">Reset all</button>
     </div>
-    <p class="muted" style="margin-top:10px;font-size:13px">LocalStorage key: <code>roadmap_pl_sk_v1</code>. Reset day обнуляє todayTasks; energy і streak не чіпаються.</p>
+    <p class="muted" id="exportStatus" style="margin-top:10px;font-size:13px">—</p>
+    <p class="muted" style="margin-top:6px;font-size:13px;line-height:1.6">LocalStorage key: <code>roadmap_pl_sk_v1</code>. <strong>Рекомендований бекап — раз на тиждень.</strong> Без бекапу &gt;7 днів — кнопка «Експорт» стає червоною і на сторінці «Сьогодні» з'являється банер. Це єдиний захист від втрати 2-річної статистики при очищенні кешу / iOS Safari ITP.</p>
+    <p class="muted" style="margin-top:6px;font-size:12px;line-height:1.5"><strong>Reset day</strong> обнуляє todayTasks; energy і streak не чіпаються. Для довгострокового збереження — вважай, що браузерне сховище НЕ є надійним — копії в хмарі або на диску ОБОВ'ЯЗКОВІ.</p>
   </div>
 
   <div class="card">
@@ -1356,7 +1674,7 @@ const defaults = {
   slovakLevel:'A0',
   polskiWords:0,
   slovakWords:0,
-  activeTrack:'BOTH', // PL | SK | BOTH
+  activeTrack:'PL', // PL | SK | BOTH — Plan A (PL) як primary зa замовчуванням
   currentMode:'TARGET', // MIN | TARGET | STRETCH | EMERGENCY
   emergencyType:null, // blackout | alarm | sick | null
   streak:0,
@@ -1364,7 +1682,7 @@ const defaults = {
   totalPoints:0,
   energyHistory:[], // {date,v}
   workoutHistory:[], // dates
-  mathMocks:[], slovakMocks:[], polskiMocks:[], ukrMocks:[], histMocks:[],
+  mathMocks:[], slovakMocks:[], polskiMocks:[], ukrMocks:[], histMocks:[], englishMocks:[], pythonMocks:[],
   todayTasks:[],
   todayDate:null,
   heatmap:{}, // date -> level
@@ -1373,7 +1691,8 @@ const defaults = {
   plCity:'Wrocław', skCity:'Košice',
   familyBudget:0,
   limAnkiNew:15, limAnkiRev:120, limMathMin:60,
-  lastUpdated:null
+  lastUpdated:null,
+  lastExportAt:null
 };
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -1825,7 +2144,7 @@ function renderSKCost(){
 // ════════════════════════════ MOCKS ════════════════════════════
 function renderMockList(subject,listId){
   const el=document.getElementById(listId); if(!el) return;
-  const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
+  const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','english':'englishMocks','python':'pythonMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
   const arr=state[key]||[];
   if(!arr.length){ el.innerHTML='<p class="muted" style="font-size:13px">Поки нема mock\'ів</p>'; return; }
   el.innerHTML=arr.slice().reverse().map(m=>`<div class="task" style="cursor:default"><div class="task-row"><span class="task-title">${m.date}</span><span class="tnum">${m.score}</span></div></div>`).join('');
@@ -1834,11 +2153,47 @@ function renderAllMocks(){
   renderMockList('math','mathMockList');
   renderMockList('polski','plMockList');
   renderMockList('slovak','skMockList');
+  renderMockList('ukr','ukrMockList');
+  renderMockList('history','histMockList');
+  renderMockList('english','engMockList');
+  renderMockList('python','pyMockList');
   // subject pages
   const setLast=(arr,elId,barId)=>{ const last=arr[arr.length-1]; const e=document.getElementById(elId); if(e) e.textContent=last?last.score:'—'; const b=document.getElementById(barId); if(b&&last){ const v=Math.min(100,Math.max(0,(last.score-100)/100*100)); b.style.width=v.toFixed(0)+'%'; } };
   setLast(state.mathMocks,'mathLast','mathProgressBar');
   setLast(state.ukrMocks,'ukrLast','ukrProgressBar');
   setLast(state.histMocks,'histLast','histProgressBar');
+}
+
+// ════════════════════════════ BACKUP REMINDER ════════════════════════════
+function renderBackupReminder(){
+  const banner=document.getElementById('backupBanner');
+  const bannerText=document.getElementById('backupBannerText');
+  const status=document.getElementById('exportStatus');
+  const btn=document.getElementById('exportBtn');
+  const last=state.lastExportAt;
+  const now=Date.now();
+  let days=null;
+  let msg='';
+  if(!last){
+    msg='Ще не було жодного експорту. Зроби бекап зараз.';
+    if(banner){ banner.style.display='block'; bannerText.textContent=msg; }
+    if(btn) btn.classList.add('danger');
+    if(status) status.innerHTML='<strong style="color:var(--danger)">Останній бекап: ніколи</strong>';
+    return;
+  }
+  days=Math.floor((now-last)/(1000*60*60*24));
+  const dateStr=new Date(last).toLocaleDateString('uk-UA');
+  if(days>=7){
+    msg=`З останнього експорту минуло ${days} днів. Останній бекап: ${dateStr}.`;
+    if(banner){ banner.style.display='block'; bannerText.textContent=msg; }
+    if(btn) btn.classList.add('danger');
+    if(status) status.innerHTML=`<strong style="color:var(--danger)">Останній бекап: ${dateStr} · ${days} днів тому · ПРОСТРОЧЕНО</strong>`;
+  } else {
+    if(banner) banner.style.display='none';
+    if(btn) btn.classList.remove('danger');
+    const colour=days>=4?'var(--warn)':'var(--good)';
+    if(status) status.innerHTML=`<span style="color:${colour}">Останній бекап: ${dateStr} · ${days} ${days===1?'день':'дн.'} тому</span>`;
+  }
 }
 
 // ════════════════════════════ WORKOUT ════════════════════════════
@@ -1885,6 +2240,7 @@ function route(name){
   if(name==='subjects'||name==='pl'||name==='sk') renderAllMocks();
   if(name==='body') renderWorkout();
   if(name==='settings') renderSettings();
+  if(name==='today'||name==='settings') renderBackupReminder();
 }
 
 function routeFromHash(){
@@ -1929,7 +2285,7 @@ function wireEvents(){
   document.querySelectorAll('[data-action="countries-sheet"]').forEach(b=>b.onclick=()=>openSheet('sheetCountries'));
   document.querySelectorAll('[data-action="more-sheet"]').forEach(b=>b.onclick=()=>openSheet('sheetMore'));
   document.querySelectorAll('[data-close="sheet"]').forEach(b=>b.onclick=closeSheets);
-  document.querySelectorAll('[data-close="modal"]').forEach(b=>b.onclick=closeModal);
+  document.querySelectorAll('[data-close="modal"]').forEach(b=>b.addEventListener('click',e=>{ if(e.target===b) closeModal(); }));
 
   // subtabs
   document.querySelectorAll('.subtab-btn').forEach(btn=>{
@@ -2028,7 +2384,7 @@ function wireEvents(){
   // mocks
   document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>{
     const subject=b.dataset.mock;
-    const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
+    const key={'math':'mathMocks','ukr':'ukrMocks','history':'histMocks','english':'englishMocks','python':'pythonMocks','polski':'polskiMocks','slovak':'slovakMocks'}[subject];
     openModal('Новий mock — '+subject,`<div style="display:flex;flex-direction:column;gap:10px"><label>Дата:<br><input type="date" id="mDate" value="${todayISO()}" style="margin-top:4px;padding:8px;width:100%;border-radius:8px;background:var(--bg-elevated);border:1px solid var(--border-subtle)"></label><label>Бал (число):<br><input type="number" id="mScore" min="100" max="200" value="140" style="margin-top:4px;padding:8px;width:100%;border-radius:8px;background:var(--bg-elevated);border:1px solid var(--border-subtle)"></label></div>`,[
       {label:'Скасувати',cb:closeModal},
       {label:'Зберегти',kind:'primary',cb:()=>{ const d=document.getElementById('mDate').value; const s=Number(document.getElementById('mScore').value); if(d&&s){ state[key]=state[key]||[]; state[key].push({date:d,score:s}); save(); renderAllMocks(); renderProgress(); toast('good','Mock збережено'); } closeModal(); }}
@@ -2041,6 +2397,9 @@ function wireEvents(){
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a'); a.href=url; a.download='roadmap_'+todayISO()+'.json'; a.click();
     URL.revokeObjectURL(url);
+    state.lastExportAt=Date.now(); save();
+    renderBackupReminder();
+    toast('good','Бекап збережено · '+new Date().toLocaleDateString('uk-UA'));
   });
   const ipt=document.getElementById('importFile');
   if(ipt) ipt.onchange=e=>{
@@ -2084,6 +2443,7 @@ function renderAll(){
   renderAllMocks();
   renderWorkout();
   renderSettings();
+  renderBackupReminder();
   updateStorageStatus();
 }
 
@@ -2096,7 +2456,7 @@ function init(){
   state.actionChecklist=state.actionChecklist||{};
   state.energyHistory=state.energyHistory||[];
   state.workoutHistory=state.workoutHistory||[];
-  ['mathMocks','slovakMocks','polskiMocks','ukrMocks','histMocks'].forEach(k=>{ state[k]=state[k]||[]; });
+  ['mathMocks','slovakMocks','polskiMocks','ukrMocks','histMocks','englishMocks','pythonMocks'].forEach(k=>{ state[k]=state[k]||[]; });
 
   wireEvents();
   routeFromHash();
