@@ -98,7 +98,6 @@
     .sb-track{padding:3px 10px;border-radius:999px;font-size:12px;border:1px solid;font-weight:500}
     .sb-track.pl{color:var(--polski);border-color:#5a2a2a;background:#2e1818}
     .sb-track.sk{color:var(--slovak);border-color:#1d4258;background:#0f2330}
-    .sb-track.both{color:var(--accent);border-color:#1d4258;background:#0f2330}
 
     /* Cards */
     .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--r12);padding:16px}
@@ -172,9 +171,11 @@
     .task-icon{width:24px;height:24px;color:var(--text-secondary);flex-shrink:0}
     .task-title{flex:1;font-weight:500;font-size:15px}
     .task-dur{font-size:12px;color:var(--text-muted)}
-    .chk{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-base)}
+    .chk{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-base);cursor:pointer}
     .chk.checked{background:var(--good);border-color:var(--good)}
     .chk svg{width:16px;height:16px;color:#06141f}
+    .chk.locked{opacity:.35;cursor:not-allowed;border-color:var(--danger);background:rgba(255,80,80,0.06);pointer-events:none}
+    .task.locked .task-title{opacity:.5}
     .task-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle);display:none}
     .task[open=true] .task-detail{display:block}
     .quick-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -352,7 +353,7 @@
       <div class="sb-center">
         <span id="sbDate">—</span>
         <span class="sb-period" id="sbPeriod">—</span>
-        <span class="sb-track both" id="sbTrack">PL + SK</span>
+        <span class="sb-track pl" id="sbTrack">PL</span>
         <span id="sbCountdown" class="muted">—</span>
       </div>
       <button class="sb-energy" id="sbEnergyBtn" aria-label="Поточна енергія"><span class="dot" id="sbEnergyDot"></span><span class="v tnum" id="sbEnergyV">—</span></button>
@@ -365,8 +366,8 @@
   <h1 id="h-today" style="margin-bottom:4px">Сьогодні</h1>
   <p class="muted" id="todayDateLong" style="margin-bottom:20px">—</p>
 
-  <div id="backupBanner" class="card" style="display:none;margin-bottom:16px;border:2px solid var(--danger);background:rgba(255,80,80,0.08)">
-    <div class="card-title"><span class="dot" style="background:var(--danger)"></span>Строковий бекап ПРОСТРОЧЕНИЙ</div>
+  <div id="backupBanner" class="card" style="display:none;margin-bottom:16px;border:2px solid var(--danger);background:rgba(255,80,80,0.08)" data-banner="backup">
+    <div class="card-title" id="backupBannerTitle"><span class="dot" style="background:var(--danger)"></span>Строковий бекап ПРОСТРОЧЕНИЙ</div>
     <p style="font-size:14px;margin:0 0 8px 0" id="backupBannerText">—</p>
     <p style="font-size:13px;margin:0 0 10px 0;color:var(--text-muted)">Браузер може стерти localStorage при очищенні кешу. Збери файл собі на диск або в хмару (Google Drive / Dropbox).</p>
     <button class="btn danger" data-action="export">Скачати резервну копію зараз</button>
@@ -392,16 +393,15 @@
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="dot"></span>Поточний фокус · primary / secondary</div>
+      <div class="card-title"><span class="dot"></span>Поточний фокус · primary (Poka-yoke)</div>
       <div style="margin-bottom:12px;font-size:13px;color:var(--text-secondary);line-height:1.6">
-        Дефолт — <strong style="color:var(--polski)">PL primary (Plan A)</strong>, бо з ПМЖ-таймлайну виходить коротший шлях до резидента UE. Обидві мови з A0 одночасно (режим «BOTH») — високий ризик лексичної інтерференції (слова-підміни). Рекомендація: тримай PL primary, SK secondary лише як 5–10 хв пасивного вводу на тиждень (після досягнення A2 з PL).
+        Тільки <strong>один</strong> primary одночасно. Режим «BOTH» прибрано навмисно (Poka-yoke): дві близькородинні мови з A0 = жорстка лексична інтерференція (слова-підміни). Дефолт — <strong style="color:var(--polski)">PL primary (Plan A)</strong>: коротший шлях до резидента UE (art. 212 ust. 1 pkt 3 lit. b). Якщо PL до листопада 2027 не йде (B1 mock &lt; 60%) — перемикайся на SK і робиш SK primary. SK як «пасивний 5 хв подкаст/тиждень» — НЕ замість навчання, лише підтримка ear-familiarity.
       </div>
       <div class="mode-switch" role="group" aria-label="Активний трек">
-        <button class="mode-btn" data-track="PL" aria-pressed="true"><span class="label">Польща</span><span class="min" style="color:var(--polski)">PL</span></button>
-        <button class="mode-btn" data-track="BOTH" aria-pressed="false"><span class="label">Обидві ⚠</span><span class="min">PL+SK</span></button>
-        <button class="mode-btn" data-track="SK" aria-pressed="false"><span class="label">Словаччина</span><span class="min" style="color:var(--slovak)">SK</span></button>
+        <button class="mode-btn" data-track="PL" aria-pressed="true"><span class="label">Польща (Primary)</span><span class="min" style="color:var(--polski)">PL</span></button>
+        <button class="mode-btn" data-track="SK" aria-pressed="false"><span class="label">Словаччина (Primary)</span><span class="min" style="color:var(--slovak)">SK</span></button>
       </div>
-      <p class="muted" style="font-size:12px;margin:0;line-height:1.5">Активний трек впливає на склад денних задач і пріоритет ресурсів. Якщо PL критично не йде до Листопада 2027 (B1 mock &lt; 60%) — перемикайся на SK як primary.</p>
+      <p class="muted" style="font-size:12px;margin:0;line-height:1.5">Перемикання очищає task-list дня і генерує новий під обраний трек. Statefully зберігається.</p>
     </div>
   </div>
 
@@ -1341,6 +1341,7 @@
     <button class="subtab-btn" data-sub="body-fit" aria-pressed="true">Фітнес</button>
     <button class="subtab-btn" data-sub="body-mot" aria-pressed="false">Мотивація & Фільми</button>
     <button class="subtab-btn" data-sub="body-life" aria-pressed="false">Сон & Харчування</button>
+    <button class="subtab-btn" data-sub="body-learn" aria-pressed="false">Методи & Дисципліна</button>
   </div>
 
   <!-- Fitness -->
@@ -1566,6 +1567,235 @@
       </ul>
     </div>
   </div>
+
+  <!-- Learning methods & discipline (v3) -->
+  <div class="subpage" id="sub-body-learn" role="tabpanel">
+
+    <div class="card" style="margin-bottom:16px;border:1px solid var(--accent)">
+      <div class="card-title"><span class="dot"></span>Що це й для чого</div>
+      <p style="font-size:13px;line-height:1.6;margin:0">Конкретні техніки навчання й дисципліни, ефективність яких підтверджена або дослідженнями, або широко прийнятою практикою. Кожна картка має <strong>джерело</strong>: або наукове посилання, або позначку «евристика» якщо це усталений досвід без RCT. Не «мотиваційні фрази» — лише робочі прийоми.</p>
+    </div>
+
+    <div class="section-h">A · Кодування пам'яті (encoding)</div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>1. Spaced Repetition (Anki / Leitner)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> повторювати інформацію перед самим моментом, коли мозок ось-ось забуде. Інтервали зростаючі: 1 → 3 → 7 → 14 → 30 → 90 днів. Працює через ефект «desirable difficulty» — кожне відтворення з зусиллям зміцнює нейронний слід.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Ebbinghaus (1885) — крива забування; meta-analysis Cepeda et al. <em>Psychological Bulletin</em> (2006) — spaced &gt; massed для всіх типів матеріалу.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно на день:</strong> Anki desktop (безкоштовно). Налаштування для початку: 15 нових карт/день, ліміт review 120/день. На 2-му тижні &mdash; підняти new до 20-25/день якщо встигаєш до 95% recall.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0;color:var(--text-muted)"><strong>Готові колоди (підключити перший день):</strong>
+        <a href="https://ankiweb.net/shared/info/1530881658" target="_blank" rel="noopener noreferrer">PL 5000 most frequent words</a> ·
+        <a href="https://ankiweb.net/shared/info/1029068858" target="_blank" rel="noopener noreferrer">PL Hurra po polsku 1 (A1-A2)</a> ·
+        <a href="https://ankiweb.net/shared/info/1908708025" target="_blank" rel="noopener noreferrer">SK Slovak vocabulary core</a> ·
+        <a href="https://ankiweb.net/shared/info/911892136" target="_blank" rel="noopener noreferrer">Math NMT-formuly</a>.
+        Перевір URL перед використанням — деякі deck автори знімають публікацію.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>2. Active recall (тестування замість читання)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> закрив підручник → дістав з пам'яті, потім перевірив. Активне відтворення формує сильніший слід, ніж пасивне перечитування — у 2-3 рази. Це найміцніший ефект у літературі з навчання.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Roediger & Karpicke <em>Psychological Science</em> (2006) — «testing effect»; Karpicke & Blunt <em>Science</em> (2011) — retrieval практика обходить concept maps і елаборативне навчання.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6">
+        <li><strong>Blurting</strong> (5 хв): закрив тему → 2 хв пишеш ВСЕ що пам'ятаєш на аркуш → 3 хв перевіряєш проти конспекту/підручника. Робити одразу після першого вивчення і потім перед сном.</li>
+        <li><strong>Math:</strong> розв'яжи задачу САМ, ПОТІМ дивись розбір. Не навпаки. Якщо ти просто читаєш розв'язання — це ілюзія розуміння.</li>
+        <li><strong>Історія:</strong> дай собі питання «події 1648 року» і назви все, що знаєш, ДО того як відкрити параграф.</li>
+        <li><strong>Мова:</strong> карточки з пропуском (cloze): <em>«Idę ___ szkoły»</em> → recall «do».</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>3. Interleaving (для математики й мови)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> змішувати типи задач у наборі замість блоків одного типу. Спочатку повільніше, але долго запам'ятовується значно краще.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Rohrer & Taylor <em>Instructional Science</em> (2007); Rohrer, Dedrick & Stershic <em>Journal of Educational Psychology</em> (2015) — interleaved practice 43% краще на final test ніж blocked, незважаючи на студентську впевненість у протилежному.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно для НМТ:</strong> НЕ «20 задач на похідну → 20 на інтеграл → 20 на функції». ТАК: «3 похідна + 2 функція + 2 інтеграл + 1 геометрія + повтор», перемішане. Виглядає важче перші 2 тижні — це нормально.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0;color:var(--text-muted)"><strong>Контр-приклад:</strong> для перших 3-5 повторень нової теми (вивчаєш похідну вперше) — використовуй blocked. Interleaving починаєш коли тема вже знайома.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>4. Feynman Technique (пояснення дитині)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> поясни тему вголос так, щоб 12-річний зрозумів. Кожен раз, коли застрягаєш — знайшов дірку → повертайся до матеріалу → пояснюй знов.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Richard Feynman, описана в Gleick «Genius» (1993); підкріплено self-explanation effect — Chi et al. <em>Cognitive Science</em> (1989, 1994).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно:</strong> запис голосом 5 хв на телефон → послухай → де затинаєшся, де «ну тут якось так», де чесно не знаєш — це дірки. Працює для math (доведення), історії (причини подій), мови (граматичні правила), Python (як працює loop).</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>5. Dual Coding (текст + малюнок)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> інформація кодована двома каналами (вербальний + візуальний) запам'ятовується краще, ніж одним.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Paivio's Dual Coding Theory (1971, 1986); meta-analysis Schroeder et al. <em>Educational Psychology Review</em> (2018).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> історія — таймлайн на A4 з малюнками. Math — графіки функцій від руки. Мова — flashcards з зображенням замість перекладу (особливо A0-A1 для конкретних слів). Не потрібно бути художником — кругаль і палочка достатньо.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>6. Elaborative interrogation («Чому?»)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> на кожен факт сам собі ставиш «чому це так?» і шукаєш зв'язок з уже відомим. Це формує мережу замість списку.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Pressley et al. (1987, 1988); Dunlosky et al. <em>Psychological Science in the Public Interest</em> (2013) — top-tier ефективність серед навчальних технік.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Приклад замість «коли був Володимир Великий»:</strong> «чому Володимир обрав християнство, а не іслам чи юдаїзм?» → візантійський вплив, торгівля з Константинополем, державний апарат → тобі легше потім згадати дату.</p>
+    </div>
+
+    <div class="section-h">B · Мови специфічно (PL/SK)</div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>7. Shadowing (ехо-повторення за диктором)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> слухаєш аудіо (диктора) і одночасно повторюєш слово-в-слово синхронно з ним. Не пауза → speak — а накладено.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> метод запропонував Alexander Argüelles (~2001); опис у його лекціях. Не RCT, але широко прийнято серед поліглотів. Розвиває одночасно pronunciation, intonation, listening, grammar feel.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно (10-15 хв/день):</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6">
+        <li>PL: <a href="https://www.easypolish.org" target="_blank" rel="noopener noreferrer">Easy Polish</a> (YouTube — короткі вуличні інтерв'ю з субтитрами), <a href="https://www.realpolish.pl" target="_blank" rel="noopener noreferrer">Real Polish podcast</a> (Piotr Kowalczyk, A2+).</li>
+        <li>SK: <a href="https://www.slovake.eu" target="_blank" rel="noopener noreferrer">slovake.eu</a> audio до уроків, <a href="https://slovakpodcast.com" target="_blank" rel="noopener noreferrer">Slovak Podcast</a>.</li>
+        <li>Швидкість: 0.75× перший тиждень, потім 1×. Транскрипт під рукою.</li>
+        <li>Цикл: слухав 1 раз без повтору → слухав і shadowing → подивися транскрипт → ще shadowing з транскриптом → ще без транскрипту.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>8. Sentence mining (i+1, Krashen)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> замість карток «слово → переклад» — картки з реченням, де 1 нове слово в знайомому контексті. «i+1» = твій поточний рівень + 1 нове слово.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Krashen Input Hypothesis (1985); популяризовано MattVsJapan / Refold / AJATT. Картки з контекстом запам'ятовуються в 2-3 рази краще ніж ізольовані слова (Nation, <em>Learning Vocabulary in Another Language</em>, 2001).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> читаєш Easy Polish епізод → знайшов нове слово → береш ВСЕ речення в Anki: <em>front</em> = речення з пропуском слова, <em>back</em> = слово + переклад + (якщо є) звук. Інструменти: <a href="https://ankiweb.net/shared/info/1610304449" target="_blank" rel="noopener noreferrer">«Migaku Browser Extension»</a> або просто copy-paste.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>9. Comprehensible Input (Krashen)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> більшість прогресу в мові — це не граматика, а кількість зрозумілого вводу. Ціль: 1+ година на день вводу (читання + аудіо) на твоєму рівні або трохи вищому.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Krashen 1985, 2004 — Comprehension Hypothesis. Підтверджено в практиці Dreaming Spanish, ALG Thai, Refold communities (не RCT-рівень, але великий emprical track record).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Стратегія для A0→B1 (12 міс):</strong> 0-3 міс — лише <strong>active</strong> (Anki + урок); 3-9 міс — додаєш 30 хв/день <strong>extensive reading</strong> (graded readers рівня A1-A2) + 20 хв подкастів з транскриптом; 9-12 міс — 60+ хв native content (новини, YouTube без транскрипта).</p>
+    </div>
+
+    <div class="section-h">C · Дисципліна та звички</div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>10. Identity-based habits (James Clear)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> зміна на рівні <em>ідентичності</em>, не цілі. Не «я хочу скласти C1», а «я людина, яка щодня вчить польську». Дія підкріплює ідентичність → ідентичність робить наступну дію легшою.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> James Clear «Atomic Habits» (2018), глава 2; підкріплено self-perception theory Bem (1972).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> в Налаштування напиши собі: «Я людина, яка <em>{дія}</em> щодня». Питання щоранку: «Що зробила б ця людина?» — і виконуй.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>11. Habit Stacking (приклеювання звички)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> формула «<strong>Після [існуюча звичка], я [нова звичка]</strong>». Використовуй вже автоматичну дію як trigger для нової.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> BJ Fogg «Tiny Habits» (2019) — «anchor → behavior → celebration»; популяризовано Clear «Atomic Habits» (2018).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Готовий стек для тебе:</strong></p>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li>Прокинувся → склянка води + 5 хв стрейчинг (анкер: будильник)</li>
+        <li>Після сніданку → 20 хв Anki review (анкер: чашка)</li>
+        <li>Після приходу зі школи → 25 хв math Pomodoro (анкер: знімаю рюкзак)</li>
+        <li>Після вечері → 45 хв polski/slovak (анкер: тарілка в мийку)</li>
+        <li>Перед сном → 10 хв читання книжки + лог енергії в дашборд</li>
+      </ol>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>12. Implementation Intentions («якщо X — то Y»)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> заздалегідь визначити реакцію на типову проблему: «Якщо <em>{ситуація}</em>, то я <em>{дія}</em>». Знімає рішення з моменту слабкості.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Gollwitzer «Implementation Intentions» <em>American Psychologist</em> (1999); meta-analysis Gollwitzer & Sheeran <em>Advances in Experimental Social Psychology</em> (2006) — ефект розміру d = 0.65 (середньо-високий) на досягнення цілей.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Твої правила (пропиши на папері + повісь):</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6">
+        <li><em>Якщо</em> відкрив TikTok — <em>то</em> закриваю і роблю 1 Anki картку.</li>
+        <li><em>Якщо</em> страх перед mock-іспитом — <em>то</em> box breathing 4-4-4-4 × 5 циклів, потім починаю.</li>
+        <li><em>Якщо</em> енергія &le; 4/10 два дні поспіль — <em>то</em> завтра режим MIN, без винятків.</li>
+        <li><em>Якщо</em> я хочу пропустити Anki — <em>то</em> роблю мінімальну версію (5 карт замість 100).</li>
+        <li><em>Якщо</em> блекаут &gt; 2 годин — <em>то</em> читаю книжку зі списку 30 хв замість екрану.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>13. Don't break the chain (Seinfeld method)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> позначай кожен день виконання. Не зривати ланцюг. Психологія втрати (loss aversion) працює сильніше, ніж психологія прибутку.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> анекдотично приписується Jerry Seinfeld (інтерв'ю Lifehacker 2007). Loss aversion — Kahneman & Tversky <em>Econometrica</em> (1979).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>В дашборді:</strong> streak counter на статусбарі вже виконує цю роль. Не зривай. Правило <strong>«Never miss twice»</strong> (Clear): пропустив 1 день — ок, але не 2 поспіль.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>14. Two-Minute Rule</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> почни з 2-хвилинної версії задачі. «Вивчити 30 хв польської» → «відкрив Anki, подивився 1 картку». Друга хвилина створює третю. Опір прокрастинації — це опір <em>початку</em>, не дії.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> David Allen «Getting Things Done» (2001) + Clear «Atomic Habits» (2018, гл. 13).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> якщо вмикається «не хочу» — кажеш собі: «2 хвилини і кидаю». Майже завжди продовжуєш далі. Якщо НЕ продовжуєш — закрив, реально кидаєш. Краще 2 хв ніж 0 хв.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>15. Environment Design (зменшення тертя)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> зроби корисні дії легкими, шкідливі — важкими. Сила волі — обмежений ресурс; не використовуй її там, де можна перепроектувати оточення.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Clear «Atomic Habits» (2018, закони 1 і 3); Baumeister «Willpower» (2011) — ego depletion.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Конкретно:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6">
+        <li>Підручник математики на столі ВСЮ ніч (помилково не побачити = трохи зайвого тертя зранку).</li>
+        <li>Телефон в іншій кімнаті на ніч і під час Pomodoro.</li>
+        <li>Окремий браузерний профіль «Робота» — без YouTube/TikTok закладок, без логіну в соцмережі.</li>
+        <li><a href="https://getcoldturkey.com" target="_blank" rel="noopener noreferrer">Cold Turkey Blocker</a> / <a href="https://forestapp.cc" target="_blank" rel="noopener noreferrer">Forest</a> — фізично блокувати сайти на період Pomodoro.</li>
+        <li>Anki app встановлений на телефоні з shortcut на головному екрані (1 свайп — відкрив).</li>
+        <li>На комп'ютері в startup: відкрити Anki + дашборд при запуску ОС.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>16. Weekly Review (неділя, 30 хв)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> регулярний огляд тижня тримає курс і виявляє drift раніше, ніж стане катастрофою. Заодно — закладає опору при наступному «не хочеться».</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Allen «Getting Things Done» (2001) — «Weekly Review»; Schippers et al. <em>Frontiers in Psychology</em> (2015) — рефлексивні письмові вправи ↑ академічної успішності на 22%.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Шаблон (5 питань, по 5 хв кожне):</strong></p>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Цифри:</strong> mock-результати тижня, streak, енергія в середньому, годин на primary мову.</li>
+        <li><strong>Що вийшло?</strong> 1-3 конкретні досягнення.</li>
+        <li><strong>Що НЕ вийшло і ЧОМУ?</strong> Якщо причина системна (мало сну, погано спланована неділя) → план виправлення.</li>
+        <li><strong>Чому я навчився нового?</strong> 1 thing per subject. Можна 1 речення на тему.</li>
+        <li><strong>3 пріоритети наступного тижня.</strong> НЕ «вчитися краще» — конкретно: «закрити главу 12 з математики», «закінчити Hurra epizod 8».</li>
+      </ol>
+      <p style="font-size:13px;line-height:1.5;margin:0;color:var(--text-muted)">Записувати в один файл (.md або зошит). За рік буде ~52 записи = повноцінний дневник прогресу для рефлексії перед C1.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>17. Sleep &rarr; memory consolidation</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> довгострокова пам'ять формується НЕ під час навчання, а під час сну. Slow-wave (deep sleep) консолідує declarative (факти), REM — procedural (навички, мову).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Walker «Why We Sleep» (2017); Diekelmann & Born <em>Nature Reviews Neuroscience</em> (2010); meta-analysis Newbury et al. <em>Cortex</em> (2021).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Практичні наслідки:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.6">
+        <li><strong>Найважливіше за день — вчити перед сном.</strong> Те, що увійшло в мозок за 1-2 год перед засинанням, обробляється першим у деревом сну. Anki останнє → перед чищенням зубів.</li>
+        <li><strong>20-30 хв nap після cognitive work</strong> (якщо є можливість) — boost retention. НЕ більше 30 хв (інакше sleep inertia).</li>
+        <li><strong>Недосип</strong> &lt;6 годин → до 40% втрати довгострокового запам'ятовування того, що вчив.</li>
+        <li><strong>Алкоголь і сильно жирна їжа за 2-3 год до сну</strong> — знищують REM. Кофе після 14:00 — для тебе теж.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>18. Pre-mortem (для НМТ/C1)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> перед стартом великої роботи — уявити «ми провалили». Записати ВСЕ що могло до цього призвести. Дає неочікувані сліпі плями.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Klein <em>Harvard Business Review</em> (2007). У дослідженні: команди, які роблять pre-mortem, виявляють на 30% більше ризиків ніж під час звичайного планування.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> один раз на квартал відкрий блокнот, напиши «Сценарій: квітень 2028, я провалив C1». Опиши ВСІ причини: «недостатньо shadowing, забагато grammar drill і мало speaking, мало native input, не пройшов mock-PKPZJP, не зробив italki...» — далі плануєш проти кожної причини.</p>
+    </div>
+
+    <div class="section-h">D · Чого НЕ робити (efficacy ≈ 0 або негативно)</div>
+
+    <div class="card" style="margin-bottom:16px;border-color:#5a2a2a">
+      <div class="card-title" style="color:var(--bad)"><span class="dot" style="background:var(--bad)"></span>Дебанк: техніки з низькою ефективністю</div>
+      <p style="font-size:13px;line-height:1.6;margin:0 0 8px 0;color:var(--text-muted)"><strong>Джерело:</strong> Dunlosky, Rawson, Marsh, Nathan, Willingham <em>«Improving Students' Learning With Effective Learning Techniques»</em> · <em>Psychological Science in the Public Interest</em> (2013) — meta-review 10 поширених технік.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Перечитування (re-reading)</strong> — найпопулярніше серед школярів, найгірше за ефективністю. Створює ілюзію розуміння (fluency illusion).</li>
+        <li><strong>Highlighting / підкреслювання</strong> — низька ефективність. Виключення: якщо потім використовуєш виділення для active recall.</li>
+        <li><strong>Підсумування (summarization)</strong> — низько-середня ефективність для більшості. Працює лише якщо ти вже вмієш писати якісні summaries.</li>
+        <li><strong>Mnemonics (з предмета вище за вузький факт-список)</strong> — низько-середня. Працює для дат і списків, НЕ для розуміння концепцій.</li>
+        <li><strong>«Learning style» (visual/auditory/kinesthetic)</strong> — псевдонаука. Pashler et al. <em>Psychological Science in the Public Interest</em> (2008): немає доказів, що адаптація під «стиль» дає ефект.</li>
+        <li><strong>Зубріння в ніч перед іспитом (cramming / massed practice)</strong> — добре для короткострокового тесту, нічого для довгострокового. Прямо протилежне spaced practice.</li>
+      </ul>
+    </div>
+
+    <div class="section-h">E · 30-денний rollout плану цих технік</div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Як впровадити без вигорання (4 тижні)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0;color:var(--warn)"><strong>Помилка №1:</strong> намагатися впровадити всі 18 технік одразу. Зробиш все на день 3 і кинеш.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Послідовність впровадження (по 1 техніці на тиждень):</strong></p>
+      <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Тиждень 1:</strong> Anki + active recall (blurting на кожну сесію). Це база — без неї решта не працює.</li>
+        <li><strong>Тиждень 2:</strong> Habit stacking — пропиши свій стек (5 anchor-ів) на папері і повісь. Implementation intentions — 5 «якщо-то» правил.</li>
+        <li><strong>Тиждень 3:</strong> Shadowing (10 хв/день для primary мови) + sentence mining (5 нових карт/день з контексту).</li>
+        <li><strong>Тиждень 4:</strong> Interleaving для математики + weekly review (перша неділя — спробуй 30-хв шаблон).</li>
+      </ol>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>З тижня 5 — все нашаровано і автоматично.</strong> Якщо тиждень провалив — НЕ додавай нову техніку, повертайся до попередньої і закріплюй.</p>
+      <p style="font-size:13px;line-height:1.5;margin:0;color:var(--text-muted)"><strong>Метрика успіху після 30 днів:</strong> якщо ти все ще вмикаєш Anki кожного ранку без зусилля волі, навіть якщо втомлений — план працює. Якщо забуваєш частіше 1×/тиждень — зменшуй навантаження (новi карти ↓), не нашаровуй нове.</p>
+    </div>
+
+  </div>
+
 </section>
 
 <!-- ════════════════════════════ SETTINGS ════════════════════════════ -->
@@ -1674,7 +1904,7 @@ const defaults = {
   slovakLevel:'A0',
   polskiWords:0,
   slovakWords:0,
-  activeTrack:'PL', // PL | SK | BOTH — Plan A (PL) як primary зa замовчуванням
+  activeTrack:'PL', // PL | SK — Poka-yoke: BOTH прибрано, тільки один primary
   currentMode:'TARGET', // MIN | TARGET | STRETCH | EMERGENCY
   emergencyType:null, // blackout | alarm | sick | null
   streak:0,
@@ -1692,7 +1922,8 @@ const defaults = {
   familyBudget:0,
   limAnkiNew:15, limAnkiRev:120, limMathMin:60,
   lastUpdated:null,
-  lastExportAt:null
+  lastExportAt:null,
+  firstUseAt:null
 };
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -1716,6 +1947,8 @@ function load(){
     const raw=localStorage.getItem(LS_KEY);
     if(!raw) return clone(defaults);
     const parsed=JSON.parse(raw);
+    // v3 migration: BOTH track no longer supported (Poka-yoke). Force PL.
+    if(parsed.activeTrack==='BOTH') parsed.activeTrack='PL';
     return deepMerge(clone(defaults),parsed);
   }catch(e){
     memoryOnly=true;
@@ -1724,6 +1957,7 @@ function load(){
 }
 function save(){
   state.lastUpdated=Date.now();
+  if(!state.firstUseAt) state.firstUseAt=Date.now();
   if(memoryOnly) return updateStorageStatus();
   try{
     localStorage.setItem(LS_KEY,JSON.stringify(state));
@@ -1765,57 +1999,57 @@ function buildTasks(){
   const ankiRev = inLock?Math.min(30,state.limAnkiRev):state.limAnkiRev;
   const ankiNew = inLock?Math.min(5,state.limAnkiNew):(mode==='MIN'?5:state.limAnkiNew);
 
-  // Polski / Slovak split
+  // Polski / Slovak split (Poka-yoke: один primary, BOTH прибрано)
   function plTask(min,label,quick){ tasks.push({id:'pl-'+tasks.length,subject:'polski',title:label,dur:min,done:false,quick:quick||[]}); }
   function skTask(min,label,quick){ tasks.push({id:'sk-'+tasks.length,subject:'slovak',title:label,dur:min,done:false,quick:quick||[]}); }
   function mathTask(min,label){ tasks.push({id:'math-'+tasks.length,subject:'math',title:label,dur:min,done:false}); }
   function genericTask(subj,min,label){ tasks.push({id:subj+'-'+tasks.length,subject:subj,title:label,dur:min,done:false}); }
 
   if(mode==='MIN'){
-    if(track==='PL'||track==='BOTH') plTask(20,'Польська: Anki '+ankiRev+' review + '+Math.min(5,ankiNew)+' new');
-    if(track==='SK'||track==='BOTH') skTask(15,'Словацька: Anki review + слухати 5 хв подкаст');
+    if(track==='PL') plTask(20,'Польська: Anki '+ankiRev+' review + '+Math.min(5,ankiNew)+' new');
+    else skTask(15,'Словацька: Anki review + слухати 5 хв подкаст');
     mathTask(15,'Math: 2 задачі легких + повторити 1 розбір');
     return tasks;
   }
 
   if(p.id==='pre-summer'){
-    if(track!=='SK'){ plTask(30,'Польська: Anki '+ankiRev+' review + '+ankiNew+' new'); plTask(30,'Польська: Easy Polish 1 епізод + конспект'); }
-    if(track!=='PL'){ skTask(20,'Словацька: slovake.eu A1 1 урок + Anki '+Math.min(10,ankiNew)+' new'); }
+    if(track==='PL'){ plTask(30,'Польська: Anki '+ankiRev+' review + '+ankiNew+' new'); plTask(30,'Польська: Easy Polish 1 епізод + конспект'); }
+    else { skTask(40,'Словацька: slovake.eu A1 2 уроки + Anki '+Math.min(15,ankiNew)+' new'); }
     mathTask(35,'Math: 5 задач НМТ + розбір помилок');
     genericTask('english',15,'English: Anki 30 review');
   } else if(p.id==='summer-2026'){
-    if(track!=='SK'){ plTask(45,'Польська: Anki '+ankiRev+'r/'+ankiNew+'n + activ input 30 хв'); plTask(45,'Польська: shadowing 10 хв + reading A1'); }
-    if(track!=='PL'){ skTask(30,'Словацька: slovake.eu + Anki '+Math.min(10,ankiNew)+'n'); }
+    if(track==='PL'){ plTask(45,'Польська: Anki '+ankiRev+'r/'+ankiNew+'n + activ input 30 хв'); plTask(45,'Польська: shadowing 10 хв + reading A1'); }
+    else { skTask(60,'Словацька primary: slovake.eu + Anki '+Math.min(15,ankiNew)+'n + shadowing 10 хв'); skTask(30,'Словацька: reading A1 + grammar drill'); }
     mathTask(60,'Math: 8 задач mix + 1 mock-блок 30 хв');
     genericTask('python',30,'Python: Automate the Boring Stuff · 1 розділ');
     genericTask('english',15,'English: Anki 30 review');
   } else if(p.id==='adapt-2026'){
-    if(track!=='SK'){ plTask(30,'Польська: Anki '+ankiRev+'r/'+Math.min(10,ankiNew)+'n'); plTask(15,'Польська: 1 коротке відео'); }
-    if(track!=='PL'){ skTask(15,'Словацька: Anki review + 1 короткий подкаст'); }
+    if(track==='PL'){ plTask(30,'Польська: Anki '+ankiRev+'r/'+Math.min(10,ankiNew)+'n'); plTask(15,'Польська: 1 коротке відео'); }
+    else { skTask(30,'Словацька: Anki '+ankiRev+'r/'+Math.min(10,ankiNew)+'n'); skTask(15,'Словацька: 1 короткий подкаст'); }
     mathTask(30,'Math: 4 задачі + розбір');
     genericTask('english',10,'English: Anki');
   } else if(p.id==='school-2026-27'){
-    if(track!=='SK'){ plTask(45,'Польська: Anki + Italki підготовка'); plTask(20,'Польська: shadowing + reading'); }
-    if(track!=='PL'){ skTask(20,'Словацька: input + Anki'); }
+    if(track==='PL'){ plTask(45,'Польська: Anki + Italki підготовка'); plTask(20,'Польська: shadowing + reading'); }
+    else { skTask(45,'Словацька: Anki + UJOP / italki'); skTask(20,'Словацька: shadowing + reading'); }
     mathTask(40,'Math: 6 задач НМТ + теорія тиждня');
     genericTask('ukr',10,'Укр. мова: Anki правил');
     genericTask('history',10,'Історія: 1 тематичний блок міні');
   } else if(p.id==='summer-2027'){
-    if(track!=='SK'){ plTask(60,'Польща primary: Anki + Italki урок + reading B1'); plTask(30,'Польща: shadowing + grammar drill'); }
-    if(track!=='PL'){ skTask(45,'Словацька: курс UJOP / Krížom-krážom + Anki'); }
+    if(track==='PL'){ plTask(60,'Польща primary: Anki + Italki урок + reading B1'); plTask(30,'Польща: shadowing + grammar drill'); }
+    else { skTask(60,'Словаччина primary: UJOP / Krížom-krážom + italki урок'); skTask(30,'Словацька: shadowing + grammar drill'); }
     mathTask(75,'Math: 10 задач + 1 mock-блок 30 хв');
     genericTask('python',15,'Python: проект 30 хв');
     genericTask('english',15,'English: Anki + 1 video');
   } else if(p.id==='school-2027-28'){
-    if(track!=='SK'){ plTask(50,'Польща: Italki 2/тиж + Anki + reading B2'); plTask(25,'Польща: пробний PKPZJP блок'); }
-    if(track!=='PL'){ skTask(30,'Словацька: SAS UK / ECL підготовка + Anki'); }
+    if(track==='PL'){ plTask(50,'Польща: Italki 2/тиж + Anki + reading B2'); plTask(25,'Польща: пробний PKPZJP блок'); }
+    else { skTask(50,'Словаччина: SAS UK / ECL Italki + Anki + reading B2'); skTask(25,'Словацька: пробний SAS блок'); }
     mathTask(40,'Math: НМТ-тренувальні задачі');
     genericTask('ukr',15,'Укр. мова: твір/диктант'); 
     genericTask('history',15,'Історія: тематичний блок');
     genericTask('english',5,'English: Anki');
   } else if(p.id==='post'){
-    if(track!=='SK') plTask(30,'Польська: підтримка');
-    if(track!=='PL') skTask(20,'Словацька: підтримка');
+    if(track==='PL') plTask(30,'Польська: підтримка');
+    else skTask(20,'Словацька: підтримка');
     mathTask(15,'Math: підтримка');
     genericTask('english',15,'English: підтримка');
   }
@@ -1895,8 +2129,8 @@ function renderStatusbar(){
   document.getElementById('sbDate').textContent=d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'});
   const p=detectPeriod(); document.getElementById('sbPeriod').textContent=p.label;
   const t=state.activeTrack; const tEl=document.getElementById('sbTrack');
-  tEl.className='sb-track '+(t==='PL'?'pl':t==='SK'?'sk':'both');
-  tEl.textContent=t==='PL'?'PL':t==='SK'?'SK':'PL + SK';
+  tEl.className='sb-track '+(t==='PL'?'pl':'sk');
+  tEl.textContent=t==='PL'?'PL':'SK';
   document.getElementById('streakN').textContent=state.streak;
   // energy
   const last=state.energyHistory[state.energyHistory.length-1];
@@ -1928,18 +2162,27 @@ function renderModeBudget(){
   else flag.textContent='';
 }
 
+function isExportLocked(){
+  const day=86400000;
+  const now=Date.now();
+  if(state.lastExportAt) return (now-state.lastExportAt) > 14*day;
+  if(state.firstUseAt) return (now-state.firstUseAt) > 14*day; // встановив >14 днів і жодного експорту
+  return false;
+}
+
 function renderTasks(){
   const ul=document.getElementById('taskList'); if(!ul) return;
   ensureTodayTasks();
+  const locked=isExportLocked();
   ul.innerHTML='';
   state.todayTasks.forEach(t=>{
     const div=document.createElement('div');
-    div.className='task'+(t.done?' done':'');
+    div.className='task'+(t.done?' done':'')+(locked?' locked':'');
     div.dataset.subject=t.subject;
     div.setAttribute('role','listitem');
     div.innerHTML=`
       <div class="task-row">
-        <div class="chk${t.done?' checked':''}" data-task="${t.id}" aria-label="Виконати завдання" role="button" tabindex="0">${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-13"/></svg>':''}</div>
+        <div class="chk${t.done?' checked':''}${locked?' locked':''}" data-task="${t.id}" aria-label="${locked?'ЗАБЛОКОВАНО — бекап прострочено':'Виконати завдання'}" role="button" tabindex="0">${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-13"/></svg>':''}</div>
         <div class="task-title">${t.title}</div>
         <span class="task-dur tnum">${t.dur||''} хв</span>
       </div>`;
@@ -2168,31 +2411,44 @@ function renderAllMocks(){
 function renderBackupReminder(){
   const banner=document.getElementById('backupBanner');
   const bannerText=document.getElementById('backupBannerText');
+  const titleEl=document.getElementById('backupBannerTitle');
   const status=document.getElementById('exportStatus');
   const btn=document.getElementById('exportBtn');
   const last=state.lastExportAt;
   const now=Date.now();
-  let days=null;
-  let msg='';
+  const day=1000*60*60*24;
+  const locked=isExportLocked();
+  const setTitle=(html)=>{ if(titleEl) titleEl.innerHTML=html; };
   if(!last){
-    msg='Ще не було жодного експорту. Зроби бекап зараз.';
-    if(banner){ banner.style.display='block'; bannerText.textContent=msg; }
+    const sinceFirst=state.firstUseAt?Math.floor((now-state.firstUseAt)/day):0;
+    if(locked){
+      setTitle('<span class="dot" style="background:var(--danger)"></span>Чекбокси ЗАБЛОКОВАНО ('+sinceFirst+' днів без бекапу)');
+      if(banner){ banner.style.display='block'; bannerText.textContent='Жодного експорту за '+sinceFirst+' днів використання. Чекбокси задач ЗАБЛОКОВАНО до експорту JSON.'; }
+    } else {
+      setTitle('<span class="dot" style="background:var(--danger)"></span>Строковий бекап ПРОСТРОЧЕНИЙ');
+      if(banner){ banner.style.display='block'; bannerText.textContent='Ще не було жодного експорту. Зроби бекап зараз. На 14-й день використання без експорту — чекбокси задач заблокуються.'; }
+    }
     if(btn) btn.classList.add('danger');
     if(status) status.innerHTML='<strong style="color:var(--danger)">Останній бекап: ніколи</strong>';
     return;
   }
-  days=Math.floor((now-last)/(1000*60*60*24));
+  const days=Math.floor((now-last)/day);
   const dateStr=new Date(last).toLocaleDateString('uk-UA');
-  if(days>=7){
-    msg=`З останнього експорту минуло ${days} днів. Останній бекап: ${dateStr}.`;
-    if(banner){ banner.style.display='block'; bannerText.textContent=msg; }
+  if(days>=14){
+    setTitle('<span class="dot" style="background:var(--danger)"></span>Чекбокси ЗАБЛОКОВАНО ('+days+' днів без бекапу)');
+    if(banner){ banner.style.display='block'; bannerText.textContent='Останній бекап '+days+' днів тому ('+dateStr+'). Чекбокси задач ЗАБЛОКОВАНО до експорту JSON.'; }
     if(btn) btn.classList.add('danger');
-    if(status) status.innerHTML=`<strong style="color:var(--danger)">Останній бекап: ${dateStr} · ${days} днів тому · ПРОСТРОЧЕНО</strong>`;
+    if(status) status.innerHTML='<strong style="color:var(--danger)">Останній бекап: '+dateStr+' · '+days+' днів тому · ЗАБЛОКОВАНО</strong>';
+  } else if(days>=7){
+    setTitle('<span class="dot" style="background:var(--danger)"></span>Строковий бекап ПРОСТРОЧЕНИЙ');
+    if(banner){ banner.style.display='block'; bannerText.textContent='З останнього експорту минуло '+days+' днів. На 14-й день — хард-лок чекбоксів. Останній бекап: '+dateStr+'.'; }
+    if(btn) btn.classList.add('danger');
+    if(status) status.innerHTML='<strong style="color:var(--danger)">Останній бекап: '+dateStr+' · '+days+' днів тому · ПРОСТРОЧЕНО</strong>';
   } else {
     if(banner) banner.style.display='none';
     if(btn) btn.classList.remove('danger');
     const colour=days>=4?'var(--warn)':'var(--good)';
-    if(status) status.innerHTML=`<span style="color:${colour}">Останній бекап: ${dateStr} · ${days} ${days===1?'день':'дн.'} тому</span>`;
+    if(status) status.innerHTML='<span style="color:'+colour+'">Останній бекап: '+dateStr+' · '+days+' '+(days===1?'день':'дн.')+' тому</span>';
   }
 }
 
@@ -2327,6 +2583,7 @@ function wireEvents(){
   // tasks
   document.getElementById('taskList').addEventListener('click',e=>{
     const c=e.target.closest('.chk'); if(!c) return;
+    if(isExportLocked()){ toast('bad','Експорт прострочено 14+ днів — спочатку зроби бекап JSON'); return; }
     const id=c.dataset.task;
     const t=state.todayTasks.find(x=>x.id===id);
     if(t){ t.done=!t.done; save(); renderTasks(); }
