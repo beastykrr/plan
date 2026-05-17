@@ -418,6 +418,35 @@
     </div>
   </div>
 
+  <!-- v4: Focus timer + Peak slot + Mock countdown -->
+  <div class="grid cols-2" style="margin-bottom:16px">
+    <div class="card" id="pomodoroCard">
+      <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-title" style="margin:0"><span class="dot"></span>Фокус-таймер</div>
+        <div class="mode-switch" role="group" aria-label="Режим таймера" style="padding:2px">
+          <button class="mode-btn" data-pomo="25-5" aria-pressed="true" style="padding:6px 10px;font-size:12px"><span class="label">25/5</span></button>
+          <button class="mode-btn" data-pomo="52-17" aria-pressed="false" style="padding:6px 10px;font-size:12px"><span class="label">52/17</span></button>
+          <button class="mode-btn" data-pomo="90-30" aria-pressed="false" style="padding:6px 10px;font-size:12px"><span class="label">90/30</span></button>
+        </div>
+      </div>
+      <div id="pomoDisplay" class="tnum" style="font-size:48px;font-weight:600;text-align:center;letter-spacing:1px;margin:8px 0;line-height:1">25:00</div>
+      <div id="pomoPhase" style="text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:12px">Робота · тисни Start</div>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn" id="pomoStart">Start</button>
+        <button class="btn ghost" id="pomoPause" disabled>Pause</button>
+        <button class="btn ghost" id="pomoReset">Reset</button>
+      </div>
+      <p class="muted" style="font-size:12px;margin:10px 0 0 0;line-height:1.5">25/5 — легкі задачі і Anki. 52/17 — math, essay. 90/30 — deep work, mock-exam imitation.</p>
+    </div>
+
+    <div class="card" id="chronoMockCard">
+      <div class="card-title"><span class="dot"></span>Peak slot і mock-тести</div>
+      <div id="peakSlotBadge" style="margin-bottom:12px"></div>
+      <div id="mockCountdown" style="font-size:14px;line-height:1.7"></div>
+      <p class="muted" style="font-size:12px;margin:10px 0 0 0;line-height:1.5">Дати в Налаштуваннях → Mock schedule. Chronotype — там же.</p>
+    </div>
+  </div>
+
   <div id="actionChecklistWrap" class="card hidden" style="margin-bottom:16px">
     <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Дії травень–серпень 2026</div>
     <div id="actionList" class="col"></div>
@@ -1342,6 +1371,7 @@
     <button class="subtab-btn" data-sub="body-mot" aria-pressed="false">Мотивація & Фільми</button>
     <button class="subtab-btn" data-sub="body-life" aria-pressed="false">Сон & Харчування</button>
     <button class="subtab-btn" data-sub="body-learn" aria-pressed="false">Методи & Дисципліна</button>
+    <button class="subtab-btn" data-sub="body-fail" aria-pressed="false">Журнал невдач</button>
   </div>
 
   <!-- Fitness -->
@@ -1763,6 +1793,84 @@
       <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong> один раз на квартал відкрий блокнот, напиши «Сценарій: квітень 2028, я провалив C1». Опиши ВСІ причини: «недостатньо shadowing, забагато grammar drill і мало speaking, мало native input, не пройшов mock-PKPZJP, не зробив italki...» — далі плануєш проти кожної причини.</p>
     </div>
 
+    <div class="section-h">F · Advanced (v4: додано травень 2026)</div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>19. FSRS алгоритм (замість default SM-2 в Anki)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> Anki за замовчуванням використовує SM-2 (1987 SuperMemo). FSRS (Free Spaced Repetition Scheduler, з 2022) використовує machine learning для побудови персональної моделі забування. Враховує час відповіді, історію failures, складність матеріалу. SM-2 цього не вміє.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> open-spaced-repetition/fsrs4anki (GitHub, 3940 зірок). Розробник: L-M-Sherlock. Benchmark на 9999 collections: FSRS з default-параметрами обходить SM-2 у <strong>91.9%</strong> випадків; FSRS-5 з оптимізованими параметрами — у <strong>99.0%</strong>. Issue ankitects/anki#3616: обговорюється as the new default in next major.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Як увімкнути:</strong> Anki ≥ 23.10 → Deck Options → Advanced → FSRS (toggle) → Save. Через 30+ reviews натисни «Optimize». Повторно optimize раз на місяць або після кожного doubling кількості reviews.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0;color:var(--warn)"><strong>Caveat:</strong> для нової колоди (&lt;200 reviews) FSRS поки use default params. Дай йому 1-2 тижні даних, потім перший Optimize. До того моменту різниця з SM-2 невелика.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>20. Method of Loci (палац пам'яті — ТІЛЬКИ для списків)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> уявляєш знайому кімнату (твоя спальня) → ставиш на кожному предметі (вікно → ліжко → стіл → шафа → двері) елемент списку → потім «проходиш» кімнатою у пам'яті і дістаєш елементи в порядку.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> meta-analysis Twomey &amp; Kroneisen <em>Quarterly Journal of Experimental Psychology</em> (2021), <strong>d = 0.88</strong> (large effect) для immediate serial recall у дорослих. Confirmed neuroimaging — активація hippocampus + parahippocampus + retrosplenial cortex. Müller et al. <em>Science Advances</em> (2021) — memory athletes ranked в топ-50 globally використовують саме Method of Loci.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Для чого працює:</strong> списки, дати, формули. <strong>НЕ працює</strong> для розуміння концепцій — це окремий процес (там Feynman).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Конкретно:</strong></p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>PL/SK іменники по родах:</strong> 3 кімнати — m / f / n. На вікні (m) — kot, na łóżku — kobieta (f), na stole — okno (n). 10 хв і ти запам'ятав 50 слів за родами.</li>
+        <li><strong>Math формули:</strong> 10 локусів в кімнаті = 10 формул тригонометрії. sin²+cos²=1 на вікні, tan=sin/cos на столі...</li>
+        <li><strong>Історія дати:</strong> кожна кімната = століття. У 19-й кімнаті — на полиці 1812 (Наполеон), на дивані 1848 (Весна народів)...</li>
+        <li><strong>C1 структура іспиту:</strong> 4 секції (listening/reading/grammar/writing) → 4 локуси у звичній кімнаті. Запам'ятовуєш timing і tactics для кожної.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>21. Cognitive Load Theory (Sweller) — як проектувати власне навчання</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> working memory обмежена (~4±1 елементи одночасно), long-term пам'ять — безмежна. Завдання — мінімізувати <em>extraneous load</em> (зайві витрати уваги: погана організація матеріалу) і максимізувати <em>germane load</em> (корисні витрати: формування schemas).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Sweller <em>Cognitive Science</em> (1988); <em>Cognitive Load Theory</em> book (Sweller, Ayres, Kalyuga 2011). NSW Department of Education classroom practice guide (2017).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>4 практичні ефекти:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Worked example effect:</strong> на ранньому етапі (math, Python, нова граматика) — читай <em>повні розв'язки</em> з поясненням. Перші 5-10 прикладів цілеспрямовано НЕ розв'язуй сам — вивчай. Після — починай розв'язувати самостійно. Уникає cognitive overload + формує schemas.</li>
+        <li><strong>Split-attention effect:</strong> текст і відповідний малюнок (формула + графік) <em>повинні бути на одній сторінці</em>, не «текст вгорі, малюнок знизу». Через це Khan Academy робить voice + visual одночасно, не «прочитай tab → подивись image окремо».</li>
+        <li><strong>Redundancy effect:</strong> не читай конспект ОДНОЧАСНО з тим самим аудіо. Одне або інше. Інакше обидва канали конкурують за working memory.</li>
+        <li><strong>Expertise reversal:</strong> після ~10 успішних cold-solve в темі — worked examples стають <em>контр-продуктивні</em> (ти втрачаєш practice). Перехід обов'язковий.</li>
+      </ul>
+      <p style="font-size:14px;line-height:1.7;margin:8px 0 0 0;color:var(--warn)"><strong>Конкретно для НМТ math:</strong> для нової теми (наприклад «похідна») — перші 10 задач читай ГОТОВІ розв'язки. Не намагайся «зрозуміти сам» — це create extraneous load. Тільки після 10 worked examples — починай cold-solve.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>22. Deep Work (Newport) + Attention Residue (Leroy)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> deep work — це <em>професійні активності, що виконуються в стані без відволікань і доводять когнітивні можливості до межі</em>. Це створює нову цінність. Шалоу work (email, легкі задачі, switching) — не. Людина може витримувати <strong>2-4 години</strong> deep work на день — це жорсткий ліміт для більшості.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Newport <em>Deep Work</em> (2016). Attention residue: Leroy <em>Organizational Behavior and Human Decision Processes</em> 109(2):168-181 (2009) — коли переключаєшся з task A на task B, частина уваги залишається на A → performance на B падає. Не вистачає «закінчити A» — потрібен час пресингу, щоб mental disengagement відбувся.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Практично:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Телефон в іншу кімнату.</strong> Не silent, не «не торкайся» — фізично відсутній на час сесії. Свого розуму ти не обдуриш.</li>
+        <li><strong>Окремий браузер-профіль «Робота»</strong> без YouTube/TikTok/соц.мереж. На час deep work тільки він.</li>
+        <li><strong>Block уранці 90-120 хв на найважче</strong> (math problem set або mock-listening C1). Після цього — шалові задачі (Anki review, vocab drill, email).</li>
+        <li><strong>НЕ перемикайся між task'ами без буфера.</strong> «10 хв TikTok → 60 хв math» = math з attention residue від TikTok. 5-10 хв buffer (склянка води, walk) — обов'язково.</li>
+        <li><strong>Schedule shutdown ritual:</strong> в кінці дня — закрив все, написав 3 пріоритети завтра, виключив комп. Мозок не «дозалишається» на задачах через ніч.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>23. Rule 52/17 (альтернатива Pomodoro 25/5)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> 52 хв роботи non-stop, 17 хв break. Розкритий DeskTime у 2014 — топ-10% продуктивних користувачів використовують цей патерн природно. Найкраще для важких блоків де 25 хв = недостатньо щоб увійти у flow, а 60+ хв = перевтома.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> The Muse (Vanderkam, 2014) — оригінальна стаття за DeskTime data. Не RCT, але observational на 5M+ users. Узгоджено з neuroscience evidence: 15-20 хв треба default mode network щоб reset.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Коли що використовувати:</strong></p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Pomodoro 25/5</strong> — легкі завдання, Anki review, vocab drill, easy reading.</li>
+        <li><strong>52/17</strong> — math problem set, написання C1 essay, грамматичні drill з фокусом.</li>
+        <li><strong>Deep work 90 min</strong> — mock-exam imitation під час, прочитання книги, нова тема.</li>
+      </ul>
+      <p style="font-size:14px;line-height:1.7;margin:8px 0 0 0;color:var(--text-muted)"><strong>У дашборді є built-in таймер</strong> (на сторінці «Сьогодні» — кнопка Pomodoro/52-17 toggle).</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>24. Chronotype awareness — твій peak slot</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> у підлітків (15-16) — біологічно <em>delayed sleep phase</em>: пік алертності зміщений на 2-3 години назад відносно дорослих. «Жайворонок-сова» — не міф; з puberty melatonin виділяється пізніше. Школа в 8 ранку біологічно непродуктивна для більшості підлітків.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерело:</strong> Jankowski, Díaz-Morales, Vollmer <em>Journal of Intelligence</em> 11(1):13 (2023) — synchrony effect: кращі результати у crystallized intelligence у свій peak slot. <em>Current Sleep Medicine Reports</em> 11:10 (2025) — мета-аналіз про circadian misalignment у підлітків. JAMA Pediatrics 2020 — delay school start time → +34 min sleep + кращі академічні результати.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Типові вікна peak алертності:</strong></p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
+        <li><strong>Підліток-evening (typical 15-16):</strong> 11:00-14:00 і 17:00-20:00.</li>
+        <li><strong>Підліток-morning (рідко):</strong> 8:00-11:00 і 14:00-16:00.</li>
+        <li><strong>Якщо не знаєш:</strong> 2 тижні логуй «енергія 1-10» через кожні 3 години + продуктивність задач — побачиш свій pattern.</li>
+      </ul>
+      <p style="font-size:14px;line-height:1.7;margin:8px 0 0 0"><strong>Конкретно для роадмапу:</strong> math/мова — у свій peak. Anki review, легке reading, ходьба — у low-energy час. У Налаштуваннях дашборду познач свій chronotype — побачиш badge «Peak slot зараз» на сторінці «Сьогодні».</p>
+    </div>
+
     <div class="section-h">D · Чого НЕ робити (efficacy ≈ 0 або негативно)</div>
 
     <div class="card" style="margin-bottom:16px;border-color:#5a2a2a">
@@ -1782,7 +1890,7 @@
 
     <div class="card" style="margin-bottom:16px">
       <div class="card-title"><span class="dot"></span>Як впровадити без вигорання (4 тижні)</div>
-      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0;color:var(--warn)"><strong>Помилка №1:</strong> намагатися впровадити всі 18 технік одразу. Зробиш все на день 3 і кинеш.</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0;color:var(--warn)"><strong>Помилка №1:</strong> намагатися впровадити всі 24 техніки одразу. Зробиш все на день 3 і кинеш.</p>
       <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Послідовність впровадження (по 1 техніці на тиждень):</strong></p>
       <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.7">
         <li><strong>Тиждень 1:</strong> Anki + active recall (blurting на кожну сесію). Це база — без неї решта не працює.</li>
@@ -1794,6 +1902,32 @@
       <p style="font-size:13px;line-height:1.5;margin:0;color:var(--text-muted)"><strong>Метрика успіху після 30 днів:</strong> якщо ти все ще вмикаєш Anki кожного ранку без зусилля волі, навіть якщо втомлений — план працює. Якщо забуваєш частіше 1×/тиждень — зменшуй навантаження (новi карти ↓), не нашаровуй нове.</p>
     </div>
 
+  </div>
+
+  <!-- v4: Failure journal (Antifragile log) -->
+  <div class="subpage" id="sub-body-fail" role="tabpanel">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot" style="background:var(--warn)"></span>Журнал невдач (Antifragile log)</div>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Принцип:</strong> кожну невдачу (пропущений день Anki, провал mock-test, пропуск тренування) записуєш як 4-полю запис: що / чому / який сигнал завчасно був / 1 захисна дія. Система «антифрагільна» — виходить сильнішою після кожної невдачі (Taleb).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px 0"><strong>Джерела:</strong> Taleb <em>Antifragile</em> (2012). Schippers et al. <em>Frontiers in Psychology</em> (2015): reflective writing +22% академічної успішності. <em>Self-explanation effect</em> підтверджений meta-analysis-ами (Bisra et al. 2018).</p>
+      <p style="font-size:14px;line-height:1.7;margin:0"><strong>Коли писати:</strong> в кінці тижня (неділя), або відразу як зрозумів що «провалив». Мінімум 1 запис/тиждень — навіть якщо тиждень був вдалий, є «край near-miss» який варто записати.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title"><span class="dot"></span>Додати запис</div>
+      <div class="col" style="gap:10px">
+        <div><label class="muted" style="font-size:12px">Що не вдалося</label><input type="text" id="failWhat" placeholder="Напр. пропустив 3 дні Anki" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+        <div><label class="muted" style="font-size:12px">Чому (root cause, не симптом)</label><input type="text" id="failWhy" placeholder="Напр. ввечері відклав, потім забув, бо черга 60+ ревью вважається непідйомною" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+        <div><label class="muted" style="font-size:12px">Який сигнал завчасно був (early warning)</label><input type="text" id="failSignal" placeholder="Напр. вже в понеділок почув втому, але не зменшив new до 5" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+        <div><label class="muted" style="font-size:12px">1 захисна дія на майбутнє</label><input type="text" id="failAction" placeholder="Напр. при енергія ≤4 — ручно зменшувати Anki new на той же день" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+        <button class="btn primary" id="failSave" style="align-self:flex-start">Зберегти запис</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Історія (<span id="failCount">0</span>)</div>
+      <div id="failList" class="col" style="gap:8px"></div>
+    </div>
   </div>
 
 </section>
@@ -1826,6 +1960,32 @@
   </div>
 
   <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Chronotype и peak slot (v4)</div>
+    <p class="muted" style="font-size:13px;line-height:1.6;margin:0 0 10px 0">Підлітки (15-16) біологічно мають delayed sleep phase — краща робота в 11-14 і 17-20. На «Сьогодні» покажеться badge коли зараз твій peak slot. <strong>Джерело:</strong> Jankowski et al. <em>J Intelligence</em> 2023.</p>
+    <label class="muted" for="chronoSel" style="font-size:12px">Твій chronotype</label>
+    <select id="chronoSel" class="btn" style="width:100%;margin-top:4px">
+      <option value="morning">Morning («жайворонок» — 8-11, 14-16)</option>
+      <option value="neutral">Neutral (рівномірний профіль)</option>
+      <option value="evening">Evening («сова» — 11-14, 17-20) — typical 15-16</option>
+    </select>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title"><span class="dot"></span>Mock-test schedule + .ics export (v4)</div>
+    <p class="muted" style="font-size:13px;line-height:1.6;margin:0 0 10px 0">Дати ключових подій. Експортувати як .ics (імпорт у Google Calendar / Apple Calendar) — отримаєш notifications без сторонніх інструментів.</p>
+    <div class="grid cols-3" style="gap:8px">
+      <div><label class="muted" style="font-size:12px">PL C1 (врахуй 18+)</label><input type="date" id="plExamDate" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+      <div><label class="muted" style="font-size:12px">SK B2</label><input type="date" id="skExamDate" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+      <div><label class="muted" style="font-size:12px">НМТ UA</label><input type="date" id="nmtExamDate" style="padding:8px;border-radius:var(--r8);background:var(--bg-elevated);border:1px solid var(--border-subtle);width:100%;margin-top:4px;color:var(--text)"></div>
+    </div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn primary" data-action="export-ics">Скачати .ics (всі дати)</button>
+      <button class="btn ghost" data-action="open-failure-log">Журнал невдач</button>
+    </div>
+    <p class="muted" style="margin-top:8px;font-size:12px;line-height:1.5">Mock-tests генеруються авто: 12 міс / 6 міс / 3 міс / 30 днів до іспиту. Сьогодні «Сьогодні» показує дні до найближчої.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
     <div class="card-title"><span class="dot"></span>Дані · backup політика</div>
     <div class="btn-row">
       <button class="btn primary" id="exportBtn" data-action="export">Експорт JSON</button>
@@ -1842,7 +2002,7 @@
     <div class="card-title"><span class="dot"></span>Про роадмап</div>
     <p style="font-size:13px;margin-bottom:6px">Single-file HTML · offline-ready · працює через <code>file://</code>.</p>
     <p style="font-size:13px;margin-bottom:6px">Будь-яка цифра не з прямих джерел відмічена <code>data-unverified="true"</code> і виглядає сірою з «?».</p>
-    <p style="font-size:13px;margin:0">Версія: <strong>v1 · 2026</strong></p>
+    <p style="font-size:13px;margin:0">Версія: <strong>v4 · 2026-05</strong> — +6 технік (FSRS, Loci, CLT, Deep Work, 52/17, Chronotype), Pomodoro timer, .ics export, Failure Journal, Mock countdown, Print CSS.</p>
   </div>
 </section>
 
@@ -1899,7 +2059,7 @@ const dayMs = 86400000;
 const LEVELS = ['A0','A1','A2','B1','B2','C1','C2'];
 
 const defaults = {
-  v:1,
+  v:4,
   polskiLevel:'A0',
   slovakLevel:'A0',
   polskiWords:0,
@@ -1923,7 +2083,18 @@ const defaults = {
   limAnkiNew:15, limAnkiRev:120, limMathMin:60,
   lastUpdated:null,
   lastExportAt:null,
-  firstUseAt:null
+  firstUseAt:null,
+  // v4 additions
+  chronotype:'evening', // morning | neutral | evening (підлітковий дефолт)
+  pomodoroMode:'25-5',  // 25-5 | 52-17 | 90-30
+  failureLog:[],        // {date, what, why, signal, action}
+  mockSchedule:{        // редаговані ключові дати
+    pl_exam:'2028-03-15',
+    sk_exam:'2028-08-15',
+    nmt_exam:'2028-05-15',
+    pl_mocks:['2027-03-15','2027-09-15','2027-12-15','2028-02-15'],
+    sk_mocks:['2027-08-15','2028-02-15','2028-05-15','2028-07-15']
+  }
 };
 
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
@@ -2478,6 +2649,187 @@ function renderSettings(){
   // doc checkboxes
   document.querySelectorAll('input[data-doc]').forEach(c=>{ c.checked=!!state.docs[c.dataset.doc]; });
   document.querySelectorAll('select.uni-state').forEach(s=>{ const u=state.unis[s.dataset.uni]||{}; if(u[s.dataset.field]) s.value=u[s.dataset.field]; });
+  // v4 settings
+  const chronoSel=document.getElementById('chronoSel'); if(chronoSel) chronoSel.value=state.chronotype||'evening';
+  const ms=state.mockSchedule||{};
+  const plD=document.getElementById('plExamDate'); if(plD) plD.value=ms.pl_exam||'';
+  const skD=document.getElementById('skExamDate'); if(skD) skD.value=ms.sk_exam||'';
+  const nmtD=document.getElementById('nmtExamDate'); if(nmtD) nmtD.value=ms.nmt_exam||'';
+}
+
+// ════════════════════ v4: CHRONOTYPE ════════════════════
+const PEAK_SLOTS={
+  morning:[[8,11],[14,16]],
+  neutral:[[9,12],[15,17]],
+  evening:[[11,14],[17,20]]
+};
+function isPeakSlot(){
+  const ct=state.chronotype||'evening';
+  const h=new Date().getHours();
+  return (PEAK_SLOTS[ct]||[]).some(([a,b])=>h>=a&&h<b);
+}
+function nextPeakSlot(){
+  const ct=state.chronotype||'evening';
+  const slots=PEAK_SLOTS[ct]||[];
+  const h=new Date().getHours();
+  for(const [a,b] of slots){ if(h<a) return {start:a,end:b}; }
+  return {start:slots[0][0],end:slots[0][1]}; // завтра
+}
+
+function renderPeakSlot(){
+  const el=document.getElementById('peakSlotBadge'); if(!el) return;
+  const ct=state.chronotype||'evening';
+  const slots=PEAK_SLOTS[ct]||[];
+  const slotStr=slots.map(s=>s[0]+'-'+s[1]).join(', ');
+  if(isPeakSlot()){
+    el.innerHTML='<span class="badge" style="background:rgba(124,228,168,.15);color:var(--good);border-color:rgba(124,228,168,.35)">★ Пік-слот зараз ('+ct+'). Став math/мову.</span>';
+  } else {
+    const next=nextPeakSlot();
+    el.innerHTML='<span class="badge">'+ct+' · peak: '+slotStr+' · наступний: '+next.start+':00</span>';
+  }
+}
+
+// ════════════════════ v4: MOCK COUNTDOWN ════════════════════
+function daysUntil(iso){
+  if(!iso) return null;
+  const t=new Date(iso+'T12:00:00').getTime();
+  return Math.ceil((t-Date.now())/dayMs);
+}
+function generateMockDates(examIso){
+  if(!examIso) return [];
+  const e=new Date(examIso+'T12:00:00');
+  const offsets=[365,180,90,30]; // дні до іспиту
+  return offsets.map(d=>{ const m=new Date(e.getTime()-d*dayMs); return m.toISOString().slice(0,10); });
+}
+function renderMockCountdown(){
+  const el=document.getElementById('mockCountdown'); if(!el) return;
+  const ms=state.mockSchedule||{};
+  const events=[];
+  if(ms.pl_exam) events.push({label:'PL C1 іспит',date:ms.pl_exam,kind:'exam'});
+  if(ms.sk_exam) events.push({label:'SK B2 іспит',date:ms.sk_exam,kind:'exam'});
+  if(ms.nmt_exam) events.push({label:'НМТ',date:ms.nmt_exam,kind:'exam'});
+  // mock-tests для активного треку
+  const examIso=state.activeTrack==='SK'?ms.sk_exam:ms.pl_exam;
+  generateMockDates(examIso).forEach((d,i)=>events.push({label:'Mock #'+(i+1)+' ('+state.activeTrack+')',date:d,kind:'mock'}));
+  // фільтр майбутніх + сортування
+  const upcoming=events.map(e=>({...e,days:daysUntil(e.date)})).filter(e=>e.days!==null&&e.days>=-1).sort((a,b)=>a.days-b.days).slice(0,5);
+  if(!upcoming.length){ el.innerHTML='<span class="muted">Немає дат. Налаштування → Mock schedule.</span>'; return; }
+  el.innerHTML=upcoming.map(e=>{
+    const color=e.kind==='exam'?'var(--bad)':'var(--warn)';
+    const d=e.days<0?'Минуло':e.days===0?'Сьогодні!':e.days+' дн.';
+    return '<div class="flex" style="justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid var(--border-subtle)"><span>'+escapeHtml(e.label)+' <span class="muted" style="font-size:12px">('+e.date+')</span></span><strong style="color:'+color+'">'+d+'</strong></div>';
+  }).join('');
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ════════════════════ v4: POMODORO TIMER ════════════════════
+const POMO_PRESETS={
+  '25-5':{work:25*60,brk:5*60},
+  '52-17':{work:52*60,brk:17*60},
+  '90-30':{work:90*60,brk:30*60}
+};
+let pomo={mode:'25-5',phase:'work',remaining:25*60,running:false,interval:null};
+function pomoFormat(s){
+  const m=Math.floor(s/60), ss=s%60;
+  return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+}
+function pomoRender(){
+  const dEl=document.getElementById('pomoDisplay'); const pEl=document.getElementById('pomoPhase');
+  if(dEl) dEl.textContent=pomoFormat(pomo.remaining);
+  if(pEl) pEl.textContent=(pomo.phase==='work'?'Робота':'Перерва')+' · '+pomo.mode+(pomo.running?' · йде':' · пауза');
+  document.querySelectorAll('[data-pomo]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.pomo===pomo.mode?'true':'false'));
+  const sBtn=document.getElementById('pomoStart'); const pBtn=document.getElementById('pomoPause');
+  if(sBtn) sBtn.disabled=pomo.running;
+  if(pBtn) pBtn.disabled=!pomo.running;
+}
+function pomoSetMode(mode){
+  if(!POMO_PRESETS[mode]) return;
+  pomo.mode=mode; pomo.phase='work'; pomo.remaining=POMO_PRESETS[mode].work; pomoStop(); pomoRender();
+  state.pomodoroMode=mode; save();
+}
+function pomoTick(){
+  pomo.remaining--;
+  if(pomo.remaining<=0){
+    // фаза закінчилась
+    pomoBeep();
+    if(pomo.phase==='work'){
+      pomo.phase='brk'; pomo.remaining=POMO_PRESETS[pomo.mode].brk;
+      toast('good','Фаза роботи закінчена → перерва');
+    } else {
+      pomo.phase='work'; pomo.remaining=POMO_PRESETS[pomo.mode].work;
+      toast('good','Перерва закінчена → наступний блок');
+      pomoStop(); // стоп після брейку — ручний start
+    }
+  }
+  pomoRender();
+}
+function pomoStart(){ if(pomo.running) return; pomo.running=true; pomo.interval=setInterval(pomoTick,1000); pomoRender(); }
+function pomoStop(){ pomo.running=false; if(pomo.interval){ clearInterval(pomo.interval); pomo.interval=null; } pomoRender(); }
+function pomoReset(){ pomoStop(); pomo.phase='work'; pomo.remaining=POMO_PRESETS[pomo.mode].work; pomoRender(); }
+function pomoBeep(){
+  try{
+    const ac=new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(); const g=ac.createGain();
+    o.connect(g); g.connect(ac.destination); o.frequency.value=880; o.type='sine';
+    g.gain.setValueAtTime(0.001,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.2,ac.currentTime+0.02);
+    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.8);
+    o.start(); o.stop(ac.currentTime+0.9);
+  }catch(e){}
+}
+
+// ════════════════════ v4: .ics EXPORT ════════════════════
+function icsDate(iso){ return iso.replace(/-/g,''); }
+function icsUid(prefix,iso){ return prefix+'-'+iso+'@roadmap-pl-sk'; }
+function generateICS(){
+  const ms=state.mockSchedule||{};
+  const dtstamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/, '').slice(0,15)+'Z';
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Roadmap PL/SK//v4//UA','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  function addEvent(iso,summary,desc){
+    if(!iso) return;
+    lines.push('BEGIN:VEVENT');
+    lines.push('UID:'+icsUid('exam',iso+summary));
+    lines.push('DTSTAMP:'+dtstamp);
+    lines.push('DTSTART;VALUE=DATE:'+icsDate(iso));
+    lines.push('DTEND;VALUE=DATE:'+icsDate(iso));
+    lines.push('SUMMARY:'+summary);
+    if(desc) lines.push('DESCRIPTION:'+desc);
+    lines.push('END:VEVENT');
+  }
+  addEvent(ms.pl_exam,'PL C1 іспит (PKPZJP)','art. 212 ust. 1 pkt 3 lit. b. Перевір вік 18+ на день іспиту.');
+  addEvent(ms.sk_exam,'SK B2 іспит (SAS UK)','Словацька B2 в САС UK Bratislava.');
+  addEvent(ms.nmt_exam,'НМТ (Україна)','Національний мультипредметний тест (бекап варіант).');
+  const examIso=state.activeTrack==='SK'?ms.sk_exam:ms.pl_exam;
+  generateMockDates(examIso).forEach((d,i)=>{
+    addEvent(d,'Mock-тест #'+(i+1)+' '+state.activeTrack,'Базовий mock-тест у exam-conditions. Ціль наростаючих балів.');
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+function downloadICS(){
+  const content=generateICS();
+  const blob=new Blob([content],{type:'text/calendar;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='roadmap_exams_'+todayISO()+'.ics'; a.click();
+  URL.revokeObjectURL(url);
+  toast('good','.ics файл завантажено');
+}
+
+// ════════════════════ v4: FAILURE JOURNAL ════════════════════
+function renderFailureLog(){
+  const list=document.getElementById('failList'); const cnt=document.getElementById('failCount');
+  if(!list) return;
+  const items=state.failureLog||[];
+  if(cnt) cnt.textContent=items.length;
+  if(!items.length){ list.innerHTML='<span class="muted">Поки пусто. Додавай в кінці кожного тижня.</span>'; return; }
+  list.innerHTML=items.slice().reverse().map((e,i)=>{
+    const idx=items.length-1-i;
+    return '<details style="border:1px solid var(--border-subtle);border-radius:var(--r8);padding:10px;background:var(--bg-elevated)"><summary style="cursor:pointer;font-weight:600">'+escapeHtml(e.date)+' · '+escapeHtml(e.what||'—')+'</summary><div style="margin-top:8px;font-size:13px;line-height:1.7"><div><strong>Чому:</strong> '+escapeHtml(e.why||'')+'</div><div><strong>Сигнал:</strong> '+escapeHtml(e.signal||'')+'</div><div><strong>Дія:</strong> '+escapeHtml(e.action||'')+'</div><button class="btn ghost" data-fail-del="'+idx+'" style="margin-top:8px;font-size:12px">Видалити</button></div></details>';
+  }).join('');
+  list.querySelectorAll('[data-fail-del]').forEach(b=>b.onclick=()=>{
+    const i=Number(b.dataset.failDel);
+    state.failureLog.splice(i,1); save(); renderFailureLog(); toast('good','Запис видалено');
+  });
 }
 
 // ════════════════════════════ ROUTING ════════════════════════════
@@ -2678,6 +3030,56 @@ function wireEvents(){
     ]);
   });
 
+  // v4: Pomodoro
+  document.querySelectorAll('[data-pomo]').forEach(b=>b.onclick=()=>pomoSetMode(b.dataset.pomo));
+  const pomoStartBtn=document.getElementById('pomoStart'); if(pomoStartBtn) pomoStartBtn.onclick=pomoStart;
+  const pomoPauseBtn=document.getElementById('pomoPause'); if(pomoPauseBtn) pomoPauseBtn.onclick=pomoStop;
+  const pomoResetBtn=document.getElementById('pomoReset'); if(pomoResetBtn) pomoResetBtn.onclick=pomoReset;
+
+  // v4: Chronotype
+  const chronoSel=document.getElementById('chronoSel');
+  if(chronoSel) chronoSel.onchange=()=>{ state.chronotype=chronoSel.value; save(); renderPeakSlot(); toast('good','Chronotype оновлено'); };
+
+  // v4: Mock schedule date inputs
+  ['plExamDate','skExamDate','nmtExamDate'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.onchange=()=>{
+      state.mockSchedule=state.mockSchedule||{};
+      if(id==='plExamDate') state.mockSchedule.pl_exam=el.value;
+      if(id==='skExamDate') state.mockSchedule.sk_exam=el.value;
+      if(id==='nmtExamDate') state.mockSchedule.nmt_exam=el.value;
+      save(); renderMockCountdown(); toast('good','Дату збережено');
+    };
+  });
+
+  // v4: .ics export
+  document.querySelectorAll('[data-action="export-ics"]').forEach(b=>b.onclick=downloadICS);
+
+  // v4: Open failure log (відкриває вкладку Ціль)
+  document.querySelectorAll('[data-action="open-failure-log"]').forEach(b=>b.onclick=()=>{
+    route('body');
+    setTimeout(()=>{
+      const tab=document.querySelector('[data-sub="body-fail"]');
+      if(tab) tab.click();
+    },50);
+  });
+
+  // v4: Failure journal save
+  const failSave=document.getElementById('failSave');
+  if(failSave) failSave.onclick=()=>{
+    const w=document.getElementById('failWhat').value.trim();
+    const y=document.getElementById('failWhy').value.trim();
+    const s=document.getElementById('failSignal').value.trim();
+    const a=document.getElementById('failAction').value.trim();
+    if(!w&&!y&&!s&&!a){ toast('warn','Заповни хоч одне поле'); return; }
+    state.failureLog=state.failureLog||[];
+    state.failureLog.push({date:todayISO(),what:w,why:y,signal:s,action:a});
+    save(); renderFailureLog();
+    ['failWhat','failWhy','failSignal','failAction'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    toast('good','Запис додано');
+  };
+
   // FAB
   document.getElementById('fab').onclick=()=>openSheet('sheetMore');
 
@@ -2701,6 +3103,11 @@ function renderAll(){
   renderWorkout();
   renderSettings();
   renderBackupReminder();
+  // v4
+  renderPeakSlot();
+  renderMockCountdown();
+  pomoRender();
+  renderFailureLog();
   updateStorageStatus();
 }
 
@@ -2713,7 +3120,17 @@ function init(){
   state.actionChecklist=state.actionChecklist||{};
   state.energyHistory=state.energyHistory||[];
   state.workoutHistory=state.workoutHistory||[];
+  state.failureLog=state.failureLog||[];
+  state.mockSchedule=state.mockSchedule||clone(defaults.mockSchedule);
+  state.chronotype=state.chronotype||'evening';
+  state.pomodoroMode=state.pomodoroMode||'25-5';
   ['mathMocks','slovakMocks','polskiMocks','ukrMocks','histMocks','englishMocks','pythonMocks'].forEach(k=>{ state[k]=state[k]||[]; });
+
+  // init pomodoro from state
+  pomo.mode=state.pomodoroMode; pomo.remaining=POMO_PRESETS[pomo.mode].work;
+
+  // refresh peak-slot every minute
+  setInterval(renderPeakSlot,60000);
 
   wireEvents();
   routeFromHash();
