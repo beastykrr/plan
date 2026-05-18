@@ -2712,7 +2712,7 @@ function renderMockCountdown(){
   const examIso=state.activeTrack==='SK'?ms.sk_exam:ms.pl_exam;
   generateMockDates(examIso).forEach((d,i)=>events.push({label:'Mock #'+(i+1)+' ('+state.activeTrack+')',date:d,kind:'mock'}));
   // фільтр майбутніх + сортування
-  const upcoming=events.map(e=>({...e,days:daysUntil(e.date)})).filter(e=>e.days!==null&&e.days>=-1).sort((a,b)=>a.days-b.days).slice(0,5);
+  const upcoming=events.map(e=>({...e,days:daysUntil(e.date)})).filter(e=>e.days!==null&&e.days>=-1).sort((a,b)=>a.days-b.days);
   if(!upcoming.length){ el.innerHTML='<span class="muted">Немає дат. Налаштування → Mock schedule.</span>'; return; }
   el.innerHTML=upcoming.map(e=>{
     const color=e.kind==='exam'?'var(--bad)':'var(--warn)';
